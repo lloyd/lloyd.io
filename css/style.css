@@ -1,6 +1,64 @@
-@font-face {
-  font-family: 'Permanent Marker';
-  font-style: normal;
-  font-weight: normal;
-  src: local('Permanent Marker'), local('PermanentMarker'), url('pm.ttf') format('truetype');
+#header, body {
+  min-width: 600px;
 }
+
+body {
+  background: #ccc;
+  color: #333;
+}
+
+@font-face {
+  font-family: 'Cabin Sketch';
+  font-style: normal;
+  font-weight: bold;
+  src: local('CabinSketch Bold'), local('CabinSketch-Bold'), url('cs.ttf') format('truetype');
+}
+
+#header {
+  position: fixed;
+  top: 0;
+  padding: 0;
+  margin: 0;
+  left: 0;
+  background-color: #333;
+  color: #eee;
+  width: 100%;
+  opacity: .9;
+}
+
+#header .img, #header .title {
+  float: left;
+}
+
+#header > div {
+  float: right
+}
+
+#header > .title {
+  font-family: 'Cabin Sketch', arial, serif;
+  font-size: 3.2em;
+  padding-top: 0;
+  margin-left: .2em;
+  margin-top: -.1em;
+  margin-bottom: -.2em;
+}
+
+#header .img {
+  margin: 5px;
+  -moz-border-radius: 3px; 
+  -webkit-border-radius:  3px; 
+  border-radius: 3px 3px 3px 3px; 
+}
+
+#header > .icon {
+  margin: 8px 15px 5px 5px ;
+}
+
+#header > .icon:hover {
+  opacity: .5;
+}
+
+#content {
+  margin-top: 64px;
+}
+
