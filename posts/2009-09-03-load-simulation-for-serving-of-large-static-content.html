@@ -1,8 +1,4 @@
---- 
-layout: post
 title: Load simulation for serving of large static content
-published: true
----
 <p>Recently we spent a little time optimizing some servers. These are
 linux machines running apache serving static and dynamic content using
 php. Each apache process consumes 13mb of private resident memory
@@ -31,19 +27,13 @@ once we fix it?</p>
 connections. But we want each connection to take about 20s (yeah, I
 have one url to static content in that file).</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>siege-2.69/src/siege -c 200 -d 20 -f url.txt</pre></div>
-</div>
-
+<pre><code>siege-2.69/src/siege -c 200 -d 20 -f url.txt</code></pre>
 
 <p>Looks better, right? but not. This -d causes a 20s delay (actually a
 random delay between 0 and 20) between requests. I actually want to
 throttle bandwidth… So how about a little hack</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>siege-2.69/src/siege -c 200 -w 20 -f url.txt</pre></div>
-</div>
-
+<pre><code>siege-2.69/src/siege -c 200 -w 20 -f url.txt</code></pre>
 
 <p>-w or –read-delay (that I’ve hacked in and is available in this
  <a href="http://gist.github.com/504803">patch</a> moves the

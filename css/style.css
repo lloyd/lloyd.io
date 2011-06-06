@@ -70,6 +70,10 @@ body {
   margin: 8px 15px 5px 5px ;
 }
 
+#header > .icon img, #header > .icon a {
+  border: 0px;
+}
+
 #header > .icon:hover, #header .img:hover {
   opacity: .5;
   cursor: pointer;

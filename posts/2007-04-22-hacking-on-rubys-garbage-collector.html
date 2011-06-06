@@ -1,8 +1,4 @@
---- 
-layout: post
-title: "hacking on ruby\xE2\x80\x99s garbage collector"
-published: true
----
+title: hacking on ruby's garbage collector
 <h2>overview</h2>
 
 <p>Ruby&rsquo;s GC &amp; heap implementation uses a lot of memory. The thing is based around the idea of &ldquo;heaps&rdquo;. Heaps are chunks of memory where ruby objects are stored. Each heap consists of a number of slots. Slots are between 20 and 40 bytes, depending on sizeof(long). When ruby runs out of heap space, it first does a GC run to try to free something up, and then allocates a new heap. the new heap is 1.8 times larger than the last. Every time a GC run happens, the entire heap is written to turn off mark bits, these are stored in the heap. Then we run through top level objects, and mark them, and all their descendents. Then we throw away anything that&rsquo;s not marked (sweep). Because of the way ruby works, objects may <em>never</em> be moved around in heaps. That means from the time they&rsquo;re allocated to the time they&rsquo;re freed they may not be moved to a new memory address.</p>
