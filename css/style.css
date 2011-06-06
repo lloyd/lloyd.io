@@ -111,3 +111,14 @@ pre {
 }
 
 #seo { display: none; }
+
+a {
+  color: #333;
+  text-decoration: none;
+  padding-bottom: 0;
+  border-bottom:1px dotted;
+}
+
+a:hover {
+  border-bottom:1px solid;
+}
