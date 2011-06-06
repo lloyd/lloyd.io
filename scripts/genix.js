@@ -87,7 +87,7 @@ var dateRe = new RegExp('^(\\d{4})-(\\d{2})-(\\d{2})$');
 posts = posts.sort(function (lhs, rhs) {
     function dateToNum(d) {
         var m = dateRe.exec(d);
-        return 10000 * parseInt(m[1]) + 100 * parseInt(m[2]) + parseInt(m[3]);
+        return (10000 * parseInt(m[1],10) + 100 * parseInt(m[2],10) + parseInt(m[3],10));
     }
     return dateToNum(rhs.date) - dateToNum(lhs.date);
 });
