@@ -1,0 +1,55 @@
+--- 
+layout: post
+title: Load simulation for serving of large static content
+published: true
+---
+<p>Recently we spent a little time optimizing some servers. These are
+linux machines running apache serving static and dynamic content using
+php. Each apache process consumes 13mb of private resident memory
+under load and has a gigabit net connection. A sample bit of “large
+static content” is 2mb. Assume cl\ ients consuming that content need
+about 20s to get it down (100kb/s or so). That means we need to be
+spoon feeding about 2000 simultaneously connected clients in order to
+saturate the gigabit connection.</p>
+
+<p>So turn up MaxClients, right? 13mb * 2000 (and a recompile, btw) about
+26gb of RAM. uh. that’s not gonna work.</p>
+
+<p>So there’s lots of ways to solve this problem, <em>but</em> before we start
+thinking about that, how would we simulate such a load so that we can
+validate the existence of this bottleneck now, and it’s resolution
+once we fix it?</p>
+
+<p>seige is a great little bit of software that can simulate load:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>siege-2.69/src/siege -c 200 -f url.txt</pre></div>
+</div>
+
+
+<p>this would hit all urls in url.txt with 200 simultaneous
+connections. But we want each connection to take about 20s (yeah, I
+have one url to static content in that file).</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>siege-2.69/src/siege -c 200 -d 20 -f url.txt</pre></div>
+</div>
+
+
+<p>Looks better, right? but not. This -d causes a 20s delay (actually a
+random delay between 0 and 20) between requests. I actually want to
+throttle bandwidth… So how about a little hack</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>siege-2.69/src/siege -c 200 -w 20 -f url.txt</pre></div>
+</div>
+
+
+<p>-w or –read-delay (that I’ve hacked in and is available in this
+ <a href="http://gist.github.com/504803">patch</a> moves the
+ sleep to after the connection is established.</p>
+
+<p>Sure it’s a hack, but let’s see how far it gets us…</p>
+
+<p>till the next,
+lloyd</p>

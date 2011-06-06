@@ -1,0 +1,52 @@
+--- 
+layout: post
+title: ruby 1.8.6 vs 1.9 - performance & memory usage
+published: true
+---
+<p>Seeing all this action in ruby trunk, combined with what I’ve read
+’round the net had piqued my interest in 1.9 performance differences.</p>
+
+<p>Given the set of contributed benchmarks that I used when developing the
+<a href="http://gist.github.com/486747">inital patch</a> to
+improve the reclamation and decrease memory usage of ruby, I did some
+comparisons of
+<a href="http://very.trickyco.de/projects/misc/1.8.6_vs_1.9-trunk.html">ruby 1.9 vs ruby 1.8.6</a>,
+and of
+<a href="http://very.trickyco.de/projects/misc/patched.1.8.vs.1.9.html">ruby 1.9 vs a patched ruby 1.8.6</a>.</p>
+
+<p>In short, looking at this data leads me to some preliminary conclusions:</p>
+
+<ul>
+<li>1.9 is decidedly “faster” than 1.8.6. Especially when runtimes are longer, or yaml is involved.</li>
+<li>1.9 uses slightly less memory overall.
+*There is considerable room for improvement in 1.9’s memory reclamation.</li>
+</ul>
+
+
+<p>So why is memory usage important? Well, here I’m personally biased.
+My primary day to day application of ruby is embedding. In this scenario,
+I really want a small and tight ruby that I can use to move a buncha code
+out of c++ and into ruby. I’m also interested in portability of ruby to
+less capable devices. In both of these situations, memory usage is an
+important factor. Additionally, I think more generally, low memory usage
+minimizes the copy on write issues prevalent in ruby on rails environments.
+If the process has a small, tight, compact heap, it doesn’t matter so much
+that we have to copy the whole thing on each fork.</p>
+
+<p>My educated guess here is that we could focus energy on minimizing
+memory usage rather than a external bitset, and we’d get the desired
+COW friendly ruby at a similar (minimal) performance cost, but the
+solution would yield more across-the-board benefits. To be clear,
+moving mark bits into a external data structure (and out of the heap)
+is really an optimization focused at ruby in web environments that
+comes with a cost. I don’t want to pay this <a href="http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-core/15827">performance
+penalty</a>
+for something that doesn’t really benefit me.</p>
+
+<p>So I guess the task is to continue to follow 1.9 and to attempt to
+figure out which 2 lines are inverted that could really make the difference…
+It can’t be too hard, right?</p>
+
+<p>till the next,</p>
+
+<p>lloyd</p>

@@ -1,0 +1,97 @@
+--- 
+layout: post
+title: installing the sup MUA on 64bit arch linux
+published: true
+---
+<p>You&rsquo;ll probably get here from a google search on trying to figure out
+how to get sup running on your arch box that was recently upgraded to
+ruby 1.9.  sure it hurts, but it&rsquo;s progress!  Pick a different distro
+if you don&rsquo;t wanna play!</p>
+
+<p>Getting sup running, quick and dirty and highly time dependent:</p>
+
+<h3>installing the ferret gem</h3>
+
+<p><code>gem install sup</code> will fail miserably, first you&rsquo;ll find that &ldquo;ferret&rdquo;
+isn&rsquo;t installing.  This problem has <a href="http://pennysmalls.com/2009/03/24/ferret-on-ruby-191/">been
+solved</a>, sure
+would be nice to get this accepted up stream :/</p>
+
+<h3>installing ncurses</h3>
+
+<p>try again, now ncurses ain&rsquo;t installing!</p>
+
+<p>here&rsquo;s some steps that should work:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>$ gem fetch ncurses
+$ gem unpack ncurses-0.9.1.gem 
+$ ruby extconf.rb 
+$ patch -p1 &lt; ~/ncurses_ruby_1.9.patch
+$ make
+$ sudo make install</pre></div>
+</div>
+
+
+<p>Here&rsquo;s the contents of ncurses_ruby_1.9.patch:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>--- ncurses-0.9.1.orig/form_wrap.c  2009-09-24 10:53:41.000000000 -0600
++++ ncurses-0.9.1/form_wrap.c   2009-09-24 10:52:02.000000000 -0600
+@@ -392,7 +392,7 @@
+  */
+ static VALUE rbncurs_m_new_form(VALUE dummy, VALUE rb_field_array)
+ {
+-  long n = RARRAY(rb_field_array)-&gt;len;
++  long n = RARRAY_LEN(rb_field_array);
+   /* Will ncurses free this array? If not, must do it after calling free_form(). */
+   FIELD** fields = ALLOC_N(FIELD*, (n+1));
+   long i;  
+@@ -616,7 +616,7 @@
+        rb_raise(rb_eArgError, &quot;TYPE_ENUM requires three additional arguments&quot;);
+     }
+     else {
+-       int n = RARRAY(arg3)-&gt;len;
++       int n = RARRAY_LEN(arg3);
+        /*  Will ncurses free this array of strings in free_field()? */
+        char** list = ALLOC_N(char*, n+1);
+        int i;
+@@ -775,7 +775,7 @@
+  * form_field
+  */
+ static VALUE rbncurs_c_set_form_fields(VALUE rb_form, VALUE rb_field_array) {
+-  long n = RARRAY(rb_field_array)-&gt;len;
++  long n = RARRAY_LEN(rb_field_array);
+   /*  If ncurses does not free memory used by the previous array of strings, */
+   /*  we will have to do it now. */
+   FIELD** fields = ALLOC_N(FIELD*, (n+1));
+@@ -1123,7 +1123,7 @@
+     VALUE argc = rb_funcall(proc, rb_intern(&quot;arity&quot;),0);
+     VALUE args = get_proc(field, FIELDTYPE_ARGS);
+     if (args != Qnil) {        
+-       if (NUM2INT(argc)-1 != RARRAY(args)-&gt;len) { 
++       if (NUM2INT(argc)-1 != RARRAY_LEN(args)) {  
+          char msg[500];
+          snprintf(msg, 500, &quot;The validation functions for this field type need %d additional arguments.&quot;,NUM2INT(argc)-1);
+          msg[499]=0;</pre></div>
+</div>
+
+
+<h3>the rest&hellip;</h3>
+
+<p>First, clone yourself a copy of sup from the gitorius hosted repo:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>git clone git://gitorious.org/sup/mainline.git</pre></div>
+</div>
+
+
+<p>And follow the instructions:</p>
+
+<ol>
+<li>install all gems referenced in the rakefile</li>
+<li>as the author suggests <code>ruby -I lib bin/sup</code></li>
+</ol>
+
+
+<p>Behold!  It starts!  Now is it actually usable is another question&hellip;</p>

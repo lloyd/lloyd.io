@@ -1,0 +1,252 @@
+title: JSONSelect Grows Up
+<p><a href="http://jsonselect.org/">JSONSelect</a> is a query language for JSON.
+With JSONSelect you can write small patterns that match against JSON
+documents.  The language is mostly an adaptation of CSS to JSON,
+motivated by the belief that CSS does a fine job and is widely understood.</p>
+
+<p>I <a href="http://twitter.com/#!/lloydhilaiel/status/71723196151365632">announced
+JSONSelect</a>
+about two weeks ago, and there&rsquo;s been some significant additions
+since.  This blog post will provide a quick overview of the main
+changes to the language with examples.</p>
+
+<p>If you&rsquo;re interested in the really short version, go to the
+<a href="http://jsonselect.org/#tryit">online demo</a> and check out the last five
+selectors.</p>
+
+<h2><code>nth</code> and objects</h2>
+
+<p>An oversight in the first release of JSONSelect allowed pseudo
+functions which rely on ordering to apply to objects.  Specifically
+given a JSON object:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>{
+    &quot;foo&quot;: 1,
+    &quot;bar&quot;: 2
+}</pre></div>
+</div>
+
+
+<p>You could write a pattern which would attempt to match one of its children based on its
+position, such as <code>object:first-child</code>.  The problem with this (first pointed out by Robert
+Sayre) is that by definition, a JSON object is unordered.  This simplest way to solve this
+problem is to change the <code>nth</code> family of pseudo-classes so that they never apply to object
+children.  No interesting use cases are broken, and this whole issue is avoided.</p>
+
+<p>If you&rsquo;re interested in reading more, you can review the <a href="https://github.com/lloyd/JSONSelect/issues/1">bug
+report</a>, and check out
+Dave Herman&rsquo;s deeper
+<a href="http://blog.mozilla.com/dherman/2011/05/25/a-semantics-for-json/">exploration of JSON semantics</a>;</p>
+
+<h2>checking values with <code>:expr()</code></h2>
+
+<p>The first release of JSONSelect had no way to conditionally match
+values based on their contents.  It turns out there&rsquo;s a whole lot you
+simply cannot do without basic checks on object values.  Given that
+there&rsquo;s so much less information in the structure of a JSON document
+vs. an HTML document, I felt the ability to test values was important for
+JSONSelect.</p>
+
+<p>To figure out how to build in this feature I reviewed CSS3, sizzle,
+and sly.  The only real tool I discovered was
+<a href="https://github.com/jquery/sizzle/wiki/Sizzle-Home">:contains()</a>, a
+sizzle selector which lets you search for substrings inside a node&rsquo;s
+contents.</p>
+
+<p><a href="http://goessner.net/articles/JsonPath/">JSONPath</a> is a similar query
+language for JSON, and supports moderately complex expressions.  A
+tiny expression language ultimately seemed like the most flexible
+solution without being overly difficult to learn or implement.</p>
+
+<p>The expression language which ultimately made it into JSONSelect is
+influenced by CSS in that several of the available operators are
+inspired by those present in CSS for testing attribute values.
+Another area where CSS influenced JSONSelect&rsquo;s expression support
+is in the representation of the current node&rsquo;s value in an expression, which
+can be specified with the placeholder <code>x</code>.  Let&rsquo;s see it in action,
+given the following document:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>{ &quot;books&quot;: [
+  { &quot;price&quot;: 16.31,
+    &quot;name&quot;: &quot;The Unbearable Lightness of Being&quot;,
+    &quot;author&quot;: &quot;Milan Kundera&quot;
+  },
+  { &quot;price&quot;: 23.09,
+    &quot;name&quot;: &quot;JavaScript Web Applications&quot;,
+    &quot;author: &quot;Alex MacCaw&quot;
+  },
+  { &quot;price&quot;: 106.00,
+    &quot;name: &quot;Compilers: Principles, Techniques, and Tools&quot;,
+    &quot;author&quot;: &quot;Alfred V. Aho&quot;
+  }
+] }</pre></div>
+</div>
+
+
+<p>Here&rsquo;s how you could use expressions to find all the books you could buy
+with the forty US dollars in your pocket:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>.books .price:expr(x &lt;= 40.00)</pre></div>
+</div>
+
+
+<p>Now if you really strongly believed that nothing worth reading could possibly
+be less than a twenty spot, you could augment the expression to match your
+arrogance:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>.books .price:expr(20 &lt;= x &amp;&amp; 40 &gt;= x)</pre></div>
+</div>
+
+
+<p>Now what was the real title of the Dragon Book?  I can&rsquo;t remember, but I do
+know that it started with Compilers:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>.books .price:expr(x ^= &quot;Compilers&quot;)</pre></div>
+</div>
+
+
+<p>The full set of selectors supported in JSONSelect expressions is
+visible in the <a href="https://github.com/lloyd/JSONSelect/blob/24d543344b7fe09c8665daa2fd274985c43e4404/src/jsonselect.js#L122-137">reference
+implementation</a>
+(but you might want to refer to the latest version) and real soon now
+it will make it into the formal documentation.</p>
+
+<p>Now, <code>:expr()</code> is a bit more complex than other features of JSONSelect, and for this
+reason two syntactic shortcuts have been added to the language to handle common tasks:
+<code>:val(V)</code> is a shorthand for <code>:expr(x = V)</code>, and <code>:contains(V)</code> is a shorthand for
+<code>:expr(x *= V)</code>.  Perhaps a couple more shortcuts will be added as they prove themselves
+sufficiently common.</p>
+
+<p>One thing you might have noticed, however, is that <code>:expr()</code> is rather
+useless right now.  While it allows you to express constraints on
+values, it would only return the matching values themselves.  In the
+above examples, what we really want are nodes related to the matched
+value, concretely the <em>records</em> of the books which match our criteria&hellip;
+This leads us to the next language addition:</p>
+
+<h2>testing descendants with <code>:has()</code></h2>
+
+<p>Inspired by <a href="http://api.jquery.com/has-selector/">JQuery</a>, the <code>:has()</code> selector allows you
+to perform a check against a descendant of a node.  <code>:has()</code> in JSONSelect may contain a full
+selector and gives us a simple way to solve the problems discussed in the previous section.
+If we wanted to get the full records for all books under 20$:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>.books object:has(.price:expr(x&lt;20))</pre></div>
+</div>
+
+
+<p>This will specifically find an object underneath the .books node that has a price property less than
+20 bucks.  It&rsquo;s useful to point out that the <code>object</code> type here is redundant, as objects are the
+only types of nodes to which <code>:has()</code> can apply, so we can simplify a touch:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>.books :has(.price:expr(x&lt;20))</pre></div>
+</div>
+
+
+<p>A naive attempt to simplify further, might yield:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>:has(.price:expr(x&lt;20))</pre></div>
+</div>
+
+
+<p>In this case we omit the <code>.books</code> class that rooted the expression.
+This expression would match both the <em>root</em> document, and the object
+that we want, because <code>:has()</code> by default holds a selector that
+matches any descendant.  A solution to this issue gives us a way to
+(re)introduce the <code>:root</code> selector:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>:has(:root &gt; .price:expr(x&lt;20))</pre></div>
+</div>
+
+
+<p>In case you&rsquo;re not familiar with <code>:root</code>, it&rsquo;s a CSS standard pseudo
+class that always matches the root of the document.  With HTML this is
+rather useless (as <a href="http://ejohn.org/blog/selectors-that-people-actually-use/">resig points
+out</a>),
+because the root of the document is more intuitively matched with
+<code>html</code>.  In JSONSelect, :root is a much more important idea given there is
+no other way to refer to the root document.</p>
+
+<p>In the above example, it&rsquo;s demonstrated that when selectors inside <code>:has()</code> are
+matched against a target node, the node itself is the new <em>document root</em>.  This
+feature can be used to restrict the behavior of <code>:has()</code> to match an object&rsquo;s
+children (as opposed to any descendant).  It may be useful at some point to add
+a custom has function to do this, but you be the judge, is this clearer?</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>:has-child(.price:expr(x&lt;20))</pre></div>
+</div>
+
+
+<p><code>:has-child</code> is <em>not</em> part of JSONSelect at the moment, but we might just add it&hellip;</p>
+
+<p>Now.  Given all the new tools we have, we can easily express more complex ideas,
+like &ldquo;I want all of the titles of books that are written by Authors whose names
+are &lsquo;Alex MacCaw&rsquo;:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>:has(:root &gt; .author:val(&quot;Alex MacCaw&quot;)) &gt; .name</pre></div>
+</div>
+
+
+<p>If you share my sense of aesthetics, this construct is just too complex.  And that&rsquo;s
+part of the motivation for our final new language operator:</p>
+
+<h2>matching siblings with <code>~</code></h2>
+
+<p>The CSS3 spec defines the <a href="http://www.w3.org/TR/css3-selectors/#sibling-combinators">sibling
+combinator</a>.
+This combinator is almost totally useless in CSS given it&rsquo;s directional
+restriction.  That is, <code>A ~ B</code> will only match <code>B</code> if it occurs after
+<code>A</code>.</p>
+
+<p>So a shorthand for sibling matching is interesting, and <code>~</code> is already
+meant for this job in CSS, but it&rsquo;s going to take some adaptation
+given that ordering restrictions for object values are meaningless
+with JSON anyway (cause it&rsquo;s unordered) and they also kill the utility
+of the operator.</p>
+
+<p>So in JSONSelect, the sibling combinator (<code>~</code>) is simpler, it has no
+ordering restrictions and behaves as you might expect:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>.author:val(&quot;Alex MacCaw&quot;) ~ .name</pre></div>
+</div>
+
+
+<h2>Now JSONSelect seems so complicated!</h2>
+
+<p>Not really.  Similar to CSS, there&rsquo;s some complexity and power lurking
+here, but you only rarely need to engage it.  Ultimately to get the
+same level of power that other selector languages offer we&rsquo;ve only had
+to add two pseudo functions and a new <code>combinator</code> (to use CSS speak).
+It&rsquo;s worth noting that aside from the <code>:nth-XXX</code> family of functions
+there were no other changes made to the core JSONSelect language.</p>
+
+<h2>next up&hellip;</h2>
+
+<p>I&rsquo;m curious to get feedback on these additions to JSONSelect, and you
+can kick the tires using the <a href="http://jsonselect.org/#tryit">online
+demo</a> and the <a href="http://jsonselect.org/#code">reference
+implementation</a>.  Depending on your
+response, I&rsquo;ll probably be slowing way down with language additions,
+though there may be be several convenience pseudo functions added that
+I alluded to above.</p>
+
+<p>Provided folks are still as passionately supportive of JSONSelect,
+I hope to continue to incrementally refine the language while
+exploring some of its more interesting applications (simplifying APIs,
+stream filtering, and document databases).</p>
+
+<p>I look forward to hearing your thoughts here, <a href="https://github.com/lloyd/JSONSelect/issues">on
+github</a>, and on the
+<a href="mailto:jsonselect@librelist.com">mailing list</a>.</p>

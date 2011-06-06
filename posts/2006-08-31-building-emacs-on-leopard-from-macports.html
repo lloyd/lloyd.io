@@ -1,0 +1,89 @@
+--- 
+layout: post
+title: building emacs on leopard from macports
+published: true
+---
+<p>I cannot live without X11 emacs!  It doesn&rsquo;t build from macports right
+now.  As far as I can tell, the emacs that apple ships with leopard is
+broken, at least for me after upgrade I get:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>[lth@tumno ~] $ /usr/bin/emacs.broken
+Fatal malloc_jumpstart() error</pre></div>
+</div>
+
+
+<p>This blog entry documents the steps to get emacs built, installed and
+in the macports registry.  So at the time of writing, this is the
+package I&rsquo;m installing:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>[lth@tumno ~] $ port search emacs | grep 22.1
+emacs                          editors/emacs  22.1         The GNU Emacs text editor (command line only)</pre></div>
+</div>
+
+
+<p>Start by trying to install</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>[lth@tumno ~] $ sudo port install emacs@gtk---&gt;  Fetching emacs
+---&gt;  Verifying checksum(s) for emacs
+---&gt;  Extracting emacs
+---&gt;  Applying patches to emacs
+---&gt;  Configuring emacs
+---&gt;  Building emacs with target all
+Error: Target org.macports.build returned: shell command
+     &quot; cd &quot;/opt/local/var/macports/build/_opt_local_var_macports_sources_rsync.macports.org_release_ports_editors_emacs/work/emacs-22.1&quot; &amp;&amp; \
+     make all &quot; returned error 2
+Command output: Highest address of load commands in input file: 0x2b7000
+Lowest offset of all sections in __TEXT segment:   0x2380
+--- List of Load Commands in Input File ---
+# cmd              cmdsize name                address     size
+0 LC_SEGMENT             56 __PAGEZERO                0   0x1000
+1 LC_SEGMENT            396 __TEXT               0x1000 0x135000
+                           __text               0x3380 0x122eb8
+                           __cstring          0x126238   0xfc23
+                           __literal8         0x135e60     0x78
+                           __const            0x135ee0    0x100
+                           __literal4         0x135fe0      0x4
+2 LC_SEGMENT            328 __DATA             0x136000 0x156000
+                           __data             0x136000 0x119ac2
+                           __dyld             0x24fac4     0x1c
+                           __bss              0x24fae0  0x31aa5
+                           __common           0x2815a0   0xaa51
+3 LC_SEGMENT            192 __IMPORT           0x28c000   0x2000
+                           __pointers         0x28c000   0x1584
+                           __jump_table       0x28d5c0    0x3fc
+4 LC_SEGMENT             56 __LINKEDIT         0x28e000  0x29000
+5 LC_SYMTAB              24
+6 LC_DYSYMTAB            80
+7 LC_LOAD_DYLINKER       28
+8 LC_UNIXTHREAD          80
+9 LC_LOAD_DYLIB          60
+10 LC_LOAD_DYLIB          52
+11 LC_LOAD_DYLIB          52
+make[1]: *** [emacs] Abort trap
+make[1]: *** Deleting file `emacs'
+make: *** [src] Error 2
+
+Error: Status 1 encountered during processing.</pre></div>
+</div>
+
+
+<p>So the apple folks have changed the structure of a dylib (to add, among other things, RPATH support.  that&rsquo;s a huge w00t)</p>
+
+<p>Let&rsquo;s patch this source.  Now for some reason, if we apply a patch directly
+to the current state of the working directory, things go boom.  I&rsquo;m guessing
+the fix doesn&rsquo;t play nice with other current patches applied by macports.
+So I use a sledgehammer.  Download emacs-22.1, configure as you like,
+apply <a href="http://gist.github.com/486469">this patch</a>
+(credit to YAMAMOTO Mitsuharu for producing this patch) and build.
+Then move the built emacs-22.1 into your working directory,
+and port install.</p>
+
+<p>The result for me is a emacs which runs in console mode.  once I get
+X11 set up and running sawfish we&rsquo;ll see if it actually works in X11,
+in the past the emacs-devel package was required for X11 support, and the
+brief port description suggests this is still the case..</p>
+
+<p>lloyd</p>

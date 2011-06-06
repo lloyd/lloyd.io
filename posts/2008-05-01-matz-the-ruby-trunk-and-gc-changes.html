@@ -1,0 +1,46 @@
+--- 
+layout: post
+title: matz, the ruby trunk, and GC changes
+published: true
+---
+<p>w00t. An email from matz, and a little spelunking in the ruby subversion
+repository shows that there’s some tinkering going on in ruby garbage
+collection land. Here are the interesting change logs:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>r15674 | matz | 2008-03-03 01:27:43 -0700 (Mon, 03 Mar 2008) | 5 lines
+
+* gc.c (add_heap): sort heaps array in ascending order to use
+  binary search.
+
+* gc.c (is_pointer_to_heap): use binary search to identify object
+  in heaps.  works better when number of heap segments grow big.</pre></div>
+</div>
+
+
+<p>and</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>r16194 | matz | 2008-04-25 03:03:32 -0600 (Fri, 25 Apr 2008) | 7 lines
+
+* gc.c (free_unused_heaps): preserve last used heap segment to
+  reduce malloc() call.
+
+* gc.c (HEAP_SIZE): use smaller heap segment (2K) for more chance
+  to be freed.  based on patch from authorNari .
+
+* gc.c (rb_newobj_from_heap): eventually allocate heap segments.</pre></div>
+</div>
+
+
+<p>So now in ruby 1.9 trunk we’re keeping heaps in sorted order
+by memory address, and using binary search to answer the
+is_pointer_to_heap() question quickly. This optimizes things
+to the point where we can really crank down heap size. Smaller heaps means
+more OS reclaimation, means reduced resource usage, and should even mean
+a ruby with reduced COW badness. All this at a minimal performance impact
+for normal execution (maybe none, matz knows).</p>
+
+<p>So applause to open source, and matz specifically for sifting through all
+the ideas/hacks/and patches to realize this thing. It will be interesting
+to include 1.9 in the</p>

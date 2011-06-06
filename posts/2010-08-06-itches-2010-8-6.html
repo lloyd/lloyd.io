@@ -1,0 +1,85 @@
+--- 
+layout: post
+title: "itches, #2010.8.6"
+published: false
+---
+<p>As I spend more and more of my free time digging around in reptilian
+mailing lists and such, I find that I&rsquo;ve begun feeling itchy.  Here
+are four little itches that might be interesting for someone to
+scratch, micro-projects if you will:</p>
+
+<h2>Pass Files through NPAPI</h2>
+
+<p>Plugins like Adobe flash and Yahoo! BrowserPlus often implement their
+own native file selection dialogs, and (in the case of the latter),
+native drag and drop support.  Especially as e10s takes off, this is
+fragile code at best, justified because improved file selection and
+dnd support are both of high value to users.</p>
+
+<p>What should happen is UAs should (and are) implementing improved
+file (multi) selection and file system sourced Drag and Drop,
+and then should be able to securely transmit these files through NPAPI,
+in such a way that the plugin author can <em>know</em> that the file was
+selected through user interaction, giving her implicit permission to
+read the file selected.</p>
+
+<p>I <a href="http://trickyco.de/npapi-the-html5-file-object-and-the-glory-of">wrote
+up</a>
+my initial thoughts on this a while ago, what needs to be done is a
+proper proposal needs to be figured out, fleshed out, and perhaps a
+patch provided.  Doing this would improve plugin security and
+stability as well as UI consistency for all plugins that operate on
+files.</p>
+
+<h2>Explore Simplified web Scriptable API exposure in JetPack</h2>
+
+<p>There is a class of extensions/jetpacks that will want to expose
+scriptable APIs to webpages.  This class of jetpacks is especially
+interesting to me, as it becomes a way that many new proposed &ldquo;HTML5&rdquo;
+APIs can be sketched up at (for instance, see the checksum project idea
+below).  Currently it looks like you have to bend over backwords to make
+this work: Two <a href="http://groups.google.com/group/mozilla-labs-jetpack/browse_thread/thread/8bf77485826beffb/c15813c0bfadc3ad?lnk=gst&amp;q=hilaiel#c15813c0bfadc3ad">functional solutions were provided</a> by Atul and Ben, neither of which
+are particularly satisfying.</p>
+
+<p>There are two parts to this problem, one is crafting a specific API in
+the context of the evaluating page, and the forthcoming page mod API
+should provide this, the next is the question of plumbing, an efficient
+means of message passing between trusted and untrusted code that is
+e10s proof.</p>
+
+<p>The question: What types of abstractions beyond what&rsquo;s planned today
+should be provided to make the process of exposing web callable
+functions simpler and more secure?</p>
+
+<h2>Browser to expose checksums for currently installed plugins</h2>
+
+<p>This is from a <a href="https://mail.mozilla.org/pipermail/plugin-futures/2010-July/000149.html">conversation on
+<a href="mailto:plugin-futures@mozilla.org">plugin-futures@mozilla.org</a></a>
+which is motivated by the desire to improve the <a href="http://www.mozilla.com/en-US/plugincheck/">plugin-check</a>
+tool.  Ryan did a <a href="https://mail.mozilla.org/pipermail/plugin-futures/2010-July/000162.html">fair summary of the tradeoffs</a>
+of a &ldquo;guid approach&rdquo; (requiring vendors to encode ownership and version metadata in their plugins), vs. a &ldquo;md5 approach&rdquo;.</p>
+
+<p>This micro project would be to sketch up a jetpack which adds an web
+accessible API to get plugin md5, then sketch up the system which
+collects user contributed plugin identification information.  It could
+take a couple days or a couple weeks.</p>
+
+<p>Key question: How does a system which identifies plugins primarily on
+their signatures compare from a system that uses metadata embedded by
+plugin vendors?</p>
+
+<h2>AOB on top of git?</h2>
+
+<p>There&rsquo;s <a href="http://groups.google.com/group/mozilla-labs-jetpack/browse_thread/thread/ad480a97f9f1df84/1b958009d103ecf6?lnk=gst&amp;q=hilaiel#1b958009d103ecf6">some
+discussion</a>
+around how users get code into and out of <a href="https://builder.mozillalabs.com/">FlightDeck</a>.</p>
+
+<p>One approach to address this need would be to have AOB expose an API
+that would allow third party tools to read and write the revision
+history of a project.  The other approach would be to have AOB use a
+DVCS as its backing store and directly expose read or read/write access
+to that.</p>
+
+<p>Key questions: How viable would it be to move AOB&rsquo;s add-on storage on
+top of a DVCS, and expose read (and later write) access?  What do you
+win?  What do you lose?</p>

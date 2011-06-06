@@ -1,0 +1,131 @@
+--- 
+layout: post
+title: Challenges in Repurposing the Addon SDK (aka, jetpack)
+published: true
+---
+<p>Lately I&rsquo;ve been collaborating with Marcio Galli on the
+<a href="http://mozillalabs.com/chromeless">chromeless project</a>
+in Mozilla Labs, and one thing I like about the approach is that
+it leverages huge swaths of the <a href="http://mozillalabs.com/jetpack">jetpack platform</a>.</p>
+
+<h2>What&rsquo;s Jetpack Got To Do With It?</h2>
+
+<p>At first glance you may wonder what jetpack (making it possible to
+write extensions in web technologies) could have to do with
+the very different problem of making it possible to create a <em>browser</em>
+in web technologies.  The answer is that the folks working on jetpack
+had to solve a couple of interesting problems that are very relevant:</p>
+
+<h3>A Module System For JavaScript</h3>
+
+<p>Because JetPack represents a shift to writing potentially large and
+complex extensions in javascript, the first thing that comes up is the
+question of code organization.  How do we break the implementation
+into several different files to support our abstractions?  How do we
+share libraries between developers?</p>
+
+<p>The solution in JetPack is something that looks like the <a href="http://wiki.commonjs.org/wiki/Modules/1.1">CommonJS
+module specification</a>, and
+one of the thing that jetpack provides is a mechanism for building and
+consuming libraries of code in javascript.</p>
+
+<h3>Module Documentation</h3>
+
+<p>If your familiar at all with jetpack, you might have seen their built-in
+documentation mechanism.  The way it works is the python scripts that compose
+the interface to the platform spawn a local web server which can display
+a combination of dynamically generated and static documentation.  Along the
+way, JetPack has made some technology decisions and introduced some conventions
+around documenting code that are not specific to generating extensions.</p>
+
+<h3>Mozilla Platform Abstraction</h3>
+
+<p>In addition to the concrete features mentioned above, the jetpack platform
+provides the ability to generate idiomatic JavaScript APIs which can then be
+implemented leveraging existing platform features, implemented themselves
+in XPCOM, JavaScript, or even ctypes.</p>
+
+<h2>How Do We Share the Jetpack Core?</h2>
+
+<p>While the above was enough reason for Marcio and I to agree that
+leveraging work in jetpack for chromeless was a Good Thing, this left
+the question of How?  How can we have two distinct projects that
+efficiently share large swaths of code without adding undue complications,
+or limiting either&rsquo;s ability to move rapidly.  There seem to be at least
+four arrangements worth mentioning:</p>
+
+<p><strong>&ldquo;One is the loneliest number&rdquo;</strong> &mdash; jetpack-sdk could be the
+canonical source for building browsers, building addons, and whatever
+else we dream up in the future.</p>
+
+<p><strong>&ldquo;The messy breakup&rdquo;</strong> &mdash; fork, diverge, and cry.</p>
+
+<p><strong>&ldquo;The great cuddlefish escape&rdquo;</strong> &mdash; slice the common bit out of the
+jetpack-sdk and figure out how other repositories can consume that
+thing conveniently and then layer their own modules, documentation,
+and additional cfx features on top of it (i.e. addons want to export
+to .xpi, skinned browsers want export to .dmg/.exe).</p>
+
+<p><strong>&ldquo;Port Style&rdquo;</strong> &mdash; the new guy, &ldquo;chromeless-skinner-thingy&rdquo; can
+consume jetpack-sdk from github, and layer a bit of love on top of it.
+jetpack-sdk code wouldn&rsquo;t be duplicated, but rather be pulled as a
+pre-build step.</p>
+
+<p>Looking at these options, my thinking goes like this: <em>One is the
+loneliest number</em> puts too much in a single repository and creates the
+potential for far too much friction between the two different
+projects.  <em>The messy breakup</em> (where we are today) is unacceptable
+because we have to find and fix bugs twice, and there&rsquo;s no good way
+to share improvements and new features added to common code.</p>
+
+<p>This leaves two interesting solutions, <em>Port Style</em> and <em>The Great
+Cuddlefish Escape</em>: Both would address some of the key issues, but the
+<em>great escape</em> would arguably add risk prematurely to a project with
+great momentum, jetpack.</p>
+
+<p>For this reason the approach that I intend to pursue is <em>Port Style</em>
+in the short term, and to work with the jetpack team to consider a
+<em>Great Escape</em> in the future.</p>
+
+<h2>The Plumbing</h2>
+
+<p>Haven chosen an initial approach, the final question is how do we
+actually pull and patch jetpack sources?  I&rsquo;d offer the following
+proposed requirements:</p>
+
+<p><strong>pre-build step</strong> &ndash; required dependencies are fetched as a (discoverable)
+pre-build step.</p>
+
+<p><strong>solves xulrunner acquisition</strong> &ndash; the largest source of issues thus
+far has been in people trying to get the correct version of xulrunner
+on their platform so they can try chromeless.  We there&rsquo;s an <a href="http://github.com/mozilla/chromeless/issues#issue/4">issue
+open</a> to address
+this, and because acquiring xulrunner is a similar problem to
+acquiring the jetpack SDK, we should at least consider a combined
+solution.</p>
+
+<p><strong>explicit version tracking</strong> &ndash; the version of jetpack-sdk being tracked
+should be captured in the chromeless repository.  That is, it should be
+required that a developer confirm chromeless functions against a newer
+version before the version we&rsquo;re targeting is updated.</p>
+
+<p><strong>automatic update</strong> &ndash; If bob has checked out chromeless, and Jane
+updates the version of the jetpack SDK that should be tracked (via sha1?)
+and then bob pulls latest changes into his checked out chromeless,
+then his jetpack-sdk should be <em>automatically</em> updated.</p>
+
+<p>In considering these requirements, what seems to fit best is the
+application of a little tool called <a href="http://github.com/lloyd/bakery">the
+bakery</a> which was designed to solve
+these very problems.  The benefit of using the bakery to fetch both
+xulrunner and jetpack sdk is that all of the above requirements would
+be satisfied, and it would be a very quick integration.  The downside
+of using the bakery is that its written in ruby, and this would
+require people wanting to work on chromeless would have to have ruby
+installed, which is another build dependency and adds an unfortunate
+barrier to entry&hellip;</p>
+
+<p>Despite this, It seems like using the bakery on an experimental branch
+may be a good place to start.  Once SDKs are generated, the ruby
+requirement would not apply to folks wanting to <em>use</em> chromeless, only
+those developing on it.</p>

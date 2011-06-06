@@ -1,0 +1,200 @@
+--- 
+layout: post
+title: Would the real "HTML5" File please stand up?
+published: true
+---
+<p>In fiddling around with HTML5 desktop sourced drag and drop, present in Safari Version 4.0.3 (6531.9), I&rsquo;m faced with the interesting challenge of understanding when I can <em>trust</em> that a drop is really a drop &ndash; that a File is the result of user interaction.  For a little context, here&rsquo;s a bit of code cobbled up by Gordon Durand that&rsquo;ll let us capture desktop sourced drops in the latest snow leopard:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre><span class="ta">&lt;html&gt;</span>
+<span class="ta">&lt;head&gt;</span>
+<span class="ta">&lt;script&gt;</span>
+
+function dodragenter(event)
+{
+  document.getElementById(&quot;output&quot;).textContent = &quot;Drop it!  I dare you!&quot;;
+}
+
+function dodragleave(event)
+{
+  document.getElementById(&quot;output&quot;).textContent = &quot;&quot;;
+}
+
+function dodrop(event)
+{
+  var files = event.dataTransfer.files;
+  var uris = event.dataTransfer.getData(&quot;text/uri-list&quot;).split(&quot;\n&quot;);
+  var msg;
+  msg = &quot;File Count: &quot; + files.length + &quot;\n&quot;;
+
+  for (var i = 0; i <span class="er">&lt;</span> files.length; i++) {
+    msg += (&quot; File &quot; + i + &quot;:\n&quot;);
+    msg += (&quot;\tfileData.fileName: &quot; + files[i].fileName + &quot;, fileData.fileSize: &quot; + files[i].fileSize + &quot;\n&quot;);
+    msg += (&quot;\turi: &quot; + uris[i] + &quot;\n&quot;);
+    msg += &quot;\n&quot;;
+  }
+  document.getElementById(&quot;output&quot;).textContent = msg;
+}
+
+<span class="ta">&lt;/script&gt;</span>
+<span class="ta">&lt;/head&gt;</span>
+<span class="ta">&lt;body&gt;</span>
+
+<span class="ta">&lt;div</span> <span class="an">id</span>=<span class="s"><span class="dl">&quot;</span><span class="k">output</span><span class="dl">&quot;</span></span> <span class="an">style</span>=<span class="s"><span class="dl">&quot;</span><span class="k">min-height: 100px; white-space: pre; border: 1px solid black;</span><span class="dl">&quot;</span></span>
+     <span class="an">ondragenter</span>=<span class="s"><span class="dl">&quot;</span><span class="k">event.stopPropagation(); event.preventDefault(); dodragenter(event);</span><span class="dl">&quot;</span></span>
+     <span class="an">ondragover</span>=<span class="s"><span class="dl">&quot;</span><span class="k">event.stopPropagation(); event.preventDefault();</span><span class="dl">&quot;</span></span>
+     <span class="an">ondrop</span>=<span class="s"><span class="dl">&quot;</span><span class="k">event.stopPropagation(); event.preventDefault(); dodrop(event);</span><span class="dl">&quot;</span></span>
+     <span class="an">ondragleave</span>=<span class="s"><span class="dl">&quot;</span><span class="k">dodragleave(event)</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span>
+
+<span class="ta">&lt;/body&gt;</span>
+<span class="ta">&lt;/html&gt;</span></pre></div>
+</div>
+
+
+<h3>What&rsquo;s a file look like?</h3>
+
+<p>So the first question is, in what ways can we introspect a javascript object?  Here&rsquo;s an interesting start:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre><span class="c">// examine a supposed File object and return its vitals</span>
+<span class="kw">function</span> <span class="fu">getObjectInfo</span>(o)
+{
+  <span class="kw">var</span> msg;
+  msg = <span class="s"><span class="dl">&quot;</span><span class="k">typeof(o):     </span><span class="dl">&quot;</span></span> + <span class="kw">typeof</span> o + <span class="s"><span class="dl">&quot;</span><span class="ch">\n</span><span class="dl">&quot;</span></span>;
+  msg += <span class="s"><span class="dl">&quot;</span><span class="k">o.toString():  </span><span class="dl">&quot;</span></span> + o.toString() + <span class="s"><span class="dl">&quot;</span><span class="ch">\n</span><span class="dl">&quot;</span></span>;
+  msg += <span class="s"><span class="dl">&quot;</span><span class="k">String(o):     </span><span class="dl">&quot;</span></span> + String(o) + <span class="s"><span class="dl">&quot;</span><span class="ch">\n</span><span class="dl">&quot;</span></span>;
+  <span class="kw">if</span> (o) msg += <span class="s"><span class="dl">&quot;</span><span class="k">o.constructor: </span><span class="dl">&quot;</span></span> + o.constructor + <span class="s"><span class="dl">&quot;</span><span class="ch">\n</span><span class="dl">&quot;</span></span>;
+  <span class="kw">if</span> (o) msg += <span class="s"><span class="dl">&quot;</span><span class="k">o.prototype:   </span><span class="dl">&quot;</span></span> + o.prototype + <span class="s"><span class="dl">&quot;</span><span class="ch">\n</span><span class="dl">&quot;</span></span>;
+  <span class="kw">if</span> (o)  msg += <span class="s"><span class="dl">&quot;</span><span class="k">o members:     </span><span class="dl">&quot;</span></span>;
+  <span class="kw">var</span> comma = <span class="s"><span class="dl">&quot;</span><span class="dl">&quot;</span></span>;
+  <span class="kw">for</span> (<span class="kw">var</span> m <span class="kw">in</span> o) { msg += comma + m; comma = <span class="s"><span class="dl">&quot;</span><span class="k">, </span><span class="dl">&quot;</span></span>; }
+
+  msg += <span class="s"><span class="dl">&quot;</span><span class="ch">\n</span><span class="ch">\n</span><span class="k">contents: (</span><span class="dl">&quot;</span></span> + o.fileName + <span class="s"><span class="dl">&quot;</span><span class="k"> is </span><span class="dl">&quot;</span></span> + o.fileSize + <span class="s"><span class="dl">&quot;</span><span class="k"> bytes)</span><span class="ch">\n</span><span class="dl">&quot;</span></span>;
+
+  <span class="kw">return</span> <span class="s"><span class="dl">&quot;</span><span class="k">&lt;pre&gt;</span><span class="dl">&quot;</span></span>+msg+<span class="s"><span class="dl">&quot;</span><span class="k">&lt;/pre&gt;&gt;</span><span class="dl">&quot;</span></span>;
+}</pre></div>
+</div>
+
+
+<p>That is, we&rsquo;re checking <code>.constructor</code>, <code>.prototype</code> and the members
+of this magical file object.  Here&rsquo;s what a &ldquo;real&rdquo; file object looks
+like, one caught by a drag:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>typeof(o):     object
+o.toString():  [object File]
+String(o):     [object File]
+o.constructor: [object FileConstructor]
+o.prototype:   undefined
+o members:     fileSize, fileName
+
+contents: (silly_hat.jpg is 1380 bytes)</pre></div>
+</div>
+
+
+<p>Hrm, can we fake that?  Here&rsquo;s a first try:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre><span class="kw">var</span> fakeFile = {
+  <span class="ke">fileSize</span>: <span class="i">1234</span>,
+  <span class="ke">fileName</span>: <span class="s"><span class="dl">&quot;</span><span class="k">/etc/passwd</span><span class="dl">&quot;</span></span>
+};
+fakeFile.constructor = File;
+fakeFile.<span class="fu">toString</span> = <span class="kw">function</span>() { <span class="kw">return</span> <span class="s"><span class="dl">&quot;</span><span class="k">[object File]</span><span class="dl">&quot;</span></span>; }</pre></div>
+</div>
+
+
+<p>the <code>fakeFile</code> variable ends up looking like this:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>typeof(o):     object
+o.toString():  [object File]
+String(o):     [object File]
+o.constructor: [object FileConstructor]
+o.prototype:   undefined
+o members:     fileSize, fileName, constructor, toString
+
+contents: (/etc/passwd is 1234 bytes)</pre></div>
+</div>
+
+
+<p>The only telltale here is the fact that I&rsquo;ve overridden constructor
+and the toString functions to make a plain ol' object instance built
+from a literal look a lil' bit more like one of these mystical files.
+So I, personally, can&rsquo;t figure out how to get rid of this constructor
+or toString function.  So I&rsquo;m concluding here that we&rsquo;ve got a
+reasonable way to filter out wholly synthetic fake File objects.</p>
+
+<p>Now what about a different tactic?  overwriting an existing File
+object?  We&rsquo;ll take something read (the first object), and overwrite
+the <code>fileSize</code> and <code>fileName</code> members.  And that doesn&rsquo;t work.  we see
+that the specification of fileName and fileSize is actually read only.
+Here&rsquo;s the idl from WebKit &ndash;</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>module html {
+
+    interface [
+        GenerateConstructor
+    ] File {
+        readonly attribute DOMString fileName;
+        readonly attribute unsigned long long fileSize;
+    };
+}</pre></div>
+</div>
+
+
+<h3>Testing for an authentic File</h3>
+
+<p>This is deeply tied to Safari 4.0.3, and subject to break in the future, but for now this is the (slightly redundant) test that I come up with to verify that we&rsquo;re really talking about a File that was attained as a result of a drag.</p>
+
+<div class="CodeRay">
+  <div class="code"><pre><span class="kw">function</span> <span class="fu">isRealFile</span>(f)
+{
+  <span class="kw">var</span> hasFileName = <span class="pc">false</span>, hasFileSize = <span class="pc">false</span>, numMembers = <span class="i">0</span>,
+      mutableMembers = <span class="pc">false</span>;
+
+  <span class="kw">for</span> (<span class="kw">var</span> m <span class="kw">in</span> f) {
+      numMembers++;
+      <span class="kw">if</span> (m === <span class="s"><span class="dl">'</span><span class="k">fileName</span><span class="dl">'</span></span>) hasFileName = <span class="pc">true</span>;
+      <span class="kw">else</span> <span class="kw">if</span> (m === <span class="s"><span class="dl">'</span><span class="k">fileSize</span><span class="dl">'</span></span>) hasFileSize = <span class="pc">true</span>;
+      <span class="kw">var</span> before = f[m];
+      f[m] = <span class="s"><span class="dl">&quot;</span><span class="k">__IMutedYou__</span><span class="dl">&quot;</span></span>;
+      <span class="kw">if</span> (before !== f[m]) mutableMembers = <span class="pc">true</span>;
+  }
+
+
+  <span class="kw">if</span> (<span class="kw">typeof</span>(f) !== <span class="s"><span class="dl">'</span><span class="k">object</span><span class="dl">'</span></span> ||
+      !f.toString || f.toString.constructor !== Function ||
+      f.toString() !== <span class="s"><span class="dl">'</span><span class="k">[object File]</span><span class="dl">'</span></span> ||
+      f.constructor != File ||
+      f.protype != <span class="pc">undefined</span> ||
+      numMembers != <span class="i">2</span> ||
+      !hasFileName ||
+      !hasFileSize ||
+      mutableMembers)
+  {
+      <span class="kw">return</span> <span class="pc">false</span>;
+  }
+
+  <span class="kw">return</span> <span class="pc">true</span>;
+}</pre></div>
+</div>
+
+
+<h3>Cobbling together an Attack?</h3>
+
+<p>The ultimate question is once we have one of these magic File objects
+(resulting from a user drop), what can we do with it that&rsquo;s
+interesting?  In 15 minutes of looking it seems like all we can really
+do is display the size, uri, and filename&hellip;  Could that be correct?</p>
+
+<p>The point here is that it&rsquo;s very interesting that we can now accept
+drops from the desktop, but what will we be able to do with them and
+what will the security model be?</p>
+
+<p>Personally, I&rsquo;m grateful to see progress in this area, but am a little
+curious about the utility of these first steps, and the strategy for
+the next ones&hellip;</p>
+
+<p>lloyd</p>

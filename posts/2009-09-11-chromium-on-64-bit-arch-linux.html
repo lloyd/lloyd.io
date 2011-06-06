@@ -1,0 +1,88 @@
+--- 
+layout: post
+title: chromium on 64 bit (arch) linux
+published: true
+---
+<p>Really not much to write about, it was trivial to do, and <em>feels</em> a
+hell of a lot faster than the burning fox.  Steps?</p>
+
+<p>First, grab the latest build from the
+<a href="http://build.chromium.org/buildbot/snapshots/chromium-rel-linux-64/">chrome buildbot</a></p>
+
+<p>Second, probably notice that the chrome binary won&rsquo;t run for
+you&hellip; missing shared libs?  Heeey, me too!  Apparently we&rsquo;re building
+with certain debug libs here.  use <code>ldd</code> to figger out what&rsquo;s missin,
+and go create some symlinks:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>[lth@clover chrome-linux]$ ldd chrome | egrep \\.[0-9]d
+    libnss3.so.1d =&gt; /usr/lib/libnss3.so.1d (0x00007fe64a846000)
+    libnssutil3.so.1d =&gt; /usr/lib/libnssutil3.so.1d (0x00007fe64a628000)
+    libsmime3.so.1d =&gt; /usr/lib/libsmime3.so.1d (0x00007fe64a3fd000)
+    libssl3.so.1d =&gt; /usr/lib/libssl3.so.1d (0x00007fe64a1cd000)
+    libplds4.so.0d =&gt; /usr/lib/libplds4.so.0d (0x00007fe649fca000)
+    libplc4.so.0d =&gt; /usr/lib/libplc4.so.0d (0x00007fe649dc6000)
+    libnspr4.so.0d =&gt; /usr/lib/libnspr4.so.0d (0x00007fe649b8a000)</pre></div>
+</div>
+
+
+<p>Sunspider reports on my box chromium&rsquo;s js performance is is 4.87x
+faster than that of the fox.  Don&rsquo;t get too excited, <a href="http://ericmiraglia.com/blog/?p=140">javascript
+performance isn&rsquo;t everything</a>&hellip;</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>TEST                   COMPARISON            FROM                 TO             DETAILS
+
+=============================================================================
+
+** TOTAL **:           4.87x as fast     2619.0ms +/- 1.2%   537.6ms +/- 2.0%     significant
+
+=============================================================================
+
+  3d:                  3.57x as fast      327.4ms +/- 2.5%    91.8ms +/- 10.1%     significant
+    cube:              3.59x as fast      117.0ms +/- 1.1%    32.6ms +/- 22.7%     significant
+    morph:             3.52x as fast      112.0ms +/- 5.7%    31.8ms +/- 14.2%     significant
+    raytrace:          3.59x as fast       98.4ms +/- 2.3%    27.4ms +/- 4.1%     significant
+
+  access:              10.9x as fast      451.8ms +/- 1.4%    41.4ms +/- 3.4%     significant
+    binary-trees:      17.5x as fast       38.4ms +/- 1.8%     2.2ms +/- 25.3%     significant
+    fannkuch:          14.1x as fast      206.4ms +/- 1.2%    14.6ms +/- 4.7%     significant
+    nbody:             7.44x as fast      148.8ms +/- 0.9%    20.0ms +/- 4.4%     significant
+    nsieve:            12.7x as fast       58.2ms +/- 7.5%     4.6ms +/- 14.8%     significant
+
+  bitops:              8.84x as fast      367.6ms +/- 3.6%    41.6ms +/- 1.6%     significant
+    3bit-bits-in-byte: 13.9x as fast       47.2ms +/- 1.2%     3.4ms +/- 20.0%     significant
+    bits-in-byte:      9.29x as fast       83.6ms +/- 7.6%     9.0ms +/- 9.8%     significant
+    bitwise-and:       11.1x as fast      135.0ms +/- 7.0%    12.2ms +/- 4.6%     significant
+    nsieve-bits:       5.99x as fast      101.8ms +/- 2.6%    17.0ms +/- 0.0%     significant
+
+  controlflow:         13.2x as fast       39.6ms +/- 2.8%     3.0ms +/- 0.0%     significant
+    recursive:         13.2x as fast       39.6ms +/- 2.8%     3.0ms +/- 0.0%     significant
+
+  crypto:              5.11x as fast      160.4ms +/- 0.9%    31.4ms +/- 4.5%     significant
+    aes:               6.08x as fast       64.4ms +/- 1.7%    10.6ms +/- 10.5%     significant
+    md5:               4.44x as fast       46.2ms +/- 1.2%    10.4ms +/- 6.5%     significant
+    sha1:              4.79x as fast       49.8ms +/- 1.1%    10.4ms +/- 6.5%     significant
+
+  date:                2.33x as fast      175.0ms +/- 2.8%    75.2ms +/- 3.9%     significant
+    format-tofte:      2.59x as fast       79.4ms +/- 4.9%    30.6ms +/- 6.2%     significant
+    format-xparb:      2.14x as fast       95.6ms +/- 1.5%    44.6ms +/- 3.2%     significant
+
+  math:                5.58x as fast      325.8ms +/- 3.0%    58.4ms +/- 3.6%     significant
+    cordic:            5.49x as fast      125.2ms +/- 2.4%    22.8ms +/- 4.6%     significant
+    partial-sums:      5.55x as fast      134.4ms +/- 4.7%    24.2ms +/- 4.3%     significant
+    spectral-norm:     5.81x as fast       66.2ms +/- 4.1%    11.4ms +/- 6.0%     significant
+
+  regexp:              18.0x as fast      223.8ms +/- 7.9%    12.4ms +/- 5.5%     significant
+    dna:               18.0x as fast      223.8ms +/- 7.9%    12.4ms +/- 5.5%     significant
+
+  string:              3.00x as fast      547.6ms +/- 3.2%   182.4ms +/- 3.0%     significant
+    base64:            2.57x as fast       48.8ms +/- 3.3%    19.0ms +/- 8.0%     significant
+    fasta:             4.20x as fast      138.6ms +/- 1.2%    33.0ms +/- 2.7%     significant
+    tagcloud:          3.20x as fast      114.6ms +/- 2.9%    35.8ms +/- 2.9%     significant
+    unpack-code:       2.88x as fast      174.8ms +/- 9.7%    60.6ms +/- 8.7%     significant
+    validate-input:    2.08x as fast       70.8ms +/- 2.9%    34.0ms +/- 2.6%     significant</pre></div>
+</div>
+
+
+<p>&mdash;ll</p>

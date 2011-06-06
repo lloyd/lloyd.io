@@ -1,0 +1,177 @@
+--- 
+layout: post
+title: A Chromeless Snapshot
+published: true
+---
+<p>There has been a ton of development in the Mozilla Labs
+<a href="https://mozillalabs.com/chromeless"><em>Chromeless</em></a> project since the
+<a href="https://mozillalabs.com/chromeless/2010/12/15/chromeless-0-1/">0.1 release</a>,
+and I wanted to take a moment to give a snapshot of our progress.</p>
+
+<h2>Application Generation</h2>
+
+<p>Chromeless lets you build desktop apps with web technologies, but how do
+package those up for distribution?  Back in january we implemented the ability
+for chromeless to embed your <em>application code</em> into a standalone application.
+On OSX the output is an <em>application bundle</em>, that is a special type of folder
+with a <code>.app</code> extensions.  On linux and windows the output is a directory
+with a single binary that is named the same as your application.</p>
+
+<p>Usage is simple, just pass &lsquo;appify&rsquo; to chromeless on the command line:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>[lth@clover chromeless]$ ./chromeless appify examples/thumbnails
+Generating a standalone, redistributable, application
+Using Browser HTML at '/home/lth/dev/chromeless/examples/thumbnails/index.html'
+Building application in &gt;/home/lth/dev/chromeless/build/My Chromeless App&lt; ...
+  ... copying in xulrunner binaries
+  ... placing xulrunner binary
+Building xulrunner app in &gt;/home/lth/dev/chromeless/build/My Chromeless App&lt; ...
+  ... copying application template
+  ... creating application.ini
+  ... copying in CommonJS packages
+  ... copying in application code (/home/lth/dev/chromeless/examples/thumbnails)
+  ... writing harness options
+xul app generated in build/My Chromeless App</pre></div>
+</div>
+
+
+<p>Once this is complete you have a standalone app that you can combine with your
+favorite installer technology to build a distributable application.</p>
+
+<h2>Native Menus, and Keybindings!!</h2>
+
+<p>Mike De Boer has contributed modules which expose access to native
+menus and allow you to control the display and behavior of your
+application menus.  Full documentation isn&rsquo;t yet available, but
+there&rsquo;s some <a href="https://github.com/mozilla/chromeless/blob/master/tests/menu/index.html">example
+code</a>
+available that demonstrates how you can build up menus with icon and
+keybinding support:</p>
+
+<p><img src="https://img.skitch.com/20110212-qkjw25fmhjgkrfkjjhphciaxuc.png" alt="Pretty Menus!" /></p>
+
+<p>In addition to native menus, Mike has also put together a library to
+allow one to programatically configure shotcut key combinations, or
+<a href="http://mozilla.github.com/chromeless/#module/chromeless-kit/hotkey"><em>hotkeys</em></a>.</p>
+
+<h2>A Documentation System</h2>
+
+<p>As of 0.1, chromeless had no documentation.  We&rsquo;ve take the system from jetpack and
+reworked it a bit to fit for Chromeless.  To generate docs from Chromeless, pass <code>docs</code>
+on the command line:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>[lth@clover chromeless]$ python2 ./chromeless docs
+Generating documentation
+Created docs in /home/lth/dev/chromeless/build/docs.</pre></div>
+</div>
+
+
+<p>While the content isn&rsquo;t very complete at this point, we now have a
+usable system that we can update as we go.  You can checkout a
+<a href="http://mozilla.github.com/chromeless">snapshot of the chromeless docs</a> on our github pages.</p>
+
+<h2>Startup Parameters</h2>
+
+<p>It&rsquo;s important to be able to control basic application parameters in a simple way.  To
+specify things like the initial height and width of your application window, whether it&rsquo;s
+resizable, the name of the application, and the icon that should be used to represent it.
+To address this problem we now support a configuration file that may be placed in the
+same directory as your <em>application code</em>: <code>appinfo.json</code>.  This configuration file looks
+something like:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>{
+  &quot;name&quot;: &quot;My First Browser&quot;,
+  &quot;version&quot;: &quot;0.1&quot;,
+  &quot;icon&quot;: &quot;appicon.png&quot;,
+  &quot;resizable&quot;: true,
+  &quot;initial_dimensions&quot;: {
+    &quot;width&quot;: 500,
+    &quot;height&quot;: 300
+  }
+}</pre></div>
+</div>
+
+
+<p>Now while the only keys which are actually implemented right now are <code>name</code> and <code>version</code>, this
+is a place where any configuration which changes the initial behavior of your application will
+reside.</p>
+
+<h2>File System Interaction</h2>
+
+<p>Contributions from Mike De Boer and Alexandre Poirot have brought good
+api breadth around filesystem interactions.  The basic design of the
+file system APIs includes three different modules:</p>
+
+<ul>
+<li><a href="http://mozilla.github.com/chromeless/#module/api-utils/file">file</a> &ndash; Reading and writing of individual files</li>
+<li><a href="http://mozilla.github.com/chromeless/#module/chromeless-kit/path">path</a> &ndash; Provides abstractions for the manipulation of file paths, but will never touch the file system.</li>
+<li><a href="http://mozilla.github.com/chromeless/#module/chromeless-kit/fs">fs</a> &ndash; Includes functions which can query and manipulate the file system, and don&rsquo;t fit into the two categories above (for example, directory manipulation and file copy live here).</li>
+</ul>
+
+
+<p>In addition to these low level utilities, the
+<a href="http://mozilla.github.com/chromeless/#module/chromeless-kit/app-paths"><code>app-paths</code></a>
+offers an abstract way of getting at various standard filesystem paths.</p>
+
+<h2>OS Drag and Drop</h2>
+
+<p>Marcio Galli has put together <a href="https://github.com/mozilla/chromeless/tree/master/tests/dragdrop">example
+code</a>
+for how one might go about supporting drag-in and drag out in their
+chromeless apps.  It mostly leverages HTML5 support with a teeny tiny
+library to support native feeling drag-out.</p>
+
+<h2>Favicons and Mime-Type guessing</h2>
+
+<p>The mozilla platform (obviously) includes great tools for doing webby things!
+One example is displaying favicons, and that&rsquo;s now wrapped up in a <a href="http://mozilla.github.com/chromeless/#module/chromeless-kit/favicon">simple to use
+library</a>.
+In addition there&rsquo;s a new <a href="which%20leverages%20and%20augments%0Athe%20mime%20lookup%20built%20into%20the%20mozilla%20platform">mime guessing library</a> and lets you get a probable
+mime type given a file path.</p>
+
+<h2>Improved Embedding of Web Content</h2>
+
+<p>One of the primary goals of chromeless is to make it possible to build web
+browsers, and this means safely embedding web content is an important feature.
+The approach we take in chromeless is to transparently <em>upgrade</em> iframes that
+are direct children of your application code, to give you a deepened view as
+to what&rsquo;s going on inside of them.</p>
+
+<p>This <em>upgrading</em> concretely means two things:</p>
+
+<ul>
+<li>iframes in chromeless emit several <a href="http://mozilla.github.com/chromeless/#guide/custom-dom-events">custom events</a></li>
+<li>application code has increased priviledges to manipulate and inspect
+web content inside iframes, via the
+<a href="http://mozilla.github.com/chromeless/#module/chromeless-kit/iframe-controls">`iframe-controls'</a>
+library.</li>
+</ul>
+
+
+<h2>Better Console Output</h2>
+
+<p>Mike De Boer has contributed tons of polish to the good ol' <code>console.log()</code> function, including pretty object introspection:</p>
+
+<p><img src="https://img.skitch.com/20110212-xw5ss6dkamuxt4csa77dci2mtf.png" alt="Introspection!" /></p>
+
+<h2>Simplified Web Requests</h2>
+
+<p>The addon-sdk community has written a nice little request library
+which simplifies issuing HTTP requests, and we&rsquo;ve uplifted that <a href="http://mozilla.github.com/chromeless/#module/addon-kit/request">into
+chromeless</a>.
+Additionally, an API compatible version of
+<a href="http://mozilla.github.com/chromeless/#module/api-utils/xhr"><code>XMLHttpRequest</code></a>
+without the cross domain restriction is also available.</p>
+
+<h2>BIAB, and TTYL</h2>
+
+<p>Hopefully this whirlwind tour of new features in trunk gives you a
+good grasp of the project&rsquo;s current state.  The speed at which things
+are shaping up I feel is a testament to the quality of the platforms
+upon which chromeless is built, and the sheer awesome of the
+contributors.</p>
+
+<p>Now, back to merging&hellip;</p>

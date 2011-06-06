@@ -1,0 +1,155 @@
+--- 
+layout: post
+title: What's New In YAJL Two?
+published: true
+---
+<p><a href="http://lloyd.github.com/yajl">YAJL</a> is a little sax style JSON parser written
+in C (conforming to C99).  The first iteration was put together in a couple
+evening/weekend hacking sessions, and YAJL sat in version zero for about two
+years (2007-2009), quietly delighting a small number of folks with extreme JSON
+parsing needs.  On April 1st 2009 YAJL was tagged 1.0.0 (apparently that was a
+joke, because the same day it hit version 1.0.2).</p>
+
+<p>Given 2 years seems to YAJL&rsquo;s natural period for major version bumps, I&rsquo;m happy
+to announce YAJL 2, which is available now.  This post will cover the changes and
+features in the new version.</p>
+
+<h2>First, Thanks!</h2>
+
+<p>Over the course of the last two years YAJL has had contributions from
+at least <a href="http://lloyd.github.com/yajl/#contributors">24 different
+individuals</a> and provided
+the heavy lifting for at 8 different high level <a href="http://lloyd.github.com/yajl/#bindings">language
+bindings</a>.  I&rsquo;ve also received
+questions and comments from all over the planet from folks working in
+companies with market caps in the hundreds of billions, to university
+students in places like Cairo, Bangkok, and Bangladesh.  YAJL has been
+particularly useful to the rails and iPhone communities, given its
+performance and low level streaming api.  And anyone remember the
+twitpocalypse and <a href="http://www.google.com/?q=" title="yajl%20error%203">YAJL Error
+3</a>?  Dude, that&rsquo;s not my
+bag!</p>
+
+<p>At the risk of abusing my time on stage, I just wanted to say that there&rsquo;s something very
+nice about world where one can go and build something as modest as YAJL and have it
+touch billions of people.  So again, <em>I&rsquo;m pleased YAJL pleases you.</em></p>
+
+<h2>What&rsquo;s new?</h2>
+
+<p>This post is intended to both tour new features and to serve as a quick and
+dirty porters guide for users of YAJL 1.x.  If you want to skip all the language and
+examples, you&rsquo;re more than welcome to head over to
+<a href="https://github.com/lloyd/yajl/blob/2.0.0/ChangeLog#L1-22">the ChangeLog</a> and go
+from there.</p>
+
+<h3>License Changes</h3>
+
+<p>YAJL was <a href="http://en.wikipedia.org/wiki/BSD_licenses#3-clause_license_.28.22New_BSD_License.22_or_.22Modified_BSD_License.22.29">three clause BSD</a>, now it&rsquo;s <a href="http://en.wikipedia.org/wiki/ISC_license">ISC</a>.  The functional difference between these two is that YAJL no longer includes a &lsquo;non-endorsement&rsquo; clause, and really, I don&rsquo;t care so much if you use YAJL in your product and decide to apply a &ldquo;Lloyd Hilaiel inside&rdquo; logo.  But, YMMV with that.</p>
+
+<p>So the new license is a bit more permissive but preserves everything I care about (you can&rsquo;t say you wrote it), and is quite a bit smaller.  That&rsquo;s all.</p>
+
+<h3>Faster</h3>
+
+<p>YAJL 2 is somewhere between 20%-35% faster in its raw parsing performance.  This is specifically due to lexer optimizations in string scanning.  My above-average colleague <a href="http://www.open-mike.org/">Michael Hanson</a> suggested these changes, and you&rsquo;re encouraged to review <a href="https://github.com/lloyd/yajl/commit/ec8204ddf795a233d8c7053f026ba7e2208b529a">the commit where the change was landed</a>.</p>
+
+<h3>New &ldquo;Tree&rdquo; API</h3>
+
+<p>Given how prevalent YAJL is, it&rsquo;s quite natural that lots of people get pointed to it when they ask about a good JSON parser for the C language.  Unfortunately, many folks with simple parsing needs (they don&rsquo;t need streaming, they have no data representation of their own) who just want to parse a little JSON file and extract some stuff have been repeatedly disappointed with YAJL.  These folks want to pass in a buffer, get back a memory representation, plunk out a value or two, and go on their way.</p>
+
+<p><a href="https://github.com/octo">Florian Forster</a> decided to fill this need by writing a tiny little high level <em>tree parser</em> implementation on top of YAJL.  The implementation is less than 10k of compiled object code, and if you statically link it&rsquo;ll be stripped right out when not used.  At that small cost, why not include an alternate high level API if so many people seem to want it?</p>
+
+<p>To get an idea of how it works see the <a href="http://lloyd.github.com/yajl/yajl-2.0.0/example_2parse_config_8c-example.html">configuration parser example</a>, and you can give <a href="https://github.com/lloyd/yajl/blob/master/src/api/yajl_tree.h">the header file a read</a> for more details.</p>
+
+<p>Final note, this code is young, so expect several fixes and improvements in the coming months as people start sending in patches and bugs.</p>
+
+<h3>Changed YAJL Configuration</h3>
+
+<p>The 1.x YAJL implementation used C structures for configuration.  So client code would allocate, and populate a structure, then pass it into the <code>yajl_alloc()</code> routine to change the behavior of the parser.</p>
+
+<p>This design sucked for several reasons:</p>
+
+<ol>
+<li>Addition of new options couldn&rsquo;t be done in a binary compatible way</li>
+<li>Client code always had to think about options, even if it just wanted default behaviors</li>
+<li>it wasn&rsquo;t clear from reading client code what was going on</li>
+</ol>
+
+
+<p><a href="https://github.com/brianmario">Brian Lopez</a> suggested <a href="https://github.com/lloyd/yajl/issues/23">an alternative</a> API that&rsquo;s implemented in YAJL.  Now parser setup is, in my opinion, a lot clearer:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>hand = yajl_alloc(&amp;callbacks, NULL, (void *) g);
+yajl_config(hand, yajl_allow_comments, 1);
+yajl_config(hand, yajl_dont_validate_strings 1);</pre></div>
+</div>
+
+
+<p>The generator works similarly and now has a <code>yajl_gen_config()</code> function.</p>
+
+<h3>Little API Changes</h3>
+
+<p>There were also several smaller API breaking changes, which will be especially interesting as you port:</p>
+
+<ol>
+<li>YAJL no longer will build with a compiler that doesn&rsquo;t support C99.</li>
+<li><code>size_t</code> is now used instead of <code>unsigned int</code> wherever buffer lengths or offsets are represented.</li>
+<li>integers are now always represented with <code>long long</code>, which are at least 64bits on all modern compilers.</li>
+<li>yajl_parse_complete() is now yajl_complete_parse(), see <a href="https://github.com/lloyd/yajl/commit/9813127163116b7f928c383f14bb8618675a9694">the commit to understand why</a>.</li>
+</ol>
+
+
+<h3>Big API Changes</h3>
+
+<p>One of the <a href="https://github.com/lloyd/yajl/issues/7">longest standing issues</a> in YAJL was it&rsquo;s default tendency to consume as little of input buffers as required to complete a parse.  That is if you did this:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>const char * buf = &quot;2009-10-20@20:38:21.539575&quot;
+yajl_status s = yajl_parse(h, buf, strlen(buf));</pre></div>
+</div>
+
+
+<p>YAJL would parse out that <code>2009</code> as an integer, and consider the parse complete!  He got his value, the rest of your buffer is your business.  Given that YAJL is a stream parser, the design goal was specifically that yajl would process as <em>few bytes</em> as possible.  If you wanted to ensure that an entire buffer consisted of a single valid JSON value, you&rsquo;d need to use <code>yajl_get_bytes_consumed()</code> after the completion of the parse to ensure that your entire input buffer was consumed.</p>
+
+<p>This turned out to be a bad decision.  <a href="https://github.com/gno">Greg Olszewski</a> fixed this with <a href="https://github.com/gno/yajl/commit/0795e14e64afada0919facdaf59191707e55549a">a patch</a> that provided additional configuration flags to help people change the behavior of yajl into what they expected.</p>
+
+<p>Beyond from this patch, I&rsquo;ve folded the configuration into the new API mentioned above, and changed the default configuration to be what I expect you expect,  specifically an entire buffer will be consumed (so trailing junk will be considered a parse error), and if you call <code>parse_complete()</code> and a complete top level value hasn&rsquo;t been parsed, it&rsquo;s a hard error.</p>
+
+<p>For more information on the changed semantics, refer to <a href="http://lloyd.github.com/yajl/yajl-2.0.0/yajl__parse_8h.html#a5434a7c3b3165d782ea42c17d6ba9ac3">the yajl_option documentation</a> and take a look at the updated <a href="http://lloyd.github.com/yajl/yajl-2.0.0/reformatter_2json_reformat_8c-example.html">JSON reformatter example</a> which demonstrates how error handling should fit into your parsing flow.</p>
+
+<h3>A Built-in Benchmark</h3>
+
+<p>Lots of people pick YAJL because it&rsquo;s <em>fast</em>.  But one thing that
+we&rsquo;ve lacked in the past is a stable way to assess just how fast, and
+more specifically to gauge the performance impact of code changes.</p>
+
+<p>To solve these problems I wrote a small in-tree performance test that
+spends some number of seconds parsing through three sample JSON documents
+(from popular APIs around the net), and represents how fast it can parse
+as a throughput.</p>
+
+<p>If you want to give the tool a whirl, simple:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>$ make
+...
+$ build/perf/perftest
+-- speed tests determine parsing throughput given 3 different sample documents --
+With UTF8 validation:
+Parsing speed: 267.096 MB/s
+Without UTF8 validation:
+Parsing speed: 267.443 MB/s</pre></div>
+</div>
+
+
+<p>Now it&rsquo;s not a particularly sophisticated benchmark, but is a good starting point
+for giving a quick high level view of the performance implications of changes.</p>
+
+<h3>More Details</h3>
+
+<p>A couple less interesting changes are in there too, so feel free to
+peruse the
+<a href="https://github.com/lloyd/yajl/blob/2.0.0/ChangeLog#L1-22">ChangeLog</a>
+and commit history, if you need more!</p>
+
+<p>Happy YAJLing,
+lloyd</p>

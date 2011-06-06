@@ -1,0 +1,241 @@
+--- 
+layout: post
+title: Orderly JSONSchema
+published: true
+---
+<p>I&rsquo;ve always wanted a concise and beautiful schema language for JSON.
+This desire stems from a real world need that I&rsquo;ve hit repeatedly.
+Given in-memory data that has been hydrated from a stream of JSON, of
+questionable quality, validation is required.  Currently I&rsquo;m
+constantly performing JSON validation in an ad-hoc manner, that is
+laboriously writing boiler plate code validating that an input JSON
+document is of the form that I expect.</p>
+
+<p>Manual validation is problematic for a variety of reasons, and there
+are several features afforded by automatic validation.  My favorite
+being high quality helpful error messages upon bogus inputs.  Aaron
+Boodman has talked a bit about the why over on <a href="http://www.aaronboodman.com/2009/04/json-schema-part-2.html">his
+blog</a></p>
+
+<p>So what do I want?</p>
+
+<ol>
+<li>A terse yet flexible means of describing the structure of a JSON document</li>
+<li>Something that&rsquo;s easy on the eyes</li>
+<li>Something that rolls off the tounge</li>
+</ol>
+
+
+<h2>JSONSchema&rsquo;s diet</h2>
+
+<p>&ldquo;But wait!&rdquo; &mdash; you exclaim!  There&rsquo;s
+<a href="http://json-schema.org">JSONSchema</a>!  And I agree, <em>JSONSchema</em> is
+<em>mostly</em> a good thing, and gets us <em>most</em> of the way there.
+JSONSchema is a flexible means of describing the structure of a JSON
+document.  But I wouldn&rsquo;t call it terse.  Taken from json-schema.org,
+compare the complexity of the JSON document:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>{
+  <span class="ke"><span class="dl">&quot;</span><span class="k">name</span><span class="dl">&quot;</span></span> : <span class="s"><span class="dl">&quot;</span><span class="k">John Doe</span><span class="dl">&quot;</span></span>,
+  <span class="ke"><span class="dl">&quot;</span><span class="k">born</span><span class="dl">&quot;</span></span> : <span class="s"><span class="dl">&quot;</span><span class="dl">&quot;</span></span>,
+  <span class="ke"><span class="dl">&quot;</span><span class="k">gender</span><span class="dl">&quot;</span></span> : <span class="s"><span class="dl">&quot;</span><span class="k">male</span><span class="dl">&quot;</span></span>,
+  <span class="ke"><span class="dl">&quot;</span><span class="k">address</span><span class="dl">&quot;</span></span> : 
+
+   {<span class="ke"><span class="dl">&quot;</span><span class="k">street</span><span class="dl">&quot;</span></span>:<span class="s"><span class="dl">&quot;</span><span class="k">123 S Main St</span><span class="dl">&quot;</span></span>,
+    <span class="ke"><span class="dl">&quot;</span><span class="k">city</span><span class="dl">&quot;</span></span>:<span class="s"><span class="dl">&quot;</span><span class="k">Springfield</span><span class="dl">&quot;</span></span>,
+    <span class="ke"><span class="dl">&quot;</span><span class="k">state</span><span class="dl">&quot;</span></span>:<span class="s"><span class="dl">&quot;</span><span class="k">CA</span><span class="dl">&quot;</span></span>}
+}</pre></div>
+</div>
+
+
+<p>With the schema that describes it:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>{
+  <span class="ke"><span class="dl">&quot;</span><span class="k">description</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">A person</span><span class="dl">&quot;</span></span>,
+  <span class="ke"><span class="dl">&quot;</span><span class="k">type</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">object</span><span class="dl">&quot;</span></span>,
+  <span class="ke"><span class="dl">&quot;</span><span class="k">properties</span><span class="dl">&quot;</span></span>: {
+    <span class="ke"><span class="dl">&quot;</span><span class="k">name</span><span class="dl">&quot;</span></span>: {
+      <span class="ke"><span class="dl">&quot;</span><span class="k">type</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">string</span><span class="dl">&quot;</span></span>
+    },
+    <span class="ke"><span class="dl">&quot;</span><span class="k">born</span><span class="dl">&quot;</span></span>: {
+      <span class="ke"><span class="dl">&quot;</span><span class="k">type</span><span class="dl">&quot;</span></span>: [
+        <span class="s"><span class="dl">&quot;</span><span class="k">integer</span><span class="dl">&quot;</span></span>,
+        <span class="s"><span class="dl">&quot;</span><span class="k">string</span><span class="dl">&quot;</span></span>
+      ],
+      <span class="ke"><span class="dl">&quot;</span><span class="k">minimum</span><span class="dl">&quot;</span></span>: <span class="i">1900</span>,
+      <span class="ke"><span class="dl">&quot;</span><span class="k">maximum</span><span class="dl">&quot;</span></span>: <span class="i">2010</span>,
+      <span class="ke"><span class="dl">&quot;</span><span class="k">format</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">date-time</span><span class="dl">&quot;</span></span>,
+      <span class="ke"><span class="dl">&quot;</span><span class="k">optional</span><span class="dl">&quot;</span></span>: <span class="vl">true</span>
+    },
+    <span class="ke"><span class="dl">&quot;</span><span class="k">gender</span><span class="dl">&quot;</span></span>: {
+      <span class="ke"><span class="dl">&quot;</span><span class="k">type</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">string</span><span class="dl">&quot;</span></span>,
+      <span class="ke"><span class="dl">&quot;</span><span class="k">options</span><span class="dl">&quot;</span></span>: [
+        {
+          <span class="ke"><span class="dl">&quot;</span><span class="k">value</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">male</span><span class="dl">&quot;</span></span>,
+          <span class="ke"><span class="dl">&quot;</span><span class="k">label</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">Guy</span><span class="dl">&quot;</span></span>
+        },
+        {
+          <span class="ke"><span class="dl">&quot;</span><span class="k">value</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">female</span><span class="dl">&quot;</span></span>,
+          <span class="ke"><span class="dl">&quot;</span><span class="k">label</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">Gal</span><span class="dl">&quot;</span></span>
+        }
+      ]
+    },
+    <span class="ke"><span class="dl">&quot;</span><span class="k">address</span><span class="dl">&quot;</span></span>: {
+      <span class="ke"><span class="dl">&quot;</span><span class="k">type</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">object</span><span class="dl">&quot;</span></span>,
+      <span class="ke"><span class="dl">&quot;</span><span class="k">properties</span><span class="dl">&quot;</span></span>: {
+        <span class="ke"><span class="dl">&quot;</span><span class="k">street</span><span class="dl">&quot;</span></span>: {
+          <span class="ke"><span class="dl">&quot;</span><span class="k">type</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">string</span><span class="dl">&quot;</span></span>
+        },
+        <span class="ke"><span class="dl">&quot;</span><span class="k">city</span><span class="dl">&quot;</span></span>: {
+          <span class="ke"><span class="dl">&quot;</span><span class="k">type</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">string</span><span class="dl">&quot;</span></span>
+        },
+        <span class="ke"><span class="dl">&quot;</span><span class="k">state</span><span class="dl">&quot;</span></span>: {
+          <span class="ke"><span class="dl">&quot;</span><span class="k">type</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">string</span><span class="dl">&quot;</span></span>
+        }
+      }
+    }
+  }
+}</pre></div>
+</div>
+
+
+<p>NOTE: I did run this through json_reformat, the pretty printer that
+ships with <a href="http://lloyd.github.com/yajl">yajl</a> &ndash; so to be fair, we
+could combine some lines here.</p>
+
+<p>Now don&rsquo;t get me wrong.  I believe that the feature of JSONSchema that
+it can be represented in JSON is very important.  This means that
+there&rsquo;s less bloat in the core toolchain when you choose JSON for some
+portion of your data representation needs, and that holds up to
+Douglas&rsquo;s promise of a &ldquo;low fat alternative&rdquo;.  Rad.  But I don&rsquo;t like
+how hard that schema is to read and write for a human like me.</p>
+
+<p>So let&rsquo;s throw a stone as long as we&rsquo;re driving by: <em>JSONSchema is too big</em></p>
+
+<p>I think too much has been asked of JSONSchema, from the proposal:</p>
+
+<blockquote class="posterous_short_quote"><p>JSON Schema is intended to provide validation, documentation, and
+interaction control of JSON data.</p></blockquote>
+
+<p>Interaction control?  A cute idea, but I think this is far less
+important than a functional small language for validation.  Perhaps
+there&rsquo;s actually one base specification here with some extensions to
+do interaction control and storage attributes? (read about the
+<em>transient</em> attribute).  Finally, with documentation, I&rsquo;m again
+uncertain.  Here&rsquo;s the full list of attributes that make me nervous</p>
+
+<ul>
+<li>options (label/value)</li>
+<li>title</li>
+<li>description</li>
+<li>transient</li>
+<li>hidden</li>
+<li>disallow</li>
+<li>extends</li>
+<li>identity</li>
+</ul>
+
+
+<h2>Introducing Orderly (v-1)</h2>
+
+<p>Orderly, say hi!</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>string hi {&quot;wassup&quot;};</pre></div>
+</div>
+
+
+<p>Orderly&hellip;</p>
+
+<ul>
+<li>&hellip; is an ergonomic micro-language that can round-trip to JSONSchema.</li>
+<li>&hellip; presently represents a <em>subset</em> of JSONSchema &ndash; I&rsquo;ve thrown out the bits not specifically related to validation.</li>
+<li>&hellip; is optional.  syntactic sugar.  fluff.  Tools should speak JSONSchema, but for areas where humans have to read or write the schema there should be an option to expose orderly in addition to JSON.</li>
+<li>&hellip; is probably not novel.  &ldquo;nothing under the sun is new&rdquo;.</li>
+<li>&hellip; is a &ldquo;little baby zygote of an idea&rdquo;</li>
+</ul>
+
+
+<p>So lets' meet orderly.  This JSONSchema:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>{&quot;type&quot;:&quot;object&quot;,
+ &quot;properties&quot;:
+  {&quot;name&quot;: {&quot;type&quot;:&quot;string&quot;},
+   &quot;age&quot; : {&quot;type&quot;:&quot;integer&quot;,
+     &quot;maximum&quot;:125}}
+}</pre></div>
+</div>
+
+
+<p>becomes this orderly:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>object {
+  string name;
+  integer age[,125];
+};</pre></div>
+</div>
+
+
+<p>nice, eh?  Let&rsquo;s zip through some examples here:</p>
+
+<p>A string property named name:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>string name;</pre></div>
+</div>
+
+
+<p>A string property between 1 and 64 chars in length (I assume unicode points here):</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>string name[1,64];</pre></div>
+</div>
+
+
+<p>A number named foo between 100 and 1000</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>number foo[100,1000];</pre></div>
+</div>
+
+
+<p>An optional boolean named hasLotsOfMoney:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>[boolean hasLotsOfMoney];</pre></div>
+</div>
+
+
+<p>An optional number with a value between 1 and 200 with a default value of 18:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>[number age[1,200] = 18];</pre></div>
+</div>
+
+
+<p>And for our final example, let&rsquo;s transmogrify that huge schema up top:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>object {
+  string name;
+  union {
+    integer[1900,2010];
+    string;                 // OMG, I killed format!
+  } born; 
+  string gender { &quot;male&quot;, &quot;female&quot; }; // OMG, I killed interaction control!
+  object {
+    string street;
+    string city;
+    string state;
+  } address;  
+} person;</pre></div>
+</div>
+
+
+<p>So we&rsquo;re nowhere near a BNF here, this is simply the part where we
+walk into the store and start trying things on.  Oh, and don&rsquo;t worry.
+This isn&rsquo;t real.</p>

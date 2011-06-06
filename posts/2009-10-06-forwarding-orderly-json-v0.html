@@ -1,0 +1,153 @@
+--- 
+layout: post
+title: Forwarding Orderly JSON - v0
+published: true
+---
+<p>Recently I proposed
+<a href="http://trickyco.de/orderly-jsonschema">orderly</a>, an idea
+for a small microlanguage on top of JSONSchema &mdash; something easier to
+read and write.</p>
+
+<p>There&rsquo;s been some <a href="http://groups.google.com/group/json-schema/browse_thread/thread/e259869510420842/bde8c8d3b3f957b6">great
+feedback</a>
+which I find encouraging.  In response I&rsquo;ve set up
+<a href="http://orderly-json.org">orderly-json.org</a> and started a <a href="http://github.com/lloyd/orderly">project on
+github</a> which will host the
+specification, the reference implementation, and all of the contents
+of the <code>json-orderly.org</code> site.</p>
+
+<h2>recent changes</h2>
+
+<p>Given initial feedback and a bunch more thought about orderly, theres
+a couple significant early changes that have taken place.</p>
+
+<h3>repetition quantifiers get curly, enumeration values go square</h3>
+
+<p>in v-1 (yes, negative one) the following code would have specified an
+integer property with a range of allowable values:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>integer foo[0,10];</pre></div>
+</div>
+
+
+<p>And the following, would specify an integer property @bar@ with allowable values 0-10.</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>integer bar[0,10]</pre></div>
+</div>
+
+
+<p>uh.  oops?  We need a way outta this mess.  The current v0
+specification moves range specification to after the type (suggested
+by <a href="http://tobyinkster.co.uk/">Toby A Inkster</a>, and changes syntax from
+square braces to curly braces.  We&rsquo;re re-using &ldquo;repetition
+quantifiers&rdquo; from regular expressions here, and while the analogy
+isn&rsquo;t perfect, nor is the square brace analogy where storage
+allocation is the expectation.  Enumeration values, in turn, have more
+exclusive access to square braces, which is nice because this is the
+JSON representation of arrays.  Here&rsquo;s an example of a property
+@weight@ which must be in a certain numeric range:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>number{0.02, 0.98} weight;</pre></div>
+</div>
+
+
+<p>While possible values are represented after the type using JSON style array notation:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>string os [&quot;osx&quot;, &quot;win32&quot;, &quot;linux&quot;, &quot;freebsd&quot;];</pre></div>
+</div>
+
+
+<p>An enumeration property on JSONSchema is nothing more than an array of
+potential values.  And a more beautiful seque into the next point, I
+couldn&rsquo;t have engineered..</p>
+
+<h3>Orderly syntax is a superset of JSON</h3>
+
+<p>JSON is wholly contained within the syntax of orderly, and the reason
+for this is simple.  Because orderly must be able to represent default
+values of any object of arbitrary complexity.  The bad news is this
+means it&rsquo;s going to be a little more work to parse, but the good news
+is there&rsquo;s plenty of precedent to leverages (numerical representation,
+etc).</p>
+
+<h2>What&rsquo;s next?</h2>
+
+<p>As the language starts to firm up, I&rsquo;ve resolved to take popular APIs
+and try to describe them with orderly, see how far we get.  Today&rsquo;s
+target is the <a href="http://browserplus.yahoo.com">BrowserPlus</a> JSON WSAPI
+that returns a list of available services, here&rsquo;s a subset of the data
+we&rsquo;re trying to describe:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>[
+  {
+    <span class="ke"><span class="dl">&quot;</span><span class="k">name</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">PublishSubscribe</span><span class="dl">&quot;</span></span>,
+    <span class="ke"><span class="dl">&quot;</span><span class="k">versionString</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">1.0.0</span><span class="dl">&quot;</span></span>,
+    <span class="ke"><span class="dl">&quot;</span><span class="k">os</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">ind</span><span class="dl">&quot;</span></span>,
+    <span class="ke"><span class="dl">&quot;</span><span class="k">size</span><span class="dl">&quot;</span></span>: <span class="i">5114</span>,
+    <span class="ke"><span class="dl">&quot;</span><span class="k">documentation</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">A cross document message service that allows JavaScript to send and receive messages between web pages within one or more browsers (cross document + cross process).</span><span class="dl">&quot;</span></span>,
+    <span class="ke"><span class="dl">&quot;</span><span class="k">CoreletType</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">dependent</span><span class="dl">&quot;</span></span>,
+    <span class="ke"><span class="dl">&quot;</span><span class="k">CoreletRequires</span><span class="dl">&quot;</span></span>: {
+      <span class="ke"><span class="dl">&quot;</span><span class="k">Name</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">RubyInterpreter</span><span class="dl">&quot;</span></span>,
+      <span class="ke"><span class="dl">&quot;</span><span class="k">Version</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">4</span><span class="dl">&quot;</span></span>,
+      <span class="ke"><span class="dl">&quot;</span><span class="k">Minversion</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">4.2.5</span><span class="dl">&quot;</span></span>
+    }
+  },  
+  {
+    <span class="ke"><span class="dl">&quot;</span><span class="k">name</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">Uploader</span><span class="dl">&quot;</span></span>,
+    <span class="ke"><span class="dl">&quot;</span><span class="k">versionString</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">3.2.6</span><span class="dl">&quot;</span></span>,
+    <span class="ke"><span class="dl">&quot;</span><span class="k">os</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">osx</span><span class="dl">&quot;</span></span>,
+    <span class="ke"><span class="dl">&quot;</span><span class="k">size</span><span class="dl">&quot;</span></span>: <span class="i">279378</span>,
+    <span class="ke"><span class="dl">&quot;</span><span class="k">documentation</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">This service lets you upload files faster and easier than before.</span><span class="dl">&quot;</span></span>,
+    <span class="ke"><span class="dl">&quot;</span><span class="k">CoreletType</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">standalone</span><span class="dl">&quot;</span></span>,
+    <span class="ke"><span class="dl">&quot;</span><span class="k">CoreletAPIVersion</span><span class="dl">&quot;</span></span>: <span class="i">4</span>
+  },
+  {
+    <span class="ke"><span class="dl">&quot;</span><span class="k">name</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">RubyInterpreter</span><span class="dl">&quot;</span></span>,
+    <span class="ke"><span class="dl">&quot;</span><span class="k">versionString</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">4.2.6</span><span class="dl">&quot;</span></span>,
+    <span class="ke"><span class="dl">&quot;</span><span class="k">os</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">osx</span><span class="dl">&quot;</span></span>,
+    <span class="ke"><span class="dl">&quot;</span><span class="k">size</span><span class="dl">&quot;</span></span>: <span class="i">1691095</span>,
+    <span class="ke"><span class="dl">&quot;</span><span class="k">documentation</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">Allows other services to be written in Ruby.</span><span class="dl">&quot;</span></span>,
+    <span class="ke"><span class="dl">&quot;</span><span class="k">CoreletType</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">provider</span><span class="dl">&quot;</span></span>,
+    <span class="ke"><span class="dl">&quot;</span><span class="k">CoreletAPIVersion</span><span class="dl">&quot;</span></span>: <span class="i">4</span>
+  }
+]</pre></div>
+</div>
+
+
+<p>And here&rsquo;s concocted orderly to describe this data:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre># A schema describing the data returned from the BrowserPlus services
+# API at http://browserplus.yahoo.com/api/v3/corelets/osx
+array {
+  object {
+    string name;
+    string versionString;
+    string os [ &quot;ind&quot;, &quot;osx&quot;, &quot;win32&quot; ];
+    integer size;
+    string documentation;
+    string CoreletType [ &quot;standalone&quot;, &quot;dependent&quot;, &quot;provider&quot; ];
+    # if CoreletType is &quot;standalone&quot; or &quot;provider&quot;, then
+    # CoreletAPIVersion must be present
+    integer CoreletAPIVersion ?;
+    # if CoreletType is &quot;dependent&quot;, then CoreletRequires must be present
+    object {
+      string Name;
+      string Version;
+      string Minversion;
+    } CoreletRequires ?;
+  };
+};</pre></div>
+</div>
+
+
+<p>Not bad.  Some semantics of this ad-hoc WSAPI cannot be captured in
+orderly nor it seems the JSONSchema underneath, but I think I&rsquo;m ok
+with that.  You?</p>
+
+<p>lloyd</p>

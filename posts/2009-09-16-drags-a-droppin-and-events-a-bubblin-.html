@@ -1,0 +1,30 @@
+--- 
+layout: post
+title: Drags a droppin' and events a bubblin'...
+published: true
+---
+<p>In fiddling more and more with whiz bang HTML drag and drop (in safari 4.x and Firefox 3.5), some things caught me by surprise, primarily because I had already had an idea about "how drag and drop works" that wasn't from the web world.  Specifically, in <a href="http://browserplus.yahoo.com">BrowserPlus</a> we invented a very simple model for a web developer to express interest in capturing desktop sourced file drags.  Our model was motivated more by ease of implementation and simplicity than by deep adherence to the "precedent" set by browser vendors.  At that point there wasn't all that much in the way of precedent....</p>
+<p>Anyhow, I wanted to document the way both browser native DnD works and BrowserPlus, if for nothing else as a note to myself.  Let's begin with a live sample that you might enjoy if you're on a late model Safari or Firefox (untested elsewhere, YMMV).</p>
+<h3>A DnD Sample</h3>
+
+<p><iframe src="http://very.trickyco.de/projects/misc/html5dnd.html" border="0" height="300" width="600"></iframe></p>
+<p>So pick up a file from your desktop and hover it on over the sample.  Notice a couple things:</p>
+<ul>
+<li> <strong> Drag events propagate along the node hierarchy </strong> - if you hover over blue, the drag handle attached to yellow (his parent) is receiving the drag.  Blue himself has no handler. </li>
+<li> <strong> Overlapping non-descendants can block events</strong> - Red is yellow's sister.  She has her own drag handler set in order to update the status display,  but if she did not, we wouldn't see an event in yellow when hovering over the area in red that overlaps with yellow. </li>
+<li> <strong>Your JavaScript must handle bubbled enter/leave events from children</strong> - If you have a node that you wish to be a drop target with any number of visible children, you must handle the fact that a transition from the target (yellow) to the child (blue) would result in an enter in the latter followed by a leave in the former. </li>
+</ul>
+<h3>What would BrowserPlus do?</h3>
+<p>Again, realize that the Drag and drop implementation in <a href="http://browserplus.yahoo.com">BrowserPlus</a>, for better or worse, was driven by two key goals:</p>
+<ol>
+<li> satisfy the real world requirements of our users. </li>
+<li> develop something possible to implement in some sane fashion (from the other side of a plugin API, btw). </li>
+</ol>
+<p>Given this, it's pretty simple to explain the BrowserPlus model - Any node that is designated as a "drop target" can receive drop events, any node that isn't is 100% transparent.  So if you were to designate only yellow above as a drop target, then the drop behavior would be identical regardless of the existence of blue and red.</p>
+<h3>Unorganized thoughts...</h3>
+<p><em>With HTML DnD you have to think too hard</em>.  In every implementation I've seen that leverages drag and drop, there's a *lot* going on inside the "drop area".  So each "typical" web app that uses DnD needs to understand how to effectively make a node "drop transparent".  Restated: the HTML interface to drag and drop is very powerful and flexible, but, unless I'm missing something, it makes the simple case way too hard.  Here's a good example of <a href="http://mail.yahoo.com">world class UI</a> that leverages drag and drop (yeah, I'm biased):</p>
+<p><img src="http://help.yahoo.com/cpp/images/cg3/cg_attpanel_640_yp_1.gif" alt="" /></p>
+<p>There's a containing div and a bunch of stylized descendants contained within.  Essentially what we'd want is some simple way to mark all of them "drop transparent"...</p>
+<p><em>Allowing file drops defies user expectation</em>.  For years now we've been dropping files on our browser to *load* them (Safari is a great PDF reader).  Now with the ability for web-pages to capture our drops, we've got to work harder to prevent poor usability and confusion...  What do I <em>mean</em> when I drop 'Hilaiel L 2008 Taxes.pdf' on my browser window?  Specifically, 1mm can separate attaching a photo to your email and displaying that photo and discarding your email (most sites will ask for user confirmation, that's one simple way to mitigate this confusion).  There isn't a great answer here, I can see.</p>
+<p>Finally, I realize not all of this is new, but it's new to me.  I eagerly welcome simple code samples which robustly implement the dumb and simple BrowserPlus model, using HTML DnD...</p>
+<p>--ll</p>

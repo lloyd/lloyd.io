@@ -1,0 +1,191 @@
+--- 
+layout: post
+title: "Open Web Apps: Refining The Manifest"
+published: true
+---
+<p>In the month since we <a href="http://blog.mozilla.com/blog/2010/10/19/prototype-of-an-open-web-app-ecosystem/">announced &ldquo;Open Web Apps&rdquo;</a>, there&rsquo;s been a lot of discussion around the particulars of the Mozilla proposal.</p>
+
+<p>I specifically wanted to take a minute to jot down some of the proposed changes to the application manifest
+format <a href="https://wiki.mozilla.org/Labs/Apps/Manifest">from our initial design</a>.  The changes
+detailed here range from the drastic to the mundane, and have been contributed by my
+co-workers at mozilla and several community members.</p>
+
+<p><strong>NOTE:</strong> ALL of these changes are currently just ideas in want of review, and my listing them here in no
+way implies that they&rsquo;ll be adopted.</p>
+
+<h3>#1 defaultLocales to default_locales</h3>
+
+<p>Underbars are used more predominantly in the manifest to separate multiple word property
+names, we should make that convention consistent.</p>
+
+<h3>#2 Removal of <code>app_urls</code></h3>
+
+<p>The motivation of &ldquo;application urls&rdquo; was to define the scope of an application for two different purposes:</p>
+
+<ol>
+<li><strong>navigation support</strong>: When clicking around on links inside an application, it
+is useful if the user agent can know whether a url is <em>within</em> an application.  This allows the UA to
+implement some potentially useful behaviors that wouldn&rsquo;t otherwise be possible (like keeping installed
+apps inside firefox &lsquo;app tabs&rsquo; or google chrome&rsquo;s &lsquo;pinned tabs&rsquo;).</li>
+<li><strong>capability scoping</strong>: For applications which request different capabilities
+(or &ldquo;permissions&rdquo;), the <code>app_urls</code> array defined the scope of those capabilities.  That is, the act
+of installing an application bestows those permissions on pages residing at URLs which match
+members of app_urls.</li>
+</ol>
+
+
+<p>While the inclusion of app_urls may be useful for making navigation support possible
+for existing web applications, the risks it involves are too great.  Specifically,
+if an application is able to request that capabilities are bestowed on arbitrary
+domains, several new types of attacks are possible.</p>
+
+<p>One simple and concrete example of an attack could involve a hypothetical
+&lsquo;navigation_consolidation&rsquo; capability.  Imagine that an application existed and was
+designed to be a &ldquo;singleton&rdquo;:  That application could request that if the user navigates
+to urls inside the app, rather than opening a new instance of the application, the
+existing instance of the app should be notified of the user&rsquo;s navigation and the tab or
+window containing it focused.</p>
+
+<p>This <code>navigation_consolidation</code> feature when combined with a broad specification of <code>app_urls</code>
+could offer a malicious application the ability to intercept user&rsquo;s navigation to sites
+with whom they share personal or financial information (open the doors for a new and dastardly
+type of phishing attack).</p>
+
+<p>This is one specific example of a class of problems that arises when an application author
+is able to change the way the browser behaves when rendering content from a site that that
+author does not control.</p>
+
+<p>Part of a solution to this class of attacks is to simply remove the <code>app_urls</code> property from
+a manifest, in effect making it impossible for an application to span multiple domains.  Once
+app_urls is removed, however, how <em>is</em> application scope determined?  The next proposal attempts to
+answer that question.</p>
+
+<h3>#3 base_url defines &ldquo;application scope&rdquo;</h3>
+
+<p>Having removed <code>app_urls</code> in #2 it becomes unclear how, given a url, one determines whether
+that url belongs to an application.  A simple solution is to say that any resource which
+has the <code>base_url</code> parameter of an application as a prefix is considered within the scope of
+that application.</p>
+
+<p>A problem of overlapping application scope still exists: specifically if one app contains a base_url
+which actually contains the base_url of other applications, there is scope ambiguity.  This problem
+is mitigated by the removal of <code>app_urls</code> (which could make scope ambiguity more prevalent and harder
+to reasonably address), and a reasonable solution may for the UA to simply refuse to install applications which would
+introduce ambiguity.  This solution means that it&rsquo;s possible for a rogue application to block the installation
+of others, but because the conflicting applications must always be from the same principle,
+it should be simple to resolve any such issues.</p>
+
+<h3>#4 Canonical Manifest URLs</h3>
+
+<p>Aaron Boodman of google suggested in an email that manifests be
+&ldquo;served from a live URL, rather than embedded in &hellip; page(s)&rdquo;.
+There are many reasons why this suggestion is interesting:</p>
+
+<ol>
+<li>(via Boodman) Every application has a &ldquo;clear and unique ID&rdquo;</li>
+<li>(via Boodman) Convenience: a developer may simply post their manifest URL to stores.</li>
+<li>Ownership: When combined with the requirement that urls inside a manifest must
+match the url from which the manifest is served, it builds a simple mechanism of
+proof of ownership into the system.</li>
+</ol>
+
+
+<h3>#5 Addition of a <code>manifest_name</code> property</h3>
+
+<p>Given the presence of <code>base_url</code> if a manifest_name were added to the manifest, it
+would mean that each manifest suddenly has a canonical url, which is
+<code>manifest.base_url + manifest.manifest_name</code>.  This canonical url can be used to
+verify an application (see #6) and can be used as a unique identifier of the
+application.</p>
+
+<p><code>manifest_name</code> might be optional, with <code>manifest.json</code> being its default value.</p>
+
+<p>One security feature of <code>manifest_name</code>, could be that the name must be a top level
+entity within the path described by <code>base_url</code>.  This feature could address a class of
+attacks which arise when sites host user generated content.  While it may be possible to
+publish a manifest on an unaware vulnerable site, it would not be possible to specify a base
+url within that injected manifest that included more than the directory from which the
+UGT was served  (yeah, this only mitigates this type of attack, and we still may at some point
+consider stronger protections, such as new HTTP headers).</p>
+
+<h3>#6 Application verification at installation time</h3>
+
+<p>Combining #2 and #3 above, it becomes possible to define a series of steps that the
+application repository can perform to &ldquo;verify an application&rdquo;.  If an application is
+verified, that means that the manifest resides on the site that hosts the application.
+This property is a speed-bump to many attacks, in that it&rsquo;s no longer possible to
+casually grant permissions to a site you do not control.</p>
+
+<p>The process of verification is simple:</p>
+
+<ol>
+<li>if installation was triggered with a manifest, extract the full canonical path to the manifest: base_url + manifest_name</li>
+<li>using the url passed to install() or the result of step #1 fetch the contents at that location</li>
+<li>if what&rsquo;s fetched is not a valid manifest then the application cannot be verified</li>
+<li>extract base_url and manifest_name from the manifest fetched, if that matches the url from which the manifest was fetched, then the app is considered <code>valid</code></li>
+</ol>
+
+
+<p>Given this process to check that a manifest author has control over domain in which her
+web application resides, we can choose to either prevent the installation of unverified
+applications, or at the very least prevent them from requesting any capabilities outside
+of what&rsquo;s available to a standard web application.</p>
+
+<h3>#7 <code>installed_by</code></h3>
+
+<p>In the current proposal there is no way for a host of an application to explicitly delegate
+authority to a store to provision that application.  In other words, if I wrote
+&ldquo;Whap The Monkey&rdquo; and want to allow &ldquo;<a href="http://redonkulousgames.com">http://redonkulousgames.com</a>&rdquo; to legitimately sell my
+game, there&rsquo;s no way that I can inform your UA that you are allowed to install WTM from
+my site and the redonkulousgames.com site, but from noone else.</p>
+
+<p>Given the suggestions in this post, it could now be fairly trivial to specify in the manifest
+who may distributed an application.  installed_by could simply be an array of url fragments, with
+the default being &ldquo;disallow syndication&rdquo;:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>&quot;installed_by&quot;: [ ]</pre></div>
+</div>
+
+
+<p>The developer may explicitly allow promiscuous syndication of their app:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>&quot;installed_by&quot;: [ &quot;*&quot; ]</pre></div>
+</div>
+
+
+<p>And the whap the monkey case of above could look something like:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>&quot;installed_by&quot;: [ 
+  &quot;http://whapthatmonkey.com&quot;,
+  &quot;https://redonkulousgames.com&quot;
+]</pre></div>
+</div>
+
+
+<p>This simple addition further empowers application developers (or app publishing platforms)
+with more control to protect apps against casual (even accidental) plagiarism, and unwanted
+syndication.  Further, the UA can enforce this mechanism to eliminate several new flavors
+ of phishing.</p>
+
+<h3>#8 anonymous apps</h3>
+
+<p>While the above proposals tighten up the definition of an application and attempt to eliminate
+several areas of ambiguity, they do so at the sacrifice of an interesting feature:  How might
+I publish a simple manifest that describes an existing website, so that I may launch that site
+from within my dashboard?</p>
+
+<p>One solution is to create explicit support for &ldquo;anonymous apps&rdquo; (which are simply applications that the UA cannot verify with the steps in #6), these are applications which may not request &ldquo;capabilities&rdquo;, and in turn need not be hosted anywhere (all icons can be embedded in the manifest itself in the form of data urls, and hence the <code>base_url</code> property becomes unnecessary).</p>
+
+<p>This approach aims to allow for the distributed development of &ldquo;bookmark applications&rdquo; apps in a safe way (allowing end users to have a convenient way to launch the applications that are important to the even if the site authors haven&rsquo;t yet built any explicit support in for open web apps).</p>
+
+<h3>feedback</h3>
+
+<p>The focus of most of these features is to tighten up web apps and to reduce ambiguity and attack
+surface in preparation for more interesting and powerful capabilities.  So while it may seem that
+some of these restrictions limit the power of web applications, this author believes that a reduced
+application scope will make it easier and safer once we start adding application capabilities.</p>
+
+<p>What do you think?</p>

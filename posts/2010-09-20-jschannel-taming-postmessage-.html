@@ -1,0 +1,256 @@
+--- 
+layout: post
+title: "JSChannel: Taming postMessage()"
+published: true
+---
+<p>This post presents <a href="http://github.com/mozilla/jschannel">JSChannel</a>, a
+little open source JavaScript library that sits atop HTML5&rsquo;s
+cross-document messaging and provides rich messaging semantics and an
+ergonomic API.</p>
+
+<h1>Usage Overview</h1>
+
+<p>Let&rsquo;s start with a quick demonstration of usage.  Here&rsquo;s a sample
+containing HTML page:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre><span class="ta">&lt;html&gt;</span>
+<span class="ta">&lt;head&gt;</span><span class="ta">&lt;script</span> <span class="an">src</span>=<span class="s"><span class="dl">&quot;</span><span class="k">jschannel.js</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span><span class="ta">&lt;/script&gt;</span><span class="ta">&lt;/head&gt;</span>
+<span class="ta">&lt;body&gt;</span>
+<span class="ta">&lt;iframe</span> <span class="an">id</span>=<span class="s"><span class="dl">&quot;</span><span class="k">childId</span><span class="dl">&quot;</span></span> <span class="an">src</span>=<span class="s"><span class="dl">&quot;</span><span class="k">child.html</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span><span class="ta">&lt;/iframe&gt;</span>
+<span class="ta">&lt;/body&gt;</span>
+<span class="ta">&lt;script&gt;</span>
+
+var chan = Channel.build(document.getElementById(&quot;childId&quot;).contentWindow, &quot;*&quot;, &quot;testScope&quot;);
+chan.query({
+    method: &quot;reverse&quot;,
+    params: &quot;hello world!&quot;,
+    success: function(v) {
+        console.log(v);
+    }
+});
+
+<span class="ta">&lt;/script&gt;</span>
+<span class="ta">&lt;/html&gt;</span></pre></div>
+</div>
+
+
+<p>And here&rsquo;s the child page that&rsquo;s referenced by the former:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre><span class="ta">&lt;html&gt;</span><span class="ta">&lt;head&gt;</span>
+<span class="ta">&lt;script</span> <span class="an">src</span>=<span class="s"><span class="dl">&quot;</span><span class="k">jschannel.js</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span><span class="ta">&lt;/script&gt;</span>
+<span class="ta">&lt;script&gt;</span>
+
+var chan = Channel.build(window.parent, &quot;*&quot;, &quot;testScope&quot;);
+chan.bind(&quot;reverse&quot;, function(trans, s) {
+    return s.split(&quot;&quot;).reverse().join(&quot;&quot;);
+});
+
+<span class="ta">&lt;/script&gt;</span>
+<span class="ta">&lt;/head&gt;</span>
+<span class="ta">&lt;/html&gt;</span></pre></div>
+</div>
+
+
+<p>The parent page builds a <code>Channel</code> abstraction around the embedded
+iframe&rsquo;s content window.  This abstraction manages several setup
+requirements such as adding a message handler for the <code>message</code> event
+to the window object, etc.  Having built a channel instance, the
+parent page sends a query, invoking the <code>reverse</code> method, sending in a
+single string argument <code>Hello world!</code>, and specifies a function to be
+invoked upon success (which occurs when a response is received).</p>
+
+<p>Next, in the child we see a similar bit of code to create a channel.
+Subsequently the child calls the <code>bind</code> method of the channel object
+to associate a function with the <code>reverse</code> method.</p>
+
+<p>If you were to run this code, you would see <code>!dlrow olleH</code> output in
+your console log.  There are several features baked into JSChannel
+which keeps this simple function invocation simple.  We&rsquo;ll explore those
+features in the following section.</p>
+
+<h1>postMessage, the Missing Parts</h1>
+
+<p>The little method behind HTML5&rsquo;s <a href="http://dev.w3.org/html5/postmsg/#web-messaging">cross document
+messaging</a>,
+<em>postMessage</em>, is quite spartan.  It provides a way to efficiently
+move a string between frames, even when those frames are not from the
+same origin (scheme + host + port).  It also gives the recipient of a
+message a reliable way to know its real origin.  And that&rsquo;s all HTML5
+gives you!  Let&rsquo;s briefly run through all the things that one would
+probably want to add if they wished to build something non-trivial on
+top of post message&hellip;</p>
+
+<h2>Origin Checking</h2>
+
+<p>The authors of the spec were careful to call out in bright red letters
+the importance of verifying the origin of messages:</p>
+
+<blockquote class="posterous_medium_quote"><p>Use of this API requires extra care to protect users from hostile entities abusing a site for their own purposes.</p>
+
+<p>Authors should check the origin attribute to ensure that messages are only accepted from domains that they expect to receive messages from. Otherwise, bugs in the author&rsquo;s message handling code could be exploited by hostile sites.</p></blockquote>
+
+<p>While code to implement the origin check certainly isn&rsquo;t difficult,
+the cost of messing up that check is quite high as compared to the
+ease with which it could be left off:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>window.addEventListener(<span class="s"><span class="dl">'</span><span class="k">message</span><span class="dl">'</span></span>, receiver, <span class="pc">false</span>);
+<span class="kw">function</span> <span class="fu">receiver</span>(e) {
+  <span class="c">// behind the origin property of the event lies the true sender</span>
+  <span class="c">// of this message</span>
+  <span class="kw">if</span> (e.origin == <span class="s"><span class="dl">'</span><span class="k">http://example.com</span><span class="dl">'</span></span>) {
+    <span class="c">// here lies the guts of message handling, where you may possibly</span>
+    <span class="c">// share sensitive information with 'example.com'</span>
+  }
+}</pre></div>
+</div>
+
+
+<p>JSChannel makes origin checking a bit more prominent: the second
+argument to <code>Channel.build()</code> is where you can specify the expected
+origin of the remote side.  The wild-card <code>'*'</code> <em>may</em> be specified, but
+the above warnings should be heeded.</p>
+
+<p>(note: the origin argument should probably become more fancy and
+ support some sort of safe globbing as well as arrays of host
+ globs).</p>
+
+<h2>Message Structure</h2>
+
+<p>The HTML5 specification and early implementations leave the message
+content (<code>event.data</code>) as a string.  Later implementations (chrome 6
+at least), allow the payload to be a JavaScript object (without
+functions or complex objects).  In either case, there&rsquo;s no message
+structure suggested by or built into the specification.  What this
+means is that there isn&rsquo;t a standard way to indicate in a message what
+&lsquo;function&rsquo; is to be invoked on the remote document, nor is it possible
+to specify in a response message which query it&rsquo;s a response to.</p>
+
+<p>JSChannel uses the
+<a href="http://groups.google.com/group/json-rpc/web/json-rpc-2-0">JSON-RPC</a>
+specification with several modifications to support some of its more
+sophisticated API semantics.</p>
+
+<p>Here&rsquo;s a flavor of messages &lsquo;on the wire&rsquo; during the execution of the
+example at the start of this blog post:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>[gHvq1-R] post   message: {&quot;id&quot;:81351,&quot;method&quot;:&quot;testScope::reverse&quot;,&quot;params&quot;:&quot;hello world!&quot;}
+[SeYpI-L] got    message: {&quot;id&quot;:81351,&quot;method&quot;:&quot;testScope::reverse&quot;,&quot;params&quot;:&quot;hello world!&quot;}
+[SeYpI-L] post   message: {&quot;id&quot;:81351,&quot;result&quot;:&quot;!dlrow olleh&quot;}
+[gHvq1-R] got    message: {&quot;id&quot;:81351,&quot;result&quot;:&quot;!dlrow olleh&quot;}</pre></div>
+</div>
+
+
+<h2>Query/Response Semantics</h2>
+
+<p>An integral requirement in the definition of message structure was the
+requirement to be able to implement query/response semantics atop of it.
+JSChannel includes a unique identifier in the message structure, and
+includes a mechanism for determining starting id.  These two features
+make query/response semantics possible while also making a message dump
+more scrutable.</p>
+
+<h2>Dispatch</h2>
+
+<p>In the HTML5 specification, all posted messages arrive in a document
+as <em>message</em> events that your listener will receive.  While it&rsquo;s fairly
+simple to write code that dispatches messages to handler routines based on
+the origin and &lsquo;method&rsquo; of incoming messages, this code is
+boilerplate and it gets less fun to write each time you have to debug
+it.</p>
+
+<p>Dispatch is built into JSChannel, and multiple channels may happily
+co-exist simultaneously in the same page.  It&rsquo;s expected that allowing
+channels to be created next to the code to which they&rsquo;re relevant will
+be useful in larger projects.  Instantiating multiple channel objects
+looks as you might expect, and can occur anywhere in your code:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre><span class="kw">var</span> chan1 = Channel.build(document.getElementById(<span class="s"><span class="dl">&quot;</span><span class="k">firstChildId</span><span class="dl">&quot;</span></span>).contentWindow,
+                          <span class="ke"><span class="dl">&quot;</span><span class="k">http://somesite.com</span><span class="dl">&quot;</span></span>, <span class="s"><span class="dl">&quot;</span><span class="k">scope1</span><span class="dl">&quot;</span></span>);
+
+<span class="kw">var</span> chan2 = Channel.build(document.getElementById(<span class="s"><span class="dl">&quot;</span><span class="k">secondChildId</span><span class="dl">&quot;</span></span>).contentWindow,
+                          <span class="ke"><span class="dl">&quot;</span><span class="k">http://someothersite.com</span><span class="dl">&quot;</span></span>, <span class="s"><span class="dl">&quot;</span><span class="k">scope2</span><span class="dl">&quot;</span></span>);</pre></div>
+</div>
+
+
+<h2>Scoping</h2>
+
+<p>As sites get larger and more complex, it becomes possible that
+you&rsquo;ll have method name collisions, which can mess up message routing.  It&rsquo;s common
+practice to prepend a &lsquo;scope&rsquo; to method names to help mitigate this.</p>
+
+<p>The third argument to <code>Channel.build()</code> is a <em>scope</em> which will be prepended to
+message methods.  This would allow multiple channels to be instantiated with the same
+frame for different purposes.  Method names can remain terse and natural and
+different scopes will prevent collisions.</p>
+
+<h2>Error Handling</h2>
+
+<p>Given that postMessage leaves the questions of query/response semantics and message
+structure up to higher level code, there is really no place to hang error handling.</p>
+
+<p>JSChannel introduces a protocol message to allow errors to be returned from invocations:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>[0p1uq-R] got    message: {&quot;id&quot;:483615,&quot;error&quot;:&quot;invalid_arguments&quot;,&quot;message&quot;:&quot;argument should be a string&quot;}</pre></div>
+</div>
+
+
+<p>At the API level, there are some niceties, like automatic conversion of exceptions
+into error messages.  For example, the following sample code would generate the
+error message above (when invoked without a string argument):</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>var chan = Channel.build(window.parent, &quot;*&quot;, &quot;testScope&quot;);
+chan.bind(&quot;reverse&quot;, function(trans, s) {
+    if (typeof s !== 'string') {
+        throw { error: &quot;invalid_arguments&quot;, message: &quot;argument should be a string&quot; };
+    }
+    return s.split(&quot;&quot;).reverse().join(&quot;&quot;);
+});</pre></div>
+</div>
+
+
+<p>Finally, the <a href="http://github.com/mozilla/jschannel/blob/9879dc6ad1349c4857b037e8a1b8ceb69ba099e1/src/jschannel.js#L184-215">code that handles
+exceptions</a>
+will automatically convert exceptions raised due to accidental
+programmatic errors into protocol messages with error type
+&lsquo;runtime_error&rsquo;.  This hopefully will cause bugs to manifest earlier and
+more clearly, rather than to cause mysterious hangs.</p>
+
+<h2>Setup Race Conditions</h2>
+
+<p>Finally, one of the first things that this developer hit when employing postMessage
+was the race condition that arises when sending message into iframes.  This issue occurs
+on both sides of the channel:  If the parent does not wait for the child to load, any initial
+queries they send may be lost without any indication.  If a child tries to send messages
+before a parent has instantiated their channel, the same is true.</p>
+
+<p>JSChannel addresses this problem with <a href="http://github.com/mozilla/jschannel/blob/9879dc6ad1349c4857b037e8a1b8ceb69ba099e1/src/jschannel.js#L277-296">a simple application level
+handshake</a>
+which causes the queuing of messages until the remote end is ready.
+This feature allows the developer to safely instantiate and immediately send messages over
+a channel without worrying about instantiation timing.</p>
+
+<h1>Digging Deeper</h1>
+
+<p>Given that JSChannel is pretty new, this post is probably the best overview documentation
+available.  You can kick the tires, file bugs, and read the implementation over
+on <a href="http://github.com/mozilla/jschannel">github</a>.</p>
+
+<h1>Further Reading and Influences</h1>
+
+<p>JSChannel is largely built on the work of others, here&rsquo;s a laundry
+list of things that have influenced me in no particular order:</p>
+
+<ul>
+<li><p><a href="http://code.google.com/p/pmrpc/">pmrpc</a> An abstraction very much like JSChannel, with a slightly different API and slightly different goals.</p></li>
+<li><p><a href="http://xauth.org">XAuth</a>, a <em>open platform for extending authenticated user services across the web</em>
+that uses postMessage for RPC.</p></li>
+<li><p><a href="http://www.nczonline.net/blog/2010/09/07/learning-from-xauth-cross-domain-localstorage/">Learning from XAuth: Cross-domain localStorage</a> &ndash; An Article by Nicholas Zakas which covers some of the techniques that JSChannel encapsulates and does a great job of highlighting some of the more exciting parts of how you can apply postMessage.</p></li>
+<li><p><a href="http://json-rpc.org/">JSON-RPC</a> a simple and beautiful message format for implementing RPC semantics using JSON.</p></li>
+</ul>

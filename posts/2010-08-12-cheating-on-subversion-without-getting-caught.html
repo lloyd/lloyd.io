@@ -1,0 +1,106 @@
+--- 
+layout: post
+title: Cheating on Subversion Without Getting Caught
+published: true
+---
+<p>This post lightly explores the problem of &ldquo;automatically&rdquo; backing up a git repository to subversion.  <em>Why</em> would anyone want to do this? Well, if your organization has a policy that all code must make it into subversion, but your team is interested in leveraging git in a deeper way than just by using git-svn as a sexy subversion client, then you&rsquo;ll find yourself pondering the question of repository synchronization.</p>
+<p>For our purposes, we&rsquo;re guided by the following requirements:</p>
+<ol>
+<li>An <em>at least</em> periodic (&lt; 24 hour backup) of code must exist in subversion &mdash;  While it&rsquo;s not strictly necessary to have a perfect commit history stored in subversion, all code should be present and buildable with minimal fuss.</li>
+<li>Code must exist in git with full history.</li>
+<li>Branching &amp; tagging must remain usable and should properly translated between svn and git</li>
+<li>To the extent possible, non-linear git histories should be handled</li>
+<li>it is not required that all features of git are usable (i.e., sub-modules), but there should be viable workarounds for each feature we sacrifice.</li>
+<li>it should be possible to have an external git/public mirror of source code.</li>
+<li>There should be a way to take changes committed to forks of the public mirror to be merged back into the system.</li>
+</ol>
+<p>Given the requirements, their are at least two flows that make sense:</p>
+<ul>
+<li><em>Subversion Primary</em> is an arrangement where all commits are made into subversion (using the client of your choice, possibly git-svn) and &ldquo;read only&rdquo; git mirrors of the subversion repository support the other requirements.</li>
+<li>The <em>Dumb Subversion Backup</em> flips the order around and says that there is a single git repo that is the <em>source of truth</em>, which is automatically backed up to subversion (perhaps in a lossy fashion).</li>
+</ul>
+<p>The remainder of this document will discuss these two approaches.</p>
+<h1>The Subversion Primary</h1>
+<p>[[posterous-content:wzyxidgetBrkfkfvHFdH]]</p>
+<p>In this scenario, all commits funnel first through the subversion repository.  There is an automated process that polls or pushes changes from subversion into an internal git staging repository.  That staging repository uses git-svn to map the complete subversion commit history into git, and performs some processing to deal with mapping branches and tags among other things.</p>
+<p>The internal staging repository can then mirror to an external repository which is visible to all for code review and contributions. External contributors can fork, change, and send pull requests in any form they like.  Internal developers can then manage pulling commits into the main svn repository.</p>
+<h2>Key Features</h2>
+<p>The <em>Subversion Primary</em> is a straightforward solution that has the following characteristics:</p>
+<ul>
+<li>Internal devs interact only with subversion and can use the client tool of their choice</li>
+<li>Downtime that affects the internal git repo or the public git repo do not affect internal developers</li>
+<li>All git repositories are ephemeral, and their loss or corruption is Not A Disaster.</li>
+<li>External developers are insulated from the fact that SVN is in use, except for the git-svn artifacts attached to commit messages</li>
+</ul>
+<h2>Challenges</h2>
+<p>There are a couple obstacles to surmount in this arrangement, and we&rsquo;ll briefly explore them here.</p>
+<h3>Username Mapping</h3>
+<p>One problem that exists with git-svn is that when commits are pulled from subversion the &lsquo;author&rsquo; field is meaningless.  Here&rsquo;s an example:</p>
+<div class="CodeRay">
+<div class="code">commit f6c77de3df60340b01abb219cbe7215a93dcdc9c<br />Author: lloydh &lt;lloydh@3fcf768e-b076-0410-b9b8-e8c34e2d470b&gt; <br />Date:   Thu Jul 29 19:36:48 2010 +0000<p /> update changelog with the skinny on 2.9.7<p />  git-svn-id: svn+ssh://svncorp/yahoo/BrowserPlus/public_platform/trunk@793 3fcf768e-b076-0410-b9b8-e8c34e2d470b</div>
+</div>
+<p>In order to map internal svn usernames (i.e. <code>lloydh</code>) to meaningful author entries (i.e. &ldquo;Lloyd Hilaiel &rdquo;) we can use mechanisms built into git-svn.  Simply create an <code>authors.txt</code> file that looks something like:</p>
+<div class="CodeRay">
+<div class="code">lloydh = Lloyd Hilaiel &lt;<a href="mailto:lloyd@somewhe.re">lloyd@somewhe.re</a>&gt;<br />dgrigsby = David Grigsby &lt;<a href="mailto:dg@wordmaven.org">dg@wordmaven.org</a>&gt;<br />... etc</div>
+</div>
+<p>having created this file, use the -A argument on all git svn operations:</p>
+<div class="CodeRay">
+<div class="code">-A, --authors-file=<p /> Syntax is compatible with the file used by git cvsimport:<p /> loginname = Joe User &lt;<a href="mailto:user@example.com">user@example.com</a>&gt;<p /> If this option is specified and git svn encounters an SVN<br /> committer name that does not exist in the authors-file, git svn<br /> will abort operation. The user will then have to add the<br /> appropriate entry. Re-running the previous git svn command after<br /> the authors-file is modified should continue operation.</div>
+</div>
+<h3>Mapping SVN branches and tags to git</h3>
+<p>Another problem that exists is how SVN branches and tag appear in git. Subsequent to a <code>git svn clone</code> you can view the remote branches with <code>git branch -r</code>.  You&rsquo;ll see something like this:</p>
+<div class="CodeRay">
+<div class="code">...<br />sdk_and_installer<br />service_api_v5<br />tags/2.10.0<br />tags/2.10.1<br />tags/2.10.2<br />tags/2.5.0<br />...</div>
+</div>
+<p>Because subversion has no proper notion of tags, you&rsquo;ll notice that the tags set in subversion are branches in git.  If you want your published git repository to look reasonable to an average git user, it&rsquo;d be nice to turn these tags into proper git branches. To solve this problem I wrote a small shell script designed to be run after fetching changes from SVN.</p>
+<div class="CodeRay">
+<div class="code">#!/usr/bin/env bash<p />for r in `git branch -r | grep -v trunk`; do<br />&nbsp;&nbsp;istag=x$(echo $r | egrep -v '^tags')<br />&nbsp;&nbsp;if [ "$istag" == "x" ] ; then<br />&nbsp;&nbsp;&nbsp;&nbsp; tn=$(echo $r | sed -e 's/^tags\///')<br />&nbsp;&nbsp;&nbsp;&nbsp; git tag -f $tn refs/remotes/tags/$tn<br />&nbsp;&nbsp; else<br />&nbsp;&nbsp;&nbsp;&nbsp; git branch --track -f $r refs/remotes/$r<br />&nbsp;&nbsp; fi<br />done</div>
+</div>
+<h3>Accepting contributions</h3>
+<p>Given the flexibility of git, there are many tactics for merging changes forked off of the public mirror back into subversion&rsquo;s linear view of the world: the least sophisticated approach would be to manually do the merge using <code>diff</code> and her friend <code>patch</code> and perhaps add a little <code>--fuzz</code>.  A much nicer way would be to cherry-pick or rebase changes directly into a git repository that is svn cloned from the original, and then to dcommit back.</p>
+<p>This latter approach seems like it would be much faster and less error prone, however there&rsquo;s at least one gotcha: In order to simplify the merging of changes, one should ensure that commits are identical between the public repository and the version that&rsquo;s cloned from SVN. This means when an internal developer clones a git repository from SVN, they should use the same <code>authors.txt</code> file as is used by the internal git repo (which pulls from subversion and publishes to external).  Additionally, the internal developers clone should refer to the subversion repository in the same way as the internal staging git repo does, specifically hostname must be the same in both cases (two cases where they might diverge include using ssh tunnels and aliases, or using DNS shorthands or ip addresses).</p>
+<p>Once commits are bitwise identical in the developers svn clone and the public mirror, it&rsquo;s possible to use the advanced merging and rebasing features of git in a straightforward way to absorb external changes and then dcommit them to SVN.  Even if some circumstances arise and it&rsquo;s not possible to get bitwise identical commits, it&rsquo;s still possible to fetch an entire remote branch and cherry-pick individual commits, an approach which is perhaps trivially better than manual diffing and patching.</p>
+<p>NOTE: In order to artificially join histories without bitwise identical commits (messages or authors), one might try the <a href="http://www.kernel.org/pub/software/scm/git/docs/git-merge.html">&ldquo;ours&rdquo;</a> merge strategy.  I&rsquo;ve no personal experience with this approach.</p>
+<p>I think whatever strategy you end up employing, <em>the key</em>, is that the person or people on the team that are most in love with git should be the ones integrating external contributions.</p>
+<h1>The Dumb Subversion Backup</h1>
+<h1>[[posterous-content:n9gUQEUDiDzeR1cjNXrb]]</h1>
+<p>In this arrangement, rather than all commits flowing through subversion, its simply a mechanism for the backup of the git repository.  The key idea here is that there is a single git repository that is backed up to subversion.  While other requirements then require the ability to publish the repo externally and pull contributions internally, these tasks can be accomplished in a thousand different ways leveraging the built-in features of git. Restated, the only element of this arrangement worth discussing is the challenge of actually synchronizing changes from git to subversion.</p>
+<h2>Key Features</h2>
+<ul>
+<li>All developers interact with git, while subversion is a hidden implementation detail</li>
+<li>The internal team is on the hook to set up and maintain a more complex system than with the <em>Subversion Primary</em> arrangement</li>
+<li>Inevitably, there will be information stored in the many git clones that will cannot be represented in subversion, so restoration from subversion backup would inevitably imply loss of some information.</li>
+<li>External developers see no artifacts which suggest that subversion is used as a backing store</li>
+</ul>
+<h2>Challenges</h2>
+<p>While this arrangement undeniably requires more systems administration, most of it is straightforward.  The setup of the main internal git repo will probably require the installation of some scripts to allow multiple users to push changes over ssh to the same repository, like <a href="http://scie.nti.st/2007/11/14/hosting-git-repositories-the-easy-and-secure-way">gitosis</a> or <a href="http://wiki.github.com/sitaramc/gitolite/">gitolite</a>.</p>
+<p>The real challenge in this setup, however, is given a git repository, how do you back it up into subversion?  The range of solutions includes:</p>
+<ol>
+<li>periodically take snapshots of the main branch of development (think, literally, a <code>git archive</code>), and overlay them on the current subversion view of the world.  commit.  prosper.</li>
+<li>the same as #1, but do so for all branches present in the git repository (automatically bring branches into existence in SVN as they&rsquo;re created in git)</li>
+<li> #1 or #2 but on a per commit basis, with log message (and author?) preservation</li>
+<li>invent a system that will actually use <code>git svn dcommit</code> to perform the commits, squashing non-linear histories into a linear history as it goes.</li>
+</ol>
+<p>So, I&rsquo;ve seen #1 in place on a successful, vibrant, large scale project.  Depending on the intent of the policy that requires a backup to SVN (and how much you really care), this may or may not fit the bill.</p>
+<p>Options 3 and 4 are what are really interesting.  These options would seem to be possible with a little bit of well-thought-out scripting on top of the existing facilities of git-svn, and hold the potential to capture a significant subset of the information that&rsquo;s represented in the git original &mdash; preserving commit messages, authorship, and performing admirably when smashing non-linear histories into something subversion can understand.</p>
+<p>The path to implement option 3 would be similar to fairly well documented tactics for <a href="http://stackoverflow.com/questions/661018/pushing-an-existing-git-repository-to-svn">moving a single git branch with a (mostly) linear history into subversion</a>, but would have to take into account multiple branches.  Specifically, some areas of difficulty would seem to be:</p>
+<ol>
+<li><em>keeping cruft out of the public git repository</em> &ndash; when dcommitting using git-svn, the branch that you dcommit from is changed as meta-data is embedded into the commits.  In order to use git-svn you would need to design a mechanism that could merge changes from the branch where a commit lands, into a branch which has been associated with a subversion branch, and dcommit from there.</li>
+<li><em>incremental commits</em> &mdash; An extension of #1, commits are made into the internal git repository, it would be required that you then move these commits into the branch from where you can dcommit.  Doing so will require that you establish a merge base (common ancestor) between the pristine actual branch in git, and the git branch that&rsquo;s associated with subversion.</li>
+<li><em>non-linearity and git merges</em> &mdash; Whenever you have a merge commit in git (a commit with more than one ancestor), you create an instance of non-linearity where git-svn will preserve changes but loose commit history.  There may be cases where git-svn will simply break (!?)</li>
+<li><em>sub-modules</em> &mdash;  git sub-modules (which point to remote git repositories) cannot be mapped onto svn:externals (which point to remote <em>subversion</em> repositories), so there would need to be a mechanism that could either fetch and commit the remote sub-module, or</li>
+<li><em>changing history</em> &mdash; in git it&rsquo;s very possible to <em>change the history</em> of a remote repository.  Subversion would get really pissed and the whole mechanism would probably go to hell.</li>
+</ol>
+<p>Hairy, no?</p>
+<h2>Non-linearity and git-svn</h2>
+<p>Above it was mentioned that git-svn will attempt to collapse non-linear histories in git into something linear in subversion.  A concrete example of this in action follows:  This is your commit history in git:</p>
+<div class="CodeRay">
+<div class="code">* fef76c5 Merge branch 'newb'<br />|\<br />| * d49b6d4 a third change on the newb branch<br />| * 7a1ecfa a second commit on the newb branch<br />| * 9197078 commit #1 on the newb branch<br />* | 9332815 (testing) master branch commit<br />|/<br />* d1b9181 Merge branch 'test_branch'<br />|\<br />| * 2f74914 a test commit<br />* | 792cc2c a test commit on the main branch<br />|/<br />* a01c1ff fix svn:ignore props</div>
+</div>
+<p>This is your git commit history once dcommitted via git-svn</p>
+<div class="CodeRay">
+<div class="code">* 4090f22 Merge branch 'newb'<br />* c3a85f5 (testing) master branch commit<br />* 4ad5b30 Merge branch 'test_branch'<br />* 792cc2c a test commit on the main branch<br />* a01c1ff fix svn:ignore props</div>
+</div>
+<p>When looking at the commits, changes <code>9197078</code>, <code>7a1ecfa</code>, and <code>d49b6d4</code> in the former non-linear history are all combined into <code>4090f22</code> once they&rsquo;ve been routed through git-svn.</p>
+<h1>Now What?</h1>
+<p>I&rsquo;ve implemented a <em>Subversion Primary</em> system myself, with great success, and I&rsquo;ve seen the &ldquo;periodic snapshot&rdquo; approach used effectively to implement a Dumb Subversion Backup.  While it seems like one could go further to backup more information from git incrementally into subversion, I fear the resultant system might be too brittle and high maintenance to make any sense.  What do you think?  Have you ever seen an automatic git &ndash;&gt; subversion backup that didn&rsquo;t suck?</p>

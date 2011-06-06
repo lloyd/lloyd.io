@@ -1,0 +1,157 @@
+--- 
+layout: post
+title: NPAPI, the HTML5 File object, and the glory of UNIX
+published: true
+---
+<h2>Web Processification</h2>
+
+<p>Earlier today I was impressing my wife with some unix foo by automatically swapping FIRST LAST &mdash;> LAST, FIRST formatted data while sorting and finding duplicated entries (ok, so she was only mildly impressed).  The shell command looked a little like this:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>[lth@lappro ~] $ ./first_to_last.rb &lt; new_names.txt | sort -f | uniq &gt; back_to_you_bob.txt</pre></div>
+</div>
+
+
+<p>Not rocket surgery, certainly, but still a great example of combining several small tools to achieve an end.  This simple act re-filled me with awe on the beauty of design with lots of little processes.  Processes enforce proper protocols and data hiding (unless you&rsquo;re talking about cross process windows or some other such tomfoolery), they guarantee 100% resource reclamation, they afford a robust system where if one guy falls down the party can still pick up and continue.</p>
+
+<p>But I&rsquo;m like 2 years late here to this re-realization for the web: we
+already all understand the beauty of lots of little processes.  The
+Chrome browser started by moving plugins (and just about every other
+distinct subtask) into it&rsquo;s own process.  IE8 joined the fray by
+running each tab in a separate process.  Safari 4.0.3 on Snow Leopard
+running 64bit puts npapi plugins on the other side of a process break.
+The fine folks at mozilla are talking through it and will inevitably
+<a href="https://wiki.mozilla.org/Plugins:PlatformIndependentNPAPI">follow
+suit</a>.</p>
+
+<p>So this is awesome.  Now our browsers don&rsquo;t crash as much, instead
+they tell us &ldquo;The Yahoo! BrowserPlus plugin has crashed&rdquo; (for
+instance, usually it&rsquo;s the Adobe Flash plugin, right?)..  They tell us
+&ldquo;the page is unresponsive&rdquo;.  Blame is appropriately assigned so we, as
+users, can complain to the right people.  Fewer human hours are
+dwindled and more broken pages are fixed.  Followed by an era of
+increased world peace and obesity.  Great.</p>
+
+<h2>The File is the Thing</h2>
+
+<p>In that code snippet above, it&rsquo;s really the file abstraction that
+deserves all the glory.  Once we&rsquo;ve got all these processes, how do
+they communicate?  Well, first and foremost they need to be able to
+move data back and forth.  The simplest way to do this is in an opaque
+blob.  A file if you will.  A container that is capable of holding
+data that can be moved back and for between loosely coupled components
+of the software system.</p>
+
+<p>If you take a look at innovation on the web today, we&rsquo;ve got plenty of
+separate processes, we&rsquo;ve got HTML5 goodness running in browser, we&rsquo;ve
+got Gears running in a combination of plugins and extensions, we&rsquo;ve
+got BrowserPlus running in an NPAPI plugin (or activex, but they
+always have thought different), we&rsquo;ve got adobe flash in another
+plugin, and if you&rsquo;re retro there&rsquo;s a little java soup in there too
+(right, Silverlight too, don&rsquo;t forget!  this is important!).</p>
+
+<p>Now in most cases, all of these runtimes/tools are running in
+different processes.  And we have two choices: first they could be
+extremely loosely coupled and only share a control channel that&rsquo;s
+brokered by the browser (as the world is today), or they could be more
+deeply integrated.  It could be possible to build a web application
+using multiple client technologies that pass data back and forth.
+Imagine using HTML5 drag and drop to attain file handles, passing
+those into, say, BrowserPlus to process or alter the file contents,
+then taking the result and uploading it peer to peer using, say flash?</p>
+
+<p>A simple file abstraction shared by all of these platforms is the key
+to interoperability.</p>
+
+<h2>Why do we care?</h2>
+
+<p>Why do we care if the interoperate?  Simply because we need to nurture
+experiementation, and if there is no clean way for extensions to hook
+into browser supported drag and drop, then we&rsquo;ll see monstrous hacks
+arise to make them interoperate so that non browser companies can
+continue participating in the innovation (without building yet another
+browser, so yesterday).</p>
+
+<h2>HTML5 and the File</h2>
+
+<p>Some very cool happs are goin on over at the w3c regarding <a href="http://dev.w3.org/2006/webapi/FileUpload/publish/FileAPI.html">files,
+uploading, and drag and
+drop</a>.
+Excellent work in a pretty package.</p>
+
+<p>I especially like the way the file abstraction works, and deeply
+suggest similar security policies to <a href="http://browserplus.org/docs/web_dev/JavaScript_API_Overview.html">what&rsquo;s present in
+BrowserPlus</a>.
+Specifically the notion that untrusted javascript may not construct a
+file, but may freely pass it around between privileged apis that can
+do stuff with it.  A key idea here being we leverage the user gesture
+of dropping or (multi) selecting, once that&rsquo;s done they&rsquo;ve implicitly
+authorized the page to do stuff with that file.  Yeah, I know, people
+also like going phishing.</p>
+
+<h2>The One (File) Two (Stream) Punch</h2>
+
+<p>So is every browser going to implement powerful client-side movie
+editing?  Or is this a bit bigger than what we want to build in the
+browser?  Let&rsquo;s assume I can name a feature, X, that&rsquo;s interesting in
+a browser, but more than we could ever expect microsoft, google,
+apple, mozilla, and opera to go and implement.  The web is the
+platform, right?  We still want to be able to build this in open web
+technologies (uh, the user drops the movie on the page).</p>
+
+<p>I suggest a simple fix on the npapi side.  Here&rsquo;s the patch:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>--- npruntime.h.orig    2009-09-04 17:47:45.000000000 -0600
++++ npruntime.h 2009-09-04 17:50:20.000000000 -0600
+@@ -128,6 +128,7 @@
+     NPVariantType_Int32,
+     NPVariantType_Double,
+     NPVariantType_String,
++    NPVariantType_Path,
+     NPVariantType_Object
+ } NPVariantType;
+
+@@ -160,12 +161,14 @@
+ #define NPVARIANT_IS_INT32(_v)   ((_v).type == NPVariantType_Int32)
+ #define NPVARIANT_IS_DOUBLE(_v)  ((_v).type == NPVariantType_Double)
+ #define NPVARIANT_IS_STRING(_v)  ((_v).type == NPVariantType_String)
++#define NPVARIANT_IS_PATH(_v)  ((_v).type == NPVariantType_Path)
+ #define NPVARIANT_IS_OBJECT(_v)  ((_v).type == NPVariantType_Object)
+
+ #define NPVARIANT_TO_BOOLEAN(_v) ((_v).value.boolValue)
+ #define NPVARIANT_TO_INT32(_v)   ((_v).value.intValue)
+ #define NPVARIANT_TO_DOUBLE(_v)  ((_v).value.doubleValue)
+ #define NPVARIANT_TO_STRING(_v)  ((_v).value.stringValue)
++#define NPVARIANT_TO_PATH(_v)    ((_v).value.stringValue)
+ #define NPVARIANT_TO_OBJECT(_v)  ((_v).value.objectValue)
+
+ #define NP_BEGIN_MACRO  do {
+@@ -190,6 +193,7 @@
+         Boolean                         NPVariantType_Bool
+         Number                          NPVariantType_Double or NPVariantType_Int32
+         String                          NPVariantType_String
++        File                            NPVariantType_Path
+         Object                          NPVariantType_Object
+
+         C (NPVariant with type:)   to   JavaScript
+@@ -199,6 +203,7 @@
+         NPVariantType_Int32             Number
+         NPVariantType_Double            Number
+         NPVariantType_String            String
++        NPVariantType_Path              File
+         NPVariantType_Object            Object
+ */</pre></div>
+</div>
+
+
+<p>So the key is these magic File objects in javascript are translated to
+full paths as they are sent into plugins.  This leaves all the
+selection, drag and drop, and upload up to the browser, and empowers
+plugins the ability to seemlessly integrate with this brave new world.</p>
+
+<p>Next we can talk about streams, which buy us an <em>efficient</em> way to
+build a playground where everyone&rsquo;s workin' together.</p>
+
+<p>simple, yeah?
+lloyd</p>

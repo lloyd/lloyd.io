@@ -1,0 +1,185 @@
+--- 
+layout: post
+title: "hacking on ruby\xE2\x80\x99s garbage collector"
+published: true
+---
+<h2>overview</h2>
+
+<p>Ruby&rsquo;s GC &amp; heap implementation uses a lot of memory. The thing is based around the idea of &ldquo;heaps&rdquo;. Heaps are chunks of memory where ruby objects are stored. Each heap consists of a number of slots. Slots are between 20 and 40 bytes, depending on sizeof(long). When ruby runs out of heap space, it first does a GC run to try to free something up, and then allocates a new heap. the new heap is 1.8 times larger than the last. Every time a GC run happens, the entire heap is written to turn off mark bits, these are stored in the heap. Then we run through top level objects, and mark them, and all their descendents. Then we throw away anything that&rsquo;s not marked (sweep). Because of the way ruby works, objects may <em>never</em> be moved around in heaps. That means from the time they&rsquo;re allocated to the time they&rsquo;re freed they may not be moved to a new memory address.</p>
+
+<p>So this is a very terse summary, more is available in the ruby hackers guide. But it&rsquo;s enough. There are a couple bad things here:</p>
+
+<ol>
+<li>in order for a heap to be reclaimed, <em>all</em> entries on the heap need to be freed. The bigger a heap is, the more likely that it will contain at least one long lived object. The 1.8 growth factor makes it bloody unlikely that you&rsquo;ll ever get to reclaim heap space.</li>
+<li>A big heap makes GC slower. You have to scan the whole thing</li>
+<li>Because we do scanning copy on write semantics are blown. you do a fork, and as soon as GC runs, your whole heap is resident and private memory.</li>
+<li>We cannot do compaction at GC time, we must either change the way ruby works in a very fundamental way (bad), or think of a creative lightweight way to just keep the heap compacted.</li>
+</ol>
+
+
+<h2>Plan of attack</h2>
+
+<ol>
+<li>develop a method of quantifying performance of ruby GC &amp; heap</li>
+<li>prove some of these ideas can have positive effects in terms of memory usage and performance</li>
+<li>produce patches for the ruby community and anyone who wants em</li>
+<li>drink beer</li>
+</ol>
+
+
+<h2>Quantifying</h2>
+
+<p>First thing we need is a way to get a look at statistics of the
+gc stuff. So we hack in a GC.heap_info function that returns</p>
+
+<ul>
+<li>num_heaps &ndash; the number of allocated heaps</li>
+<li>heap_slots_free &ndash; the total number of free slots</li>
+<li>heap_memory &ndash; the amount of memory allocated to ruby heaps</li>
+<li>heap_slots_allocated &ndash; the total number of available slots</li>
+<li>heap_slots_used &ndash; the total number of used slots</li>
+<li>num_gc_passes &ndash; the number of times GC has been run</li>
+</ul>
+
+
+<p>Great. Next we need test cases. I start with three:</p>
+
+<ul>
+<li>grow array build a buncha arrays bigger and bigger</li>
+<li>shrink array start with a big array, build a buncha ones smaller.</li>
+<li>PLIST parsing Parse a huge plist file.</li>
+</ul>
+
+
+<p>Yeah, they&rsquo;re artificial, but we&rsquo;ll add more cases as we go. At least we have some constant tests to start with.</p>
+
+<h2>Hypothesis</h2>
+
+<p>By getting rid of the 1.8 growth factor, and making heaps smaller, we can increase
+the amount of memory that&rsquo;s reclaimed. And make ruby faster, by reducing the amount
+of scanning unused memory that occurs.</p>
+
+<h2>data</h2>
+
+<p>Vanilla ruby:</p>
+
+<p>   running cases/growarray.rb</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>heap before (mem/used slots/% free/heaps/gc passes) 560080/6501/0.767838011570602/2/9
+heap after (mem/used slots/% free/heaps/gc passes) 560080/6367/0.772623384043997/2/11
+time 1.339915</pre></div>
+</div>
+
+
+<p>   running cases/plist.rb</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>heap before (mem/used slots/% free/heaps/gc passes) 15056520/559048/0.257393875553088/7/21
+heap after (mem/used slots/% free/heaps/gc passes) 15056520/109351/0.854744633172117/7/23
+time 3.773354</pre></div>
+</div>
+
+
+<p>   running cases/shrinkarray.rb</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>heap before (mem/used slots/% free/heaps/gc passes) 560080/7537/0.730840654238983/2/9
+heap after (mem/used slots/% free/heaps/gc passes) 560080/6373/0.77240911363474/2/11
+time 1.338151</pre></div>
+</div>
+
+
+<p>Killing 1.8 growth factor:</p>
+
+<p>   running cases/growarray.rb</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>heap before (mem/used slots/% free/heaps/gc passes) 400080/6501/0.674982501749825/2/9
+heap after (mem/used slots/% free/heaps/gc passes) 400080/6367/0.681681831816818/2/11
+time 1.337504</pre></div>
+</div>
+
+
+<p>   running cases/plist.rb</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>heap before (mem/used slots/% free/heaps/gc passes) 9406200/380442/0.191001631002226/47/51
+heap after (mem/used slots/% free/heaps/gc passes) 9406200/109351/0.767468416609429/47/53
+time 4.278476</pre></div>
+</div>
+
+
+<p>   running cases/shrinkarray.rb</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>heap before (mem/used slots/% free/heaps/gc passes) 400080/7525/0.623787621237876/2/9
+heap after (mem/used slots/% free/heaps/gc passes) 400080/6373/0.681381861813819/2/11
+time 1.343519</pre></div>
+</div>
+
+
+<p>Killing 1.8 growth factor and reducing heap size to 1/10th</p>
+
+<p>   running cases/growarray.rb</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>heap before (mem/used slots/% free/heaps/gc passes) 221540/6491/0.413428519790349/11/18
+heap after (mem/used slots/% free/heaps/gc passes) 221540/6368/0.424543647207663/11/20
+time 1.351549</pre></div>
+</div>
+
+
+<p>   running cases/plist.rb</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>heap before (mem/used slots/% free/heaps/gc passes) 7741680/382475/0.0109718192584778/366/365
+heap after (mem/used slots/% free/heaps/gc passes) 3795580/109350/0.423259493670886/179/367
+time 7.971707</pre></div>
+</div>
+
+
+<p>   running cases/shrinkarray.rb</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>heap before (mem/used slots/% free/heaps/gc passes) 221540/7717/0.302638713175493/11/17
+heap after (mem/used slots/% free/heaps/gc passes) 221540/6374/0.424001445870233/11/19
+time 1.343365</pre></div>
+</div>
+
+
+<h2>analysis</h2>
+
+<p>note &ldquo;heap before&rdquo; means &ldquo;heap before final GC run&rdquo;. We fork a process which runs the test
+case, then we check out the heap using GC.heap_info, then we run a GC pass, then we check
+it out again.</p>
+
+<p>w00t! we made ruby twice as slow! Well hold on. First inspect the run times of plist.rb (the
+most realistic test case). Also inspect the number of gc passes. Pretty tight correlation,
+right? reducing heap size, and removing the 1.8 growth factor both increase the number of
+gc passes that we make. So we see a significant performance degradation proportional to
+the number of passes that are run.</p>
+
+<p>Inspect memory usage (still looking at only plist.rb). Vanilla ruby is using 15mb. At the end
+of everything, and that heap is 85% unused. Kill the 1.8 and we&rsquo;re using 9mb of heap space,
+76% unused. Decrease the heap size, and we actually see memory being reclaimed. After the run
+and final GC we&rsquo;ve only got ~4mb in use at 42% free. Immediately after the run we were around
+8mb.</p>
+
+<h2>parting shot/conclusion</h2>
+
+<p>By changing two constants we can make ruby a lot more memory efficient, and at the same time a
+lot slower. The slow down appears to be largely from increased frequency of GC. Maybe we can
+look at not running GC <em>every</em> heap allocation, but every N heap allocations&hellip; Goal here being
+to restore ruby to it&rsquo;s original, or better performance characteristics, but reduce the memory
+usage.</p>
+
+<p>Essence here is that everyone knows you can grow a buffer by a factor and make things faster.
+But other aspects of ruby make that choice perhaps not optimal here. Stay tuned, we&rsquo;ll dig
+further.</p>
+
+<p>one more thing, ideas on &ldquo;automatic heap compaction&rdquo;
+a global freelist? bad. Why not have per-heap freelists. Why not sort the heaps by usage
+percentage at the end of a sweep? Allocate the heaviest used ones first&hellip; There&rsquo;s some
+complexity here around when GC is run&hellip; Cause it&rsquo;s only run when everything is full&hellip;
+But perhaps some room for exploration&hellip;</p>

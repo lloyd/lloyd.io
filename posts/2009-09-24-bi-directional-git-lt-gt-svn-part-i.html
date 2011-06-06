@@ -1,0 +1,97 @@
+--- 
+layout: post
+title: bi-directional git &lt;=&gt; svn - part I
+published: true
+---
+<h2>What&rsquo;s the point?</h2>
+
+<p>There are many reasons why git-svn integration is <em>interesting</em>, and
+most of them are sociological.  Here are some situations where git-svn
+integration can be useful:</p>
+
+<ol>
+<li>You work at a place that has standardized on SVN, but want to use git as your personal &ldquo;svn client&rdquo;</li>
+<li>Your company&rsquo;s svn servers have horrid performance, and you want to continue to be productive when they&rsquo;re not</li>
+<li>You want a fast and powerful web view of your svn repo (and what&rsquo;s centrally provided isn&rsquo;t cutting it).</li>
+<li>You are considering transitioning to a DVCS but you (or maybe those you work with?) are not willing to jump in without trying it on.</li>
+</ol>
+
+
+<p>Git&rsquo;s svn integration supports all of these uses quite naturally.
+This series of articles shall drop code which touches on these usages,
+but the real goal here is to explore a harmonious <em>bi-directional</em>
+svn&lt;&ndash;>git arrangement, one where novel commits may occur on both sides
+of the boundary without b0rking repos or pissing off susan.</p>
+
+<h2>a kick-ass svn client</h2>
+
+<p>@mojodna has written up his <a href="http://mojodna.net/2009/02/24/my-work-git-workflow.html">work
+flow</a>, and I
+find that to be a great exploration into some of the issues around
+using git as a svn client.</p>
+
+<h2>the read-only mirror</h2>
+
+<p>Here&rsquo;s the purely hypothetical scenario: you&rsquo;ve got this big ol' svn
+repo maintained by some fabulous folks.  For whatever reason, those
+fabulous folks have provided you with a less-than-fabulous web view
+into your repository.  You want to create an automatically updated git
+mirror of your SVN repository.  You heavily dig on the simple, clean,
+and fast feel of <a href="http://hjemli.net/git/cgit/">cgit</a>.  This is
+uni-directional, but we&rsquo;re just getting our feet wet.</p>
+
+<p>Onward&hellip;</p>
+
+<ol>
+<li>pick the box that&rsquo;s pulling the source and servin the pages</li>
+<li>setup limited passphraseless access for a headless user on them machines (an excercise for the reader, thas' u)</li>
+<li>git svn clone -s (as the appropriate user)</li>
+</ol>
+
+
+<p>Now we&rsquo;ve got two issues, first is that periodic bit, and second is
+that <code>git svn clone</code> will not create any local refs to
+mirror remote branches.  <code>git branch -r</code> will list em, but
+how might we go about turning svn branches named &lsquo;tags/7.8.10&rsquo; into
+<em>real</em> git tags, and likewise, remote svn branches into local
+branches?</p>
+
+<h2>the periodic part</h2>
+
+<p>this part&rsquo;s simple, use your friend <code>cron</code> and plunk some <code>git svn fetch &amp;&amp; git svn rebase</code> into periodic execution.</p>
+
+<h2>the &ldquo;ref&rdquo; mirroring part</h2>
+
+<p>Here&rsquo;s a little script I wrote, I called it git-svn-mirror-refs:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>#!/usr/bin/env bash
+   for r in `git branch -r | grep -v trunk`; do
+   istag=x$(echo $r | egrep -v '^tags')
+   if [ &quot;$istag&quot; == &quot;x&quot; ] ; then
+     tn=$(echo $r | sed -e 's/^tags\///')
+     git tag -f $tn refs/remotes/tags/$tn
+   else
+     git branch --track -f $r refs/remotes/$r
+   fi
+ done</pre></div>
+</div>
+
+
+<h2>mirroring redux</h2>
+
+<p>What did we gain?  A fast and simple website where folks can browse the source of your project, pull tarballs of any arbitrary ref or commit, and view changes online.  This is probably not huge for you&hellip; You&rsquo;re probably not sold yet.  Well, come back for part II. And in the mean time, don&rsquo;t forget to provide your users with ergonomic urls:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>Options +FollowSymLinks
+RewriteEngine On
+RewriteRule ^[0-9a-f]+$ /index.cgi/platform/commit/?id=$0
+RewriteRule ^svn/([0-9a-f]+)$ /index.cgi/platform.svn/commit/?id=$1</pre></div>
+</div>
+
+
+<h2>next time&hellip;</h2>
+
+<p>&hellip; we&rsquo;ll take a look at taking changes made in git and getting them into svn, and the opposite&hellip;</p>
+
+<p>&mdash;ll</p>
