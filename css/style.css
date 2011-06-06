@@ -1,17 +1,32 @@
-#header, body {
-  min-width: 600px;
-}
-
-body {
-  background: #ccc;
-  color: #333;
-}
-
 @font-face {
   font-family: 'Cabin Sketch';
   font-style: normal;
   font-weight: bold;
   src: local('CabinSketch Bold'), local('CabinSketch-Bold'), url('cs.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'News Cycle';
+  font-style: normal;
+  font-weight: normal;
+  src: local('News Cycle'), local('NewsCycle'), url('nc.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Lekton';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lekton'), local('Lekton-Regular'), url('lekton.ttf') format('truetype');
+}
+
+#header, body {
+  min-width: 600px;
+  font-family: 'News Cycle', arial, serif;
+}
+
+body {
+  background: #ccc;
+  color: #333;
 }
 
 #header {
@@ -54,11 +69,38 @@ body {
   margin: 8px 15px 5px 5px ;
 }
 
-#header > .icon:hover {
+#header > .icon:hover, #header .img:hover {
   opacity: .5;
+  cursor: pointer;
 }
 
 #content {
   margin-top: 64px;
 }
 
+.post .title {
+  font-family: 'Cabin Sketch';
+  font-size: 2em;
+}
+
+.post .date {
+  font-style: italic;
+  font-size: .8em;
+  opacity: .8;
+  margin-bottom: 1.5em; 
+}
+
+code, pre {
+  font-family: 'Lekton'
+}
+
+pre code {
+  -moz-border-radius: 1em; 
+  -webkit-border-radius:  1em; 
+  border-radius: 1em 1em 1em 1em; 
+  padding: 1em;
+}
+
+pre {
+  margin: 1em 2em 1em 2em;
+}
