@@ -22,7 +22,7 @@ generate a blog index and shit.  It\'ll look like this
 */
 
 var template = '<div class="post" filename="{{filename}}" shortname="{{shortname}}">\n'+
-'  <div class="title">{{title}}</div>\n'+
+'  <div class="title"><a href="{{shortname}}">{{title}}</a></div>\n'+
 '  <div class="date">{{date}}</div>\n'+
 '  <div class="abstract">{{{abstract}}}</div>\n'+
 '</div>\n';
@@ -80,6 +80,16 @@ files.forEach(function (f) {
     if (p = processPost(path.join(pathToPosts, f), m[1], m[2], m[3])) {
         posts.push(p);
     }
+});
+
+var dateRe = new RegExp('^(\\d{4})-(\\d{2})-(\\d{2})$');
+
+posts = posts.sort(function (lhs, rhs) {
+    function dateToNum(d) {
+        var m = dateRe.exec(d);
+        return 10000 * parseInt(m[1]) + 100 * parseInt(m[2]) + parseInt(m[3]);
+    }
+    return dateToNum(rhs.date) - dateToNum(lhs.date);
 });
 
 posts.forEach(function(p) {

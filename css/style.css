@@ -122,3 +122,21 @@ a {
 a:hover {
   border-bottom:1px solid;
 }
+
+div.title > a {
+  border: 0;
+}
+
+div.title > a:hover {
+  opacity: .6;
+}
+
+#posts {
+  width: 90%;
+  margin: auto;
+}
+
+.post div.abstract {
+  width: 90%;
+  margin: auto;
+}
