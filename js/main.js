@@ -3,11 +3,9 @@ var linksRewritten = false;
 function usePushState() {
     if (!linksRewritten && window.history && window.history.pushState) {
         linksRewritten = true;
-        window.onpopstate = function(event) {
-            alert("you popped my state!");
-        };
+        window.onpopstate = doRoute;
         $("a[href^='/']").click(function() {
-            window.history.pushState($(this).attr('href'), undefined, $(this).attr('href'));
+            window.history.pushState(undefined, undefined, $(this).attr('href'));
             doRoute();
             return false;
         });
