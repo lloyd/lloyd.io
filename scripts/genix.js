@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 /*
-
 generate a blog index and shit.  It\'ll look like this
 
 <div id="posts">
@@ -22,7 +21,7 @@ generate a blog index and shit.  It\'ll look like this
 */
 
 var template = '<div class="post" filename="{{filename}}" shortname="{{shortname}}">\n'+
-'  <div class="title"><a href="{{shortname}}">{{title}}</a></div>\n'+
+'  <div class="title"><a href="/{{shortname}}">{{title}}</a></div>\n'+
 '  <div class="date">{{date}}</div>\n'+
 '  <div class="abstract">{{{abstract}}}</div>\n'+
 '</div>\n';

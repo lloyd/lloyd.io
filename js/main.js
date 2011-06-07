@@ -1,4 +1,24 @@
+// do we have pushstate support!?
+var linksRewritten = false;
+function usePushState() {
+    if (!linksRewritten && window.history && window.history.pushState) {
+        linksRewritten = true;
+        window.onpopstate = function(event) {
+            alert("you popped my state!");
+        };
+        $("a[href^='/']").click(function() {
+            window.history.pushState($(this).attr('href'), undefined, $(this).attr('href'));
+            doRoute();
+            return false;
+        });
+    }
+}
+
 function doRoute() {
+    usePushState();
+
+    $("#posts, #content").hide();
+
     var pn = window.location.pathname;
     if (pn === '/index.html' || pn === '/') {
         $("#posts").fadeIn(700);
@@ -11,10 +31,8 @@ function doRoute() {
             return;
         }
         p = p[0];
-        console.log("getting");
         $.get("posts/" + $(p).attr('filename'), function(data) {
             data = data.replace(/^title:.*$/m, '');
-            console.log("got", data);
             $("#content .title").text($(p).find(".title a").text());
             $("#content .date").text($(p).find(".date").text());
             $("#content .post").html(data);
@@ -34,4 +52,5 @@ $(document).ready(function() {
         $("#about").slideToggle(700);
         return false;
     });
+
 });
