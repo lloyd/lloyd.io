@@ -27,7 +27,11 @@ function doRoute() {
 $(document).ready(function() {
     $.get("posts/summary.html", function(data) {
         $("#posts").html(data);
-
         doRoute();
+    });
+
+    $("#header .container > .img a").click(function() {
+        $("#about").slideToggle(700);
+        return false;
     });
 });

@@ -38,7 +38,8 @@ body {
   background-color: #333;
   color: #eee;
   width: 100%;
-  opacity: .8;
+  opacity: .9;
+  height: 50px;
 }
 
 #header > .container {
@@ -120,7 +121,29 @@ pre {
   margin: 1em 2em 1em 2em;
 }
 
-#seo { display: none; }
+#about {
+  position: fixed;
+  top: 50px;
+  padding: 0;
+  margin: 0;
+  left: 0;
+  background-color: #333;
+  color: #eee;
+  width: 100%;
+  opacity: .9;
+  display: none;
+}
+
+#about > div {
+  max-width: 900px;
+  min-width: 500px;
+  margin: auto;
+  padding: 10px 50px 10px 50px;
+}
+
+#about > div a {
+    color: #fff;
+}
 
 a {
   color: #333;
