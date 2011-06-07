@@ -38,18 +38,32 @@ body {
   background-color: #333;
   color: #eee;
   width: 100%;
-  opacity: .9;
+  opacity: .8;
 }
 
-#header .img, #header .title {
+#header > .container {
+  max-width: 1000px;
+  margin: auto;
+}
+
+#header .container > .img, #header .container > .title {
   float: left;
 }
 
-#header > div {
+#header .container > div {
   float: right
 }
 
-#header > .title {
+#header .title a {
+  color: #eee;
+  border: 0;
+}
+
+#header .title a:hover {
+    opacity: .6;
+}
+
+#header .title {
   font-family: 'Cabin Sketch', arial, serif;
   font-size: 3.2em;
   padding-top: 0;
@@ -66,33 +80,29 @@ body {
   border-radius: 3px 3px 3px 3px; 
 }
 
-#header > .icon {
+#header .icon {
   margin: 8px 15px 5px 5px ;
 }
 
-#header > .icon img, #header > .icon a {
+#header .icon img, #header .icon a {
   border: 0px;
 }
 
-#header > .icon:hover, #header .img:hover {
-  opacity: .5;
+#header .icon:hover, #header .img:hover {
+  opacity: .6;
   cursor: pointer;
-}
-
-#content {
-  margin-top: 64px;
 }
 
 .post .title {
   font-family: 'Cabin Sketch';
-  font-size: 2em;
+  font-size: 2.5em;
 }
 
 .post .date {
   font-style: italic;
   font-size: .8em;
   opacity: .8;
-  margin-bottom: 1.5em; 
+  margin-bottom: 1.5em;
 }
 
 code, pre {
@@ -100,9 +110,9 @@ code, pre {
 }
 
 pre code {
-  -moz-border-radius: 1em; 
-  -webkit-border-radius:  1em; 
-  border-radius: 1em 1em 1em 1em; 
+  -moz-border-radius: 1em;
+  -webkit-border-radius:  1em;
+  border-radius: 1em 1em 1em 1em;
   padding: 1em;
 }
 
@@ -123,20 +133,27 @@ a:hover {
   border-bottom:1px solid;
 }
 
-div.title > a {
+.post .title > a {
   border: 0;
 }
 
-div.title > a:hover {
+.post .title > a:hover {
   opacity: .6;
 }
 
-#posts {
+#posts, #content {
   width: 90%;
-  margin: auto;
+  max-width: 950px;
+  margin: 64px auto 64px auto;
+  display: none;
 }
 
 .post div.abstract {
   width: 90%;
   margin: auto;
 }
+
+h2 {
+  font-size: 1.8em;
+}
+

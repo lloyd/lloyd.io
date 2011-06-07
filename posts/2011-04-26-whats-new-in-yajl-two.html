@@ -73,12 +73,9 @@ from there.</p>
 
 <p><a href="https://github.com/brianmario">Brian Lopez</a> suggested <a href="https://github.com/lloyd/yajl/issues/23">an alternative</a> API that&rsquo;s implemented in YAJL.  Now parser setup is, in my opinion, a lot clearer:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>hand = yajl_alloc(&amp;callbacks, NULL, (void *) g);
+<pre><code class="cpp">hand = yajl_alloc(&amp;callbacks, NULL, (void *) g);
 yajl_config(hand, yajl_allow_comments, 1);
-yajl_config(hand, yajl_dont_validate_strings 1);</pre></div>
-</div>
-
+yajl_config(hand, yajl_dont_validate_strings 1);</pre></code>
 
 <p>The generator works similarly and now has a <code>yajl_gen_config()</code> function.</p>
 
@@ -98,11 +95,8 @@ yajl_config(hand, yajl_dont_validate_strings 1);</pre></div>
 
 <p>One of the <a href="https://github.com/lloyd/yajl/issues/7">longest standing issues</a> in YAJL was it&rsquo;s default tendency to consume as little of input buffers as required to complete a parse.  That is if you did this:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>const char * buf = &quot;2009-10-20@20:38:21.539575&quot;
-yajl_status s = yajl_parse(h, buf, strlen(buf));</pre></div>
-</div>
-
+<pre><code class="cpp">const char * buf = &quot;2009-10-20@20:38:21.539575&quot;
+yajl_status s = yajl_parse(h, buf, strlen(buf));</code></pre>
 
 <p>YAJL would parse out that <code>2009</code> as an integer, and consider the parse complete!  He got his value, the rest of your buffer is your business.  Given that YAJL is a stream parser, the design goal was specifically that yajl would process as <em>few bytes</em> as possible.  If you wanted to ensure that an entire buffer consisted of a single valid JSON value, you&rsquo;d need to use <code>yajl_get_bytes_consumed()</code> after the completion of the parse to ensure that your entire input buffer was consumed.</p>
 
@@ -125,17 +119,14 @@ as a throughput.</p>
 
 <p>If you want to give the tool a whirl, simple:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>$ make
+<pre><code class="bash">$ make
 ...
 $ build/perf/perftest
 -- speed tests determine parsing throughput given 3 different sample documents --
 With UTF8 validation:
 Parsing speed: 267.096 MB/s
 Without UTF8 validation:
-Parsing speed: 267.443 MB/s</pre></div>
-</div>
-
+Parsing speed: 267.443 MB/s</code></pre>
 
 <p>Now it&rsquo;s not a particularly sophisticated benchmark, but is a good starting point
 for giving a quick high level view of the performance implications of changes.</p>

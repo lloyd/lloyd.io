@@ -20,13 +20,10 @@ selectors.</p>
 functions which rely on ordering to apply to objects.  Specifically
 given a JSON object:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>{
+<pre><code class="javascript">{
     &quot;foo&quot;: 1,
     &quot;bar&quot;: 2
-}</pre></div>
-</div>
-
+}</code></pre>
 
 <p>You could write a pattern which would attempt to match one of its children based on its
 position, such as <code>object:first-child</code>.  The problem with this (first pointed out by Robert
@@ -67,48 +64,37 @@ is in the representation of the current node&rsquo;s value in an expression, whi
 can be specified with the placeholder <code>x</code>.  Let&rsquo;s see it in action,
 given the following document:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>{ &quot;books&quot;: [
-  { &quot;price&quot;: 16.31,
-    &quot;name&quot;: &quot;The Unbearable Lightness of Being&quot;,
-    &quot;author&quot;: &quot;Milan Kundera&quot;
+<pre><code class="javascript">{ "books": [
+  { "price": 16.31,
+    "name": "The Unbearable Lightness of Being",
+    "author": "Milan Kundera"
   },
-  { &quot;price&quot;: 23.09,
-    &quot;name&quot;: &quot;JavaScript Web Applications&quot;,
-    &quot;author: &quot;Alex MacCaw&quot;
+  { "price": 23.09,
+    "name": "JavaScript Web Applications",
+    "author": "Alex MacCaw"
   },
-  { &quot;price&quot;: 106.00,
-    &quot;name: &quot;Compilers: Principles, Techniques, and Tools&quot;,
-    &quot;author&quot;: &quot;Alfred V. Aho&quot;
+  { "price": 106.00,
+    "name": "Compilers: Principles, Techniques, and Tools",
+    "author": "Alfred V. Aho"
   }
-] }</pre></div>
-</div>
+] }</pre></code>
 
 
 <p>Here&rsquo;s how you could use expressions to find all the books you could buy
 with the forty US dollars in your pocket:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>.books .price:expr(x &lt;= 40.00)</pre></div>
-</div>
-
+<pre><code>.books .price:expr(x &lt;= 40.00)</pre></code>
 
 <p>Now if you really strongly believed that nothing worth reading could possibly
 be less than a twenty spot, you could augment the expression to match your
 arrogance:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>.books .price:expr(20 &lt;= x &amp;&amp; 40 &gt;= x)</pre></div>
-</div>
-
+<pre><code class="no-highlight">.books .price:expr(20 &lt;= x &amp;&amp; 40 &gt;= x)</pre></code>
 
 <p>Now what was the real title of the Dragon Book?  I can&rsquo;t remember, but I do
 know that it started with Compilers:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>.books .price:expr(x ^= &quot;Compilers&quot;)</pre></div>
-</div>
-
+<pre><code>.books .price:expr(x ^= &quot;Compilers&quot;)</pre></code>
 
 <p>The full set of selectors supported in JSONSelect expressions is
 visible in the <a href="https://github.com/lloyd/JSONSelect/blob/24d543344b7fe09c8665daa2fd274985c43e4404/src/jsonselect.js#L122-137">reference
@@ -136,26 +122,17 @@ to perform a check against a descendant of a node.  <code>:has()</code> in JSONS
 selector and gives us a simple way to solve the problems discussed in the previous section.
 If we wanted to get the full records for all books under 20$:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>.books object:has(.price:expr(x&lt;20))</pre></div>
-</div>
-
+<pre><code>.books object:has(.price:expr(x&lt;20))</pre></code>
 
 <p>This will specifically find an object underneath the .books node that has a price property less than
 20 bucks.  It&rsquo;s useful to point out that the <code>object</code> type here is redundant, as objects are the
 only types of nodes to which <code>:has()</code> can apply, so we can simplify a touch:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>.books :has(.price:expr(x&lt;20))</pre></div>
-</div>
-
+<pre><code>.books :has(.price:expr(x&lt;20))</pre></code>
 
 <p>A naive attempt to simplify further, might yield:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>:has(.price:expr(x&lt;20))</pre></div>
-</div>
-
+<pre><code>:has(.price:expr(x&lt;20))</code></pre>
 
 <p>In this case we omit the <code>.books</code> class that rooted the expression.
 This expression would match both the <em>root</em> document, and the object
@@ -163,10 +140,7 @@ that we want, because <code>:has()</code> by default holds a selector that
 matches any descendant.  A solution to this issue gives us a way to
 (re)introduce the <code>:root</code> selector:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>:has(:root &gt; .price:expr(x&lt;20))</pre></div>
-</div>
-
+<pre><code>:has(:root &gt; .price:expr(x&lt;20))</code></pre>
 
 <p>In case you&rsquo;re not familiar with <code>:root</code>, it&rsquo;s a CSS standard pseudo
 class that always matches the root of the document.  With HTML this is
@@ -182,10 +156,7 @@ feature can be used to restrict the behavior of <code>:has()</code> to match an 
 children (as opposed to any descendant).  It may be useful at some point to add
 a custom has function to do this, but you be the judge, is this clearer?</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>:has-child(.price:expr(x&lt;20))</pre></div>
-</div>
-
+<pre><code>:has-child(.price:expr(x&lt;20))</code></pre>
 
 <p><code>:has-child</code> is <em>not</em> part of JSONSelect at the moment, but we might just add it&hellip;</p>
 
@@ -193,10 +164,7 @@ a custom has function to do this, but you be the judge, is this clearer?</p>
 like &ldquo;I want all of the titles of books that are written by Authors whose names
 are &lsquo;Alex MacCaw&rsquo;:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>:has(:root &gt; .author:val(&quot;Alex MacCaw&quot;)) &gt; .name</pre></div>
-</div>
-
+<pre><code>:has(:root &gt; .author:val(&quot;Alex MacCaw&quot;)) &gt; .name</code></pre>
 
 <p>If you share my sense of aesthetics, this construct is just too complex.  And that&rsquo;s
 part of the motivation for our final new language operator:</p>
@@ -218,10 +186,7 @@ of the operator.</p>
 <p>So in JSONSelect, the sibling combinator (<code>~</code>) is simpler, it has no
 ordering restrictions and behaves as you might expect:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>.author:val(&quot;Alex MacCaw&quot;) ~ .name</pre></div>
-</div>
-
+<pre><code>.author:val(&quot;Alex MacCaw&quot;) ~ .name</code></pre>
 
 <h2>Now JSONSelect seems so complicated!</h2>
 

@@ -15,8 +15,7 @@ with a single binary that is named the same as your application.</p>
 
 <p>Usage is simple, just pass &lsquo;appify&rsquo; to chromeless on the command line:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>[lth@clover chromeless]$ ./chromeless appify examples/thumbnails
+<pre><code class="no-highlight">$ ./chromeless appify examples/thumbnails
 Generating a standalone, redistributable, application
 Using Browser HTML at '/home/lth/dev/chromeless/examples/thumbnails/index.html'
 Building application in &gt;/home/lth/dev/chromeless/build/My Chromeless App&lt; ...
@@ -28,9 +27,7 @@ Building xulrunner app in &gt;/home/lth/dev/chromeless/build/My Chromeless App&l
   ... copying in CommonJS packages
   ... copying in application code (/home/lth/dev/chromeless/examples/thumbnails)
   ... writing harness options
-xul app generated in build/My Chromeless App</pre></div>
-</div>
-
+xul app generated in build/My Chromeless App</code></pre>
 
 <p>Once this is complete you have a standalone app that you can combine with your
 favorite installer technology to build a distributable application.</p>
@@ -57,12 +54,9 @@ allow one to programatically configure shotcut key combinations, or
 reworked it a bit to fit for Chromeless.  To generate docs from Chromeless, pass <code>docs</code>
 on the command line:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>[lth@clover chromeless]$ python2 ./chromeless docs
+<pre><code class="no-highlight">$ python2 ./chromeless docs
 Generating documentation
-Created docs in /home/lth/dev/chromeless/build/docs.</pre></div>
-</div>
-
+Created docs in /home/lth/dev/chromeless/build/docs.</code></pre>
 
 <p>While the content isn&rsquo;t very complete at this point, we now have a
 usable system that we can update as we go.  You can checkout a
@@ -77,8 +71,7 @@ To address this problem we now support a configuration file that may be placed i
 same directory as your <em>application code</em>: <code>appinfo.json</code>.  This configuration file looks
 something like:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>{
+<pre><code class="javascript">{
   &quot;name&quot;: &quot;My First Browser&quot;,
   &quot;version&quot;: &quot;0.1&quot;,
   &quot;icon&quot;: &quot;appicon.png&quot;,
@@ -87,9 +80,7 @@ something like:</p>
     &quot;width&quot;: 500,
     &quot;height&quot;: 300
   }
-}</pre></div>
-</div>
-
+}</code></pre>
 
 <p>Now while the only keys which are actually implemented right now are <code>name</code> and <code>version</code>, this
 is a place where any configuration which changes the initial behavior of your application will
