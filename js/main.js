@@ -12,12 +12,14 @@ function usePushState() {
     }
 }
 
+var pn = undefined;
 function doRoute() {
-    usePushState();
+    // don't double route in cases where we get into this function twice
+    if (pn === window.location.pathname) return;
+    pn = window.location.pathname;
 
     $("#posts, #content").hide();
-
-    var pn = window.location.pathname;
+    
     if (pn === '/index.html' || pn === '/') {
         $("#posts").fadeIn(700);
     } else {
@@ -41,6 +43,8 @@ function doRoute() {
 }
 
 $(document).ready(function() {
+    usePushState();
+
     $.get("posts/summary.html", function(data) {
         $("#posts").html(data);
         doRoute();
