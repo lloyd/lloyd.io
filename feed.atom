@@ -4,27 +4,27 @@
     <title>trickyco.de - Lloyd's blog</title>
     <link href="http://trickyco.de" rel="alternate" />
     <link type="application/atom+xml" rel="self" href="http://trickyco.de/feed.atom"/>
-    <updated>2011-06-08T20:37:09Z</updated>
+    <updated>2011-06-08T20:47:31Z</updated>
     <author>
         <name>Lloyd Hilaiel</name>
         <email>lloyd@hilaiel.com</email>
     </author>
     <entry>
-        <title>JSONSelect Grows Up</title>
+        <title type="html">JSONSelect Grows Up</title>
         <link href="http://trickyco.de/jsonselect-grows-up"/>
         <id>http://trickyco.de/jsonselect-grows-up</id>
         <updated>2011-06-02T06:00:00Z</updated>
-        <summary>&lt;p&gt;&lt;a href="http://jsonselect.org/"&gt;JSONSelect&lt;/a&gt; is a query language for JSON.
+        <summary type="html">&lt;p&gt;&lt;a href="http://jsonselect.org/"&gt;JSONSelect&lt;/a&gt; is a query language for JSON.
 With JSONSelect you can write small patterns that match against JSON
 documents.  The language is mostly an adaptation of CSS to JSON,
 motivated by the belief that CSS does a fine job and is widely understood.&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title>What's New In YAJL Two?</title>
+        <title type="html">What's New In YAJL Two?</title>
         <link href="http://trickyco.de/whats-new-in-yajl-two"/>
         <id>http://trickyco.de/whats-new-in-yajl-two</id>
         <updated>2011-04-26T06:00:00Z</updated>
-        <summary>&lt;p&gt;&lt;a href="http://lloyd.github.com/yajl"&gt;YAJL&lt;/a&gt; is a little sax style JSON parser written
+        <summary type="html">&lt;p&gt;&lt;a href="http://lloyd.github.com/yajl"&gt;YAJL&lt;/a&gt; is a little sax style JSON parser written
 in C (conforming to C99).  The first iteration was put together in a couple
 evening/weekend hacking sessions, and YAJL sat in version zero for about two
 years (2007-2009), quietly delighting a small number of folks with extreme JSON
@@ -32,110 +32,110 @@ parsing needs.  On April 1st 2009 YAJL was tagged 1.0.0 (apparently that was a
 joke, because the same day it hit version 1.0.2).&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title>A Chromeless Snapshot</title>
+        <title type="html">A Chromeless Snapshot</title>
         <link href="http://trickyco.de/a-chromeless-snapshot"/>
         <id>http://trickyco.de/a-chromeless-snapshot</id>
         <updated>2011-02-11T07:00:00Z</updated>
-        <summary>&lt;p&gt;There has been a ton of development in the Mozilla Labs
+        <summary type="html">&lt;p&gt;There has been a ton of development in the Mozilla Labs
 &lt;a href="https://mozillalabs.com/chromeless"&gt;&lt;em&gt;Chromeless&lt;/em&gt;&lt;/a&gt; project since the
 &lt;a href="https://mozillalabs.com/chromeless/2010/12/15/chromeless-0-1/"&gt;0.1 release&lt;/a&gt;,
 and I wanted to take a moment to give a snapshot of our progress.&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title>Open Web Apps: Refining The Manifest</title>
+        <title type="html">Open Web Apps: Refining The Manifest</title>
         <link href="http://trickyco.de/open-web-apps-refining-the-manifest"/>
         <id>http://trickyco.de/open-web-apps-refining-the-manifest</id>
         <updated>2010-11-22T07:00:00Z</updated>
-        <summary>&lt;p&gt;In the month since we &lt;a href="http://blog.mozilla.com/blog/2010/10/19/prototype-of-an-open-web-app-ecosystem/"&gt;announced &ldquo;Open Web Apps&rdquo;&lt;/a&gt;, there&rsquo;s been a lot of discussion around the particulars of the Mozilla proposal.&lt;/p&gt;</summary>
+        <summary type="html">&lt;p&gt;In the month since we &lt;a href="http://blog.mozilla.com/blog/2010/10/19/prototype-of-an-open-web-app-ecosystem/"&gt;announced &ldquo;Open Web Apps&rdquo;&lt;/a&gt;, there&rsquo;s been a lot of discussion around the particulars of the Mozilla proposal.&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title>Challenges in Repurposing the Addon SDK (aka, jetpack)</title>
+        <title type="html">Challenges in Repurposing the Addon SDK (aka, jetpack)</title>
         <link href="http://trickyco.de/challenges-in-repurposing-the-addon-sdk-aka-jetpack"/>
         <id>http://trickyco.de/challenges-in-repurposing-the-addon-sdk-aka-jetpack</id>
         <updated>2010-10-25T06:00:00Z</updated>
-        <summary>&lt;p&gt;Lately I&rsquo;ve been collaborating with Marcio Galli on the
+        <summary type="html">&lt;p&gt;Lately I&rsquo;ve been collaborating with Marcio Galli on the
 &lt;a href="http://mozillalabs.com/chromeless"&gt;chromeless project&lt;/a&gt;
 in Mozilla Labs, and one thing I like about the approach is that
 it leverages huge swaths of the &lt;a href="http://mozillalabs.com/jetpack"&gt;jetpack platform&lt;/a&gt;.&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title>"JSChannel: Taming postMessage()"</title>
+        <title type="html">"JSChannel: Taming postMessage()"</title>
         <link href="http://trickyco.de/jschannel-taming-postmessage"/>
         <id>http://trickyco.de/jschannel-taming-postmessage</id>
         <updated>2010-09-20T06:00:00Z</updated>
-        <summary>&lt;p&gt;This post presents &lt;a href="http://github.com/mozilla/jschannel"&gt;JSChannel&lt;/a&gt;, a
+        <summary type="html">&lt;p&gt;This post presents &lt;a href="http://github.com/mozilla/jschannel"&gt;JSChannel&lt;/a&gt;, a
 little open source JavaScript library that sits atop HTML5&rsquo;s
 cross-document messaging and provides rich messaging semantics and an
 ergonomic API.&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title>Cheating on Subversion Without Getting Caught</title>
+        <title type="html">Cheating on Subversion Without Getting Caught</title>
         <link href="http://trickyco.de/cheating-on-subversion-without-getting-caught"/>
         <id>http://trickyco.de/cheating-on-subversion-without-getting-caught</id>
         <updated>2010-08-12T06:00:00Z</updated>
-        <summary></summary>
+        <summary type="html"></summary>
     </entry>
     <entry>
-        <title>"itches, #2010.8.6"</title>
+        <title type="html">"itches, #2010.8.6"</title>
         <link href="http://trickyco.de/itches-2010.8.6"/>
         <id>http://trickyco.de/itches-2010.8.6</id>
         <updated>2010-08-06T06:00:00Z</updated>
-        <summary>&lt;p&gt;As I spend more and more of my free time digging around in reptilian
+        <summary type="html">&lt;p&gt;As I spend more and more of my free time digging around in reptilian
 mailing lists and such, I find that I&rsquo;ve begun feeling itchy.  Here
 are four little itches that might be interesting for someone to
 scratch, micro-projects if you will:&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title>Going Lizard Riding</title>
+        <title type="html">Going Lizard Riding</title>
         <link href="http://trickyco.de/going-lizard-riding"/>
         <id>http://trickyco.de/going-lizard-riding</id>
         <updated>2010-08-04T06:00:00Z</updated>
-        <summary>&lt;p&gt;&lt;img src="http://farm2.static.flickr.com/1086/1036693826_26bd7bdcd2.jpg" alt="dinosaur w/saddle by williac, on Flickr" /&gt;&lt;/p&gt;</summary>
+        <summary type="html">&lt;p&gt;&lt;img src="http://farm2.static.flickr.com/1086/1036693826_26bd7bdcd2.jpg" alt="dinosaur w/saddle by williac, on Flickr" /&gt;&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title>footnotes</title>
+        <title type="html">footnotes</title>
         <link href="http://trickyco.de/footnotes"/>
         <id>http://trickyco.de/footnotes</id>
         <updated>2010-02-03T07:00:00Z</updated>
-        <summary></summary>
+        <summary type="html"></summary>
     </entry>
     <entry>
-        <title>Securing Web Extensibility</title>
+        <title type="html">Securing Web Extensibility</title>
         <link href="http://trickyco.de/securing-web-extensibility"/>
         <id>http://trickyco.de/securing-web-extensibility</id>
         <updated>2010-01-31T07:00:00Z</updated>
-        <summary></summary>
+        <summary type="html"></summary>
     </entry>
     <entry>
-        <title>Web Security</title>
+        <title type="html">Web Security</title>
         <link href="http://trickyco.de/web-security"/>
         <id>http://trickyco.de/web-security</id>
         <updated>2010-01-13T07:00:00Z</updated>
-        <summary></summary>
+        <summary type="html"></summary>
     </entry>
     <entry>
-        <title>how the web works</title>
+        <title type="html">how the web works</title>
         <link href="http://trickyco.de/how-the-web-works"/>
         <id>http://trickyco.de/how-the-web-works</id>
         <updated>2010-01-07T07:00:00Z</updated>
-        <summary></summary>
+        <summary type="html"></summary>
     </entry>
     <entry>
-        <title>Forwarding Orderly JSON - v0</title>
+        <title type="html">Forwarding Orderly JSON - v0</title>
         <link href="http://trickyco.de/forwarding-orderly-json-v0"/>
         <id>http://trickyco.de/forwarding-orderly-json-v0</id>
         <updated>2009-10-06T06:00:00Z</updated>
-        <summary>&lt;p&gt;Recently I proposed
+        <summary type="html">&lt;p&gt;Recently I proposed
 &lt;a href="http://trickyco.de/orderly-jsonschema"&gt;orderly&lt;/a&gt;, an idea
 for a small microlanguage on top of JSONSchema &mdash; something easier to
 read and write.&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title>Orderly JSONSchema</title>
+        <title type="html">Orderly JSONSchema</title>
         <link href="http://trickyco.de/orderly-jsonschema"/>
         <id>http://trickyco.de/orderly-jsonschema</id>
         <updated>2009-10-02T06:00:00Z</updated>
-        <summary>&lt;p&gt;I&rsquo;ve always wanted a concise and beautiful schema language for JSON.
+        <summary type="html">&lt;p&gt;I&rsquo;ve always wanted a concise and beautiful schema language for JSON.
 This desire stems from a real world need that I&rsquo;ve hit repeatedly.
 Given in-memory data that has been hydrated from a stream of JSON, of
 questionable quality, validation is required.  Currently I&rsquo;m
@@ -144,92 +144,92 @@ laboriously writing boiler plate code validating that an input JSON
 document is of the form that I expect.&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title>bi-directional git &lt;=&gt; svn - part I</title>
+        <title type="html">bi-directional git &lt;=&gt; svn - part I</title>
         <link href="http://trickyco.de/bi-directional-git-andltgt-svn-part-i"/>
         <id>http://trickyco.de/bi-directional-git-andltgt-svn-part-i</id>
         <updated>2009-09-24T06:00:00Z</updated>
-        <summary>&lt;h2&gt;What&rsquo;s the point?&lt;/h2&gt;</summary>
+        <summary type="html">&lt;h2&gt;What&rsquo;s the point?&lt;/h2&gt;</summary>
     </entry>
     <entry>
-        <title>fixing lockfile gem (v1.4.3) for ruby 1.9</title>
+        <title type="html">fixing lockfile gem (v1.4.3) for ruby 1.9</title>
         <link href="http://trickyco.de/fixing-lockfile-gem-v1.4.3-for-ruby-1.9"/>
         <id>http://trickyco.de/fixing-lockfile-gem-v1.4.3-for-ruby-1.9</id>
         <updated>2009-09-24T06:00:00Z</updated>
-        <summary></summary>
+        <summary type="html"></summary>
     </entry>
     <entry>
-        <title>installing the sup MUA on 64bit arch linux</title>
+        <title type="html">installing the sup MUA on 64bit arch linux</title>
         <link href="http://trickyco.de/installing-the-sup-mua-on-64bit-arch-linux"/>
         <id>http://trickyco.de/installing-the-sup-mua-on-64bit-arch-linux</id>
         <updated>2009-09-24T06:00:00Z</updated>
-        <summary>&lt;p&gt;You&rsquo;ll probably get here from a google search on trying to figure out
+        <summary type="html">&lt;p&gt;You&rsquo;ll probably get here from a google search on trying to figure out
 how to get sup running on your arch box that was recently upgraded to
 ruby 1.9.  sure it hurts, but it&rsquo;s progress!  Pick a different distro
 if you don&rsquo;t wanna play!&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title>Drags a droppin' and events a bubblin'...</title>
+        <title type="html">Drags a droppin' and events a bubblin'...</title>
         <link href="http://trickyco.de/drags-a-droppin-and-events-a-bubblin"/>
         <id>http://trickyco.de/drags-a-droppin-and-events-a-bubblin</id>
         <updated>2009-09-16T06:00:00Z</updated>
-        <summary></summary>
+        <summary type="html"></summary>
     </entry>
     <entry>
-        <title>chromium on 64 bit (arch) linux</title>
+        <title type="html">chromium on 64 bit (arch) linux</title>
         <link href="http://trickyco.de/chromium-on-64-bit-arch-linux"/>
         <id>http://trickyco.de/chromium-on-64-bit-arch-linux</id>
         <updated>2009-09-11T06:00:00Z</updated>
-        <summary>&lt;p&gt;Really not much to write about, it was trivial to do, and &lt;em&gt;feels&lt;/em&gt; a
+        <summary type="html">&lt;p&gt;Really not much to write about, it was trivial to do, and &lt;em&gt;feels&lt;/em&gt; a
 hell of a lot faster than the burning fox.  Steps?&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title>Would the real "HTML5" File please stand up?</title>
+        <title type="html">Would the real "HTML5" File please stand up?</title>
         <link href="http://trickyco.de/would-the-real-html5-file-please-stand-up"/>
         <id>http://trickyco.de/would-the-real-html5-file-please-stand-up</id>
         <updated>2009-09-11T06:00:00Z</updated>
-        <summary>&lt;p&gt;In fiddling around with HTML5 desktop sourced drag and drop, present in Safari Version 4.0.3 (6531.9), I&rsquo;m faced with the interesting challenge of understanding when I can &lt;em&gt;trust&lt;/em&gt; that a drop is really a drop &ndash; that a File is the result of user interaction.  For a little context, here&rsquo;s a bit of code cobbled up by Gordon Durand that&rsquo;ll let us capture desktop sourced drops in the latest snow leopard:&lt;/p&gt;</summary>
+        <summary type="html">&lt;p&gt;In fiddling around with HTML5 desktop sourced drag and drop, present in Safari Version 4.0.3 (6531.9), I&rsquo;m faced with the interesting challenge of understanding when I can &lt;em&gt;trust&lt;/em&gt; that a drop is really a drop &ndash; that a File is the result of user interaction.  For a little context, here&rsquo;s a bit of code cobbled up by Gordon Durand that&rsquo;ll let us capture desktop sourced drops in the latest snow leopard:&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title>Redcloth/Textile to PDF conversion</title>
+        <title type="html">Redcloth/Textile to PDF conversion</title>
         <link href="http://trickyco.de/redcloth-textile-to-pdf-conversion"/>
         <id>http://trickyco.de/redcloth-textile-to-pdf-conversion</id>
         <updated>2009-09-09T06:00:00Z</updated>
-        <summary></summary>
+        <summary type="html"></summary>
     </entry>
     <entry>
-        <title>NPAPI, the HTML5 File object, and the glory of UNIX</title>
+        <title type="html">NPAPI, the HTML5 File object, and the glory of UNIX</title>
         <link href="http://trickyco.de/npapi-the-html5-file-object-and-the-glory-of-unix"/>
         <id>http://trickyco.de/npapi-the-html5-file-object-and-the-glory-of-unix</id>
         <updated>2009-09-04T06:00:00Z</updated>
-        <summary>&lt;h2&gt;Web Processification&lt;/h2&gt;</summary>
+        <summary type="html">&lt;h2&gt;Web Processification&lt;/h2&gt;</summary>
     </entry>
     <entry>
-        <title>A breadth-first attempt at learning about programming and computers</title>
+        <title type="html">A breadth-first attempt at learning about programming and computers</title>
         <link href="http://trickyco.de/a-breadth-first-attempt-at-learning-about-programming-and-computers"/>
         <id>http://trickyco.de/a-breadth-first-attempt-at-learning-about-programming-and-computers</id>
         <updated>2009-09-03T06:00:00Z</updated>
-        <summary>&lt;p&gt;A set of questions that can be used as a jump off point for discussions and learning about computers the internet, and programming.&lt;/p&gt;</summary>
+        <summary type="html">&lt;p&gt;A set of questions that can be used as a jump off point for discussions and learning about computers the internet, and programming.&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title>Parse JSON in ruby in 1/4 the time of YAML</title>
+        <title type="html">Parse JSON in ruby in 1/4 the time of YAML</title>
         <link href="http://trickyco.de/parse-json-in-ruby-in-1-4-the-time-of-yaml"/>
         <id>http://trickyco.de/parse-json-in-ruby-in-1-4-the-time-of-yaml</id>
         <updated>2009-09-03T06:00:00Z</updated>
-        <summary>&lt;p&gt;Crazy claim, eh? I figure there’s no better way to get this claim tested that by posting it as a truth!&lt;/p&gt;</summary>
+        <summary type="html">&lt;p&gt;Crazy claim, eh? I figure there’s no better way to get this claim tested that by posting it as a truth!&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title>The "Open Web", my spin.</title>
+        <title type="html">The "Open Web", my spin.</title>
         <link href="http://trickyco.de/the-open-web-my-spin"/>
         <id>http://trickyco.de/the-open-web-my-spin</id>
         <updated>2009-09-03T06:00:00Z</updated>
-        <summary>&lt;p&gt;Later this week I’ll be moderating a chat entitled “Implementing the open web” at &lt;a href="http://www.gluecon.com/"&gt;gluecon&lt;/a&gt; in my home town, Denver.&lt;/p&gt;</summary>
+        <summary type="html">&lt;p&gt;Later this week I’ll be moderating a chat entitled “Implementing the open web” at &lt;a href="http://www.gluecon.com/"&gt;gluecon&lt;/a&gt; in my home town, Denver.&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title>a shiny new blog</title>
+        <title type="html">a shiny new blog</title>
         <link href="http://trickyco.de/a-shiny-new-blog"/>
         <id>http://trickyco.de/a-shiny-new-blog</id>
         <updated>2009-09-03T06:00:00Z</updated>
-        <summary>&lt;p&gt;Expiration of my account at &lt;a href="http://hub.org"&gt;hub.org&lt;/a&gt;, and my
+        <summary type="html">&lt;p&gt;Expiration of my account at &lt;a href="http://hub.org"&gt;hub.org&lt;/a&gt;, and my
 discovery of &lt;a href="http://mosso.com"&gt;mosso&lt;/a&gt; &amp;
 &lt;a href="http://slicehost.com"&gt;slicehost&lt;/a&gt; has prompted me to move all my
 personal shit around… Along with that move I figured I might as well
@@ -241,11 +241,11 @@ is a common theme in my life, get stuck in the interesting problems
 that pop up while trying to solve a problem…&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title>Load simulation for serving of large static content</title>
+        <title type="html">Load simulation for serving of large static content</title>
         <link href="http://trickyco.de/load-simulation-for-serving-of-large-static-content"/>
         <id>http://trickyco.de/load-simulation-for-serving-of-large-static-content</id>
         <updated>2009-09-03T06:00:00Z</updated>
-        <summary>&lt;p&gt;Recently we spent a little time optimizing some servers. These are
+        <summary type="html">&lt;p&gt;Recently we spent a little time optimizing some servers. These are
 linux machines running apache serving static and dynamic content using
 php. Each apache process consumes 13mb of private resident memory
 under load and has a gigabit net connection. A sample bit of “large
@@ -255,49 +255,49 @@ spoon feeding about 2000 simultaneously connected clients in order to
 saturate the gigabit connection.&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title>ruby 1.8.6 vs 1.9 - performance &amp; memory usage</title>
+        <title type="html">ruby 1.8.6 vs 1.9 - performance &amp; memory usage</title>
         <link href="http://trickyco.de/ruby-1.8.6-vs-1.9-performance-and-memory-usage"/>
         <id>http://trickyco.de/ruby-1.8.6-vs-1.9-performance-and-memory-usage</id>
         <updated>2008-05-15T06:00:00Z</updated>
-        <summary>&lt;p&gt;Seeing all this action in ruby trunk, combined with what I’ve read
+        <summary type="html">&lt;p&gt;Seeing all this action in ruby trunk, combined with what I’ve read
 ’round the net had piqued my interest in 1.9 performance differences.&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title>matz, the ruby trunk, and GC changes</title>
+        <title type="html">matz, the ruby trunk, and GC changes</title>
         <link href="http://trickyco.de/matz-the-ruby-trunk-and-gc-changes"/>
         <id>http://trickyco.de/matz-the-ruby-trunk-and-gc-changes</id>
         <updated>2008-05-01T06:00:00Z</updated>
-        <summary>&lt;p&gt;w00t. An email from matz, and a little spelunking in the ruby subversion
+        <summary type="html">&lt;p&gt;w00t. An email from matz, and a little spelunking in the ruby subversion
 repository shows that there’s some tinkering going on in ruby garbage
 collection land. Here are the interesting change logs:&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title>Improving the Ruby GC</title>
+        <title type="html">Improving the Ruby GC</title>
         <link href="http://trickyco.de/improving-the-ruby-gc"/>
         <id>http://trickyco.de/improving-the-ruby-gc</id>
         <updated>2008-02-07T07:00:00Z</updated>
-        <summary>&lt;h2&gt;overview&lt;/h2&gt;</summary>
+        <summary type="html">&lt;h2&gt;overview&lt;/h2&gt;</summary>
     </entry>
     <entry>
-        <title>Fullscreen X11 broken on Leopard!?</title>
+        <title type="html">Fullscreen X11 broken on Leopard!?</title>
         <link href="http://trickyco.de/fullscreen-x11-broken-on-leopard"/>
         <id>http://trickyco.de/fullscreen-x11-broken-on-leopard</id>
         <updated>2007-12-22T07:00:00Z</updated>
-        <summary></summary>
+        <summary type="html"></summary>
     </entry>
     <entry>
-        <title>hacking on ruby's garbage collector</title>
+        <title type="html">hacking on ruby's garbage collector</title>
         <link href="http://trickyco.de/hacking-on-rubys-garbage-collector"/>
         <id>http://trickyco.de/hacking-on-rubys-garbage-collector</id>
         <updated>2007-04-22T06:00:00Z</updated>
-        <summary>&lt;h2&gt;overview&lt;/h2&gt;</summary>
+        <summary type="html">&lt;h2&gt;overview&lt;/h2&gt;</summary>
     </entry>
     <entry>
-        <title>building emacs on leopard from macports</title>
+        <title type="html">building emacs on leopard from macports</title>
         <link href="http://trickyco.de/building-emacs-on-leopard-from-macports"/>
         <id>http://trickyco.de/building-emacs-on-leopard-from-macports</id>
         <updated>2006-08-31T06:00:00Z</updated>
-        <summary>&lt;p&gt;I cannot live without X11 emacs!  It doesn&rsquo;t build from macports right
+        <summary type="html">&lt;p&gt;I cannot live without X11 emacs!  It doesn&rsquo;t build from macports right
 now.  As far as I can tell, the emacs that apple ships with leopard is
 broken, at least for me after upgrade I get:&lt;/p&gt;</summary>
     </entry>

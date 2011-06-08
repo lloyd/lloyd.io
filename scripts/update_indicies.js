@@ -28,11 +28,11 @@ var atomTemplate = '' +
     '    </author>\n' +
     '{{#posts}}' +
     '    <entry>\n' +
-    '        <title>{{title}}</title>\n' +
+    '        <title type="html">{{title}}</title>\n' +
     '        <link href="http://trickyco.de/{{shortname}}"/>\n' +
     '        <id>http://trickyco.de/{{shortname}}</id>\n' +
     '        <updated>{{updated}}</updated>\n' +
-    '        <summary>{{abstract}}</summary>\n' +
+    '        <summary type="html">{{abstract}}</summary>\n' +
     '    </entry>\n' +
     '{{/posts}}' +
     '</feed>\n';
