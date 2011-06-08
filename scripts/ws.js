@@ -11,7 +11,7 @@ connect(
         var parsedurl = url.parse(req.url, true);
         var uri = parsedurl.pathname;
         console.log(uri);
-        if (/^\/(|favicon.ico|posts\/.*|(?:i|js|css)\/.*)$/.test(uri)) {
+        if (/^\/(|favicon.ico|posts\/.*|feed.atom|(?:i|js|css)\/.*)$/.test(uri)) {
             next();
             return;
         }

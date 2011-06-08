@@ -47,12 +47,12 @@ body {
   margin: auto;
 }
 
-#header .container > .img, #header .container > .title {
+#header .container > a > div.me, #header .container > .title {
   float: left;
 }
 
-#header .container > div {
-  float: right
+#header .container div.icon {
+  float: right;
 }
 
 #header .title a {
@@ -73,8 +73,8 @@ body {
   margin-bottom: -.2em;
 }
 
-#header .img {
-  margin: 2px 5px 2px 2px;
+#header .container > a > div.me {
+  margin: 6px;
   border: 3px solid #eee;
   -moz-border-radius: 3px; 
   -webkit-border-radius:  3px; 
@@ -83,9 +83,18 @@ body {
 
 #header .icon {
   margin: 8px 15px 5px 5px ;
+  width: 30px;
+  height: 30px;
+  background-image:url('../i/sprite.png');
 }
 
-#header .icon img, #header .icon a {
+#header .icon.projects { background-position: -30px 0px; }
+#header .icon.email { background-position: -90px 0px; }
+#header .icon.twitter { background-position: -120px 0px; }
+#header .icon.github { background-position: -150px 0px; }
+#header .icon.feed { background-position: -180px 0px; }
+
+#header a {
   border: 0px;
 }
 

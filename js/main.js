@@ -52,7 +52,7 @@ function doRoute() {
 }
 
 $(document).ready(function() {
-    $("#header .container > .img a").click(function() {
+    $("#header div.me").click(function() {
         $("#about").slideToggle(700);
         return false;
     });
