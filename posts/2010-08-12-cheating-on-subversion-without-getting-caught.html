@@ -1,5 +1,6 @@
 title: Cheating on Subversion Without Getting Caught
 <p>This post lightly explores the problem of &ldquo;automatically&rdquo; backing up a git repository to subversion.  <em>Why</em> would anyone want to do this? Well, if your organization has a policy that all code must make it into subversion, but your team is interested in leveraging git in a deeper way than just by using git-svn as a sexy subversion client, then you&rsquo;ll find yourself pondering the question of repository synchronization.</p>
+
 <p>For our purposes, we&rsquo;re guided by the following requirements:</p>
 <ol>
 <li>An <em>at least</em> periodic (&lt; 24 hour backup) of code must exist in subversion &mdash;  While it&rsquo;s not strictly necessary to have a perfect commit history stored in subversion, all code should be present and buildable with minimal fuss.</li>
@@ -17,7 +18,7 @@ title: Cheating on Subversion Without Getting Caught
 </ul>
 <p>The remainder of this document will discuss these two approaches.</p>
 <h1>The Subversion Primary</h1>
-<p>[[posterous-content:wzyxidgetBrkfkfvHFdH]]</p>
+<p style="text-align: center; padding: 15px;"><img src="posts/i/subversion_primary.png"></p>
 <p>In this scenario, all commits funnel first through the subversion repository.  There is an automated process that polls or pushes changes from subversion into an internal git staging repository.  That staging repository uses git-svn to map the complete subversion commit history into git, and performs some processing to deal with mapping branches and tags among other things.</p>
 <p>The internal staging repository can then mirror to an external repository which is visible to all for code review and contributions. External contributors can fork, change, and send pull requests in any form they like.  Internal developers can then manage pulling commits into the main svn repository.</p>
 <h2>Key Features</h2>
@@ -32,26 +33,26 @@ title: Cheating on Subversion Without Getting Caught
 <p>There are a couple obstacles to surmount in this arrangement, and we&rsquo;ll briefly explore them here.</p>
 <h3>Username Mapping</h3>
 <p>One problem that exists with git-svn is that when commits are pulled from subversion the &lsquo;author&rsquo; field is meaningless.  Here&rsquo;s an example:</p>
-<div class="CodeRay">
-<div class="code">commit f6c77de3df60340b01abb219cbe7215a93dcdc9c<br />Author: lloydh &lt;lloydh@3fcf768e-b076-0410-b9b8-e8c34e2d470b&gt; <br />Date:   Thu Jul 29 19:36:48 2010 +0000<p /> update changelog with the skinny on 2.9.7<p />  git-svn-id: svn+ssh://svncorp/yahoo/BrowserPlus/public_platform/trunk@793 3fcf768e-b076-0410-b9b8-e8c34e2d470b</div>
-</div>
+
+<pre><code class="no-highlight">commit f6c77de3df60340b01abb219cbe7215a93dcdc9c<br />Author: lloydh &lt;lloydh@3fcf768e-b076-0410-b9b8-e8c34e2d470b&gt; <br />Date:   Thu Jul 29 19:36:48 2010 +0000<p /> update changelog with the skinny on 2.9.7<p />  git-svn-id: svn+ssh://svncorp/yahoo/BrowserPlus/public_platform/trunk@793 3fcf768e-b076-0410-b9b8-e8c34e2d470b</code></pre>
+
 <p>In order to map internal svn usernames (i.e. <code>lloydh</code>) to meaningful author entries (i.e. &ldquo;Lloyd Hilaiel &rdquo;) we can use mechanisms built into git-svn.  Simply create an <code>authors.txt</code> file that looks something like:</p>
-<div class="CodeRay">
-<div class="code">lloydh = Lloyd Hilaiel &lt;<a href="mailto:lloyd@somewhe.re">lloyd@somewhe.re</a>&gt;<br />dgrigsby = David Grigsby &lt;<a href="mailto:dg@wordmaven.org">dg@wordmaven.org</a>&gt;<br />... etc</div>
-</div>
+
+<pre><code class="no-highlight">lloydh = Lloyd Hilaiel &lt;<a href="mailto:lloyd@somewhe.re">lloyd@somewhe.re</a>&gt;<br />dgrigsby = David Grigsby &lt;<a href="mailto:dg@wordmaven.org">dg@wordmaven.org</a>&gt;<br />... etc</code></pre>
+
 <p>having created this file, use the -A argument on all git svn operations:</p>
-<div class="CodeRay">
-<div class="code">-A, --authors-file=<p /> Syntax is compatible with the file used by git cvsimport:<p /> loginname = Joe User &lt;<a href="mailto:user@example.com">user@example.com</a>&gt;<p /> If this option is specified and git svn encounters an SVN<br /> committer name that does not exist in the authors-file, git svn<br /> will abort operation. The user will then have to add the<br /> appropriate entry. Re-running the previous git svn command after<br /> the authors-file is modified should continue operation.</div>
+
+<pre><code class="no-highlight">-A, --authors-file=<p /> Syntax is compatible with the file used by git cvsimport:<p /> loginname = Joe User &lt;<a href="mailto:user@example.com">user@example.com</a>&gt;<p /> If this option is specified and git svn encounters an SVN<br /> committer name that does not exist in the authors-file, git svn<br /> will abort operation. The user will then have to add the<br /> appropriate entry. Re-running the previous git svn command after<br /> the authors-file is modified should continue operation.</code></pre>
 </div>
 <h3>Mapping SVN branches and tags to git</h3>
 <p>Another problem that exists is how SVN branches and tag appear in git. Subsequent to a <code>git svn clone</code> you can view the remote branches with <code>git branch -r</code>.  You&rsquo;ll see something like this:</p>
-<div class="CodeRay">
-<div class="code">...<br />sdk_and_installer<br />service_api_v5<br />tags/2.10.0<br />tags/2.10.1<br />tags/2.10.2<br />tags/2.5.0<br />...</div>
-</div>
+
+<pre><code>...<br />sdk_and_installer<br />service_api_v5<br />tags/2.10.0<br />tags/2.10.1<br />tags/2.10.2<br />tags/2.5.0<br />...</code></pre>
+
 <p>Because subversion has no proper notion of tags, you&rsquo;ll notice that the tags set in subversion are branches in git.  If you want your published git repository to look reasonable to an average git user, it&rsquo;d be nice to turn these tags into proper git branches. To solve this problem I wrote a small shell script designed to be run after fetching changes from SVN.</p>
-<div class="CodeRay">
-<div class="code">#!/usr/bin/env bash<p />for r in `git branch -r | grep -v trunk`; do<br />&nbsp;&nbsp;istag=x$(echo $r | egrep -v '^tags')<br />&nbsp;&nbsp;if [ "$istag" == "x" ] ; then<br />&nbsp;&nbsp;&nbsp;&nbsp; tn=$(echo $r | sed -e 's/^tags\///')<br />&nbsp;&nbsp;&nbsp;&nbsp; git tag -f $tn refs/remotes/tags/$tn<br />&nbsp;&nbsp; else<br />&nbsp;&nbsp;&nbsp;&nbsp; git branch --track -f $r refs/remotes/$r<br />&nbsp;&nbsp; fi<br />done</div>
-</div>
+
+<pre><code>#!/usr/bin/env bash<p />for r in `git branch -r | grep -v trunk`; do<br />&nbsp;&nbsp;istag=x$(echo $r | egrep -v '^tags')<br />&nbsp;&nbsp;if [ "$istag" == "x" ] ; then<br />&nbsp;&nbsp;&nbsp;&nbsp; tn=$(echo $r | sed -e 's/^tags\///')<br />&nbsp;&nbsp;&nbsp;&nbsp; git tag -f $tn refs/remotes/tags/$tn<br />&nbsp;&nbsp; else<br />&nbsp;&nbsp;&nbsp;&nbsp; git branch --track -f $r refs/remotes/$r<br />&nbsp;&nbsp; fi<br />done</code></pre>
+
 <h3>Accepting contributions</h3>
 <p>Given the flexibility of git, there are many tactics for merging changes forked off of the public mirror back into subversion&rsquo;s linear view of the world: the least sophisticated approach would be to manually do the merge using <code>diff</code> and her friend <code>patch</code> and perhaps add a little <code>--fuzz</code>.  A much nicer way would be to cherry-pick or rebase changes directly into a git repository that is svn cloned from the original, and then to dcommit back.</p>
 <p>This latter approach seems like it would be much faster and less error prone, however there&rsquo;s at least one gotcha: In order to simplify the merging of changes, one should ensure that commits are identical between the public repository and the version that&rsquo;s cloned from SVN. This means when an internal developer clones a git repository from SVN, they should use the same <code>authors.txt</code> file as is used by the internal git repo (which pulls from subversion and publishes to external).  Additionally, the internal developers clone should refer to the subversion repository in the same way as the internal staging git repo does, specifically hostname must be the same in both cases (two cases where they might diverge include using ssh tunnels and aliases, or using DNS shorthands or ip addresses).</p>
@@ -59,7 +60,7 @@ title: Cheating on Subversion Without Getting Caught
 <p>NOTE: In order to artificially join histories without bitwise identical commits (messages or authors), one might try the <a href="http://www.kernel.org/pub/software/scm/git/docs/git-merge.html">&ldquo;ours&rdquo;</a> merge strategy.  I&rsquo;ve no personal experience with this approach.</p>
 <p>I think whatever strategy you end up employing, <em>the key</em>, is that the person or people on the team that are most in love with git should be the ones integrating external contributions.</p>
 <h1>The Dumb Subversion Backup</h1>
-<h1>[[posterous-content:n9gUQEUDiDzeR1cjNXrb]]</h1>
+<p style="text-align: center; padding: 15px;"><img src="posts/i/dumb_subversion_backup.png"></p>
 <p>In this arrangement, rather than all commits flowing through subversion, its simply a mechanism for the backup of the git repository.  The key idea here is that there is a single git repository that is backed up to subversion.  While other requirements then require the ability to publish the repo externally and pull contributions internally, these tasks can be accomplished in a thousand different ways leveraging the built-in features of git. Restated, the only element of this arrangement worth discussing is the challenge of actually synchronizing changes from git to subversion.</p>
 <h2>Key Features</h2>
 <ul>
@@ -90,13 +91,14 @@ title: Cheating on Subversion Without Getting Caught
 <p>Hairy, no?</p>
 <h2>Non-linearity and git-svn</h2>
 <p>Above it was mentioned that git-svn will attempt to collapse non-linear histories in git into something linear in subversion.  A concrete example of this in action follows:  This is your commit history in git:</p>
-<div class="CodeRay">
-<div class="code">* fef76c5 Merge branch 'newb'<br />|\<br />| * d49b6d4 a third change on the newb branch<br />| * 7a1ecfa a second commit on the newb branch<br />| * 9197078 commit #1 on the newb branch<br />* | 9332815 (testing) master branch commit<br />|/<br />* d1b9181 Merge branch 'test_branch'<br />|\<br />| * 2f74914 a test commit<br />* | 792cc2c a test commit on the main branch<br />|/<br />* a01c1ff fix svn:ignore props</div>
-</div>
+
+<pre><code class="no-highlight">* fef76c5 Merge branch 'newb'<br />|\<br />| * d49b6d4 a third change on the newb branch<br />| * 7a1ecfa a second commit on the newb branch<br />| * 9197078 commit #1 on the newb branch<br />* | 9332815 (testing) master branch commit<br />|/<br />* d1b9181 Merge branch 'test_branch'<br />|\<br />| * 2f74914 a test commit<br />* | 792cc2c a test commit on the main branch<br />|/<br />* a01c1ff fix svn:ignore props</code></pre>
+
+
 <p>This is your git commit history once dcommitted via git-svn</p>
-<div class="CodeRay">
-<div class="code">* 4090f22 Merge branch 'newb'<br />* c3a85f5 (testing) master branch commit<br />* 4ad5b30 Merge branch 'test_branch'<br />* 792cc2c a test commit on the main branch<br />* a01c1ff fix svn:ignore props</div>
-</div>
+
+<pre><code class="no-highlight">* 4090f22 Merge branch 'newb'<br />* c3a85f5 (testing) master branch commit<br />* 4ad5b30 Merge branch 'test_branch'<br />* 792cc2c a test commit on the main branch<br />* a01c1ff fix svn:ignore props</code></pre>
+
 <p>When looking at the commits, changes <code>9197078</code>, <code>7a1ecfa</code>, and <code>d49b6d4</code> in the former non-linear history are all combined into <code>4090f22</code> once they&rsquo;ve been routed through git-svn.</p>
 <h1>Now What?</h1>
 <p>I&rsquo;ve implemented a <em>Subversion Primary</em> system myself, with great success, and I&rsquo;ve seen the &ldquo;periodic snapshot&rdquo; approach used effectively to implement a Dumb Subversion Backup.  While it seems like one could go further to backup more information from git incrementally into subversion, I fear the resultant system might be too brittle and high maintenance to make any sense.  What do you think?  Have you ever seen an automatic git &ndash;&gt; subversion backup that didn&rsquo;t suck?</p>

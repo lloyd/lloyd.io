@@ -4,7 +4,7 @@
     <title>trickyco.de - Lloyd's blog</title>
     <link href="http://trickyco.de" rel="alternate" />
     <link type="application/atom+xml" rel="self" href="http://trickyco.de/feed.atom"/>
-    <updated>2011-06-09T00:02:41Z</updated>
+    <updated>2011-06-09T00:17:55Z</updated>
     <author>
         <name>Lloyd Hilaiel</name>
         <email>lloyd@hilaiel.com</email>
@@ -73,7 +73,7 @@ ergonomic API.&lt;/p&gt;</summary>
         <link href="http://trickyco.de/cheating-on-subversion-without-getting-caught"/>
         <id>http://trickyco.de/cheating-on-subversion-without-getting-caught</id>
         <updated>2010-08-12T06:00:00Z</updated>
-        <summary type="html"></summary>
+        <summary type="html">&lt;p&gt;This post lightly explores the problem of &ldquo;automatically&rdquo; backing up a git repository to subversion.  &lt;em&gt;Why&lt;/em&gt; would anyone want to do this? Well, if your organization has a policy that all code must make it into subversion, but your team is interested in leveraging git in a deeper way than just by using git-svn as a sexy subversion client, then you&rsquo;ll find yourself pondering the question of repository synchronization.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">"itches, #2010.8.6"</title>
