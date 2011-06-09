@@ -135,7 +135,7 @@ fs.writeFileSync(
 console.log("Updating linkdir");
 posts.forEach(function(p) {
     fs.symlink(path.join("..", "posts", p.filename),
-               path.join(pathToLinks, p.shortname));
+               path.join(pathToLinks, p.shortname + "." + (p.type === "markdown" ? "md" : "html")));
 });
 
 console.log("now you should commit these changed files.");
