@@ -32,6 +32,7 @@ function doRoute() {
         });
     } else {
         if (pn === '/index.html' || pn === '/') {
+            document.title = "trickyco.de - lloyd's blog";
             $("#posts").fadeIn(700);
         } else {
             // find the post we're talking about
@@ -44,7 +45,9 @@ function doRoute() {
             p = p[0];
             $.get("posts/" + $(p).attr('filename'), function(data) {
                 data = data.replace(/^title:.*$/m, '');
-                $("#content .title").text($(p).find(".title a").text());
+                var postTitle = $(p).find(".title a").text();
+                $("#content .title").text(postTitle);
+                document.title = postTitle;
                 $("#content .date").text($(p).find(".date").text());
                 $("#content .post").html(data);
                 $("#content").fadeIn(700);
@@ -57,7 +60,7 @@ function doRoute() {
                 disqus_identifier = $(p).attr('shortname');
                 disqus_url = "http://trickyco.de" + pn;
                 $("<script id='disqus_script' type='text/javascript' async='true' " +
-                  " src='http://trickycode.disqus.com/embed.js'/>").appendTo("head");
+                  " src='http://trickycode.disqus.com/embed.js?key=poo'/>").appendTo("head");
             });
         }
     }
