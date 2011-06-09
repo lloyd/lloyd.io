@@ -1,4 +1,4 @@
-title: "JSChannel: Taming postMessage()"
+title: JSChannel: Taming postMessage()
 <p>This post presents <a href="http://github.com/mozilla/jschannel">JSChannel</a>, a
 little open source JavaScript library that sits atop HTML5&rsquo;s
 cross-document messaging and provides rich messaging semantics and an
@@ -9,13 +9,12 @@ ergonomic API.</p>
 <p>Let&rsquo;s start with a quick demonstration of usage.  Here&rsquo;s a sample
 containing HTML page:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre><span class="ta">&lt;html&gt;</span>
-<span class="ta">&lt;head&gt;</span><span class="ta">&lt;script</span> <span class="an">src</span>=<span class="s"><span class="dl">&quot;</span><span class="k">jschannel.js</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span><span class="ta">&lt;/script&gt;</span><span class="ta">&lt;/head&gt;</span>
-<span class="ta">&lt;body&gt;</span>
-<span class="ta">&lt;iframe</span> <span class="an">id</span>=<span class="s"><span class="dl">&quot;</span><span class="k">childId</span><span class="dl">&quot;</span></span> <span class="an">src</span>=<span class="s"><span class="dl">&quot;</span><span class="k">child.html</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span><span class="ta">&lt;/iframe&gt;</span>
-<span class="ta">&lt;/body&gt;</span>
-<span class="ta">&lt;script&gt;</span>
+<pre><code>&lt;html&gt;
+&lt;head&gt;&lt;script src=&quot;jschannel.js&quot;&gt;&lt;/script&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;iframe id=&quot;childId&quot; src=&quot;child.html&quot;&gt;&lt;/iframe&gt;
+&lt;/body&gt;
+&lt;script&gt;
 
 var chan = Channel.build(document.getElementById(&quot;childId&quot;).contentWindow, &quot;*&quot;, &quot;testScope&quot;);
 chan.query({
@@ -26,28 +25,23 @@ chan.query({
     }
 });
 
-<span class="ta">&lt;/script&gt;</span>
-<span class="ta">&lt;/html&gt;</span></pre></div>
-</div>
-
+&lt;/script&gt;
+&lt;/html&gt;</code></pre>
 
 <p>And here&rsquo;s the child page that&rsquo;s referenced by the former:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre><span class="ta">&lt;html&gt;</span><span class="ta">&lt;head&gt;</span>
-<span class="ta">&lt;script</span> <span class="an">src</span>=<span class="s"><span class="dl">&quot;</span><span class="k">jschannel.js</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span><span class="ta">&lt;/script&gt;</span>
-<span class="ta">&lt;script&gt;</span>
+<pre><code>&lt;html&gt;&lt;head&gt;
+&lt;script src=&quot;jschannel.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
 
 var chan = Channel.build(window.parent, &quot;*&quot;, &quot;testScope&quot;);
 chan.bind(&quot;reverse&quot;, function(trans, s) {
     return s.split(&quot;&quot;).reverse().join(&quot;&quot;);
 });
 
-<span class="ta">&lt;/script&gt;</span>
-<span class="ta">&lt;/head&gt;</span>
-<span class="ta">&lt;/html&gt;</span></pre></div>
-</div>
-
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;/html&gt;</code></pre>
 
 <p>The parent page builds a <code>Channel</code> abstraction around the embedded
 iframe&rsquo;s content window.  This abstraction manages several setup
@@ -91,8 +85,7 @@ the importance of verifying the origin of messages:</p>
 the cost of messing up that check is quite high as compared to the
 ease with which it could be left off:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>window.addEventListener(<span class="s"><span class="dl">'</span><span class="k">message</span><span class="dl">'</span></span>, receiver, <span class="pc">false</span>);
+<pre><code>window.addEventListener(<span class="s"><span class="dl">'</span><span class="k">message</span><span class="dl">'</span></span>, receiver, <span class="pc">false</span>);
 <span class="kw">function</span> <span class="fu">receiver</span>(e) {
   <span class="c">// behind the origin property of the event lies the true sender</span>
   <span class="c">// of this message</span>
@@ -100,9 +93,7 @@ ease with which it could be left off:</p>
     <span class="c">// here lies the guts of message handling, where you may possibly</span>
     <span class="c">// share sensitive information with 'example.com'</span>
   }
-}</pre></div>
-</div>
-
+}</code></pre>
 
 <p>JSChannel makes origin checking a bit more prominent: the second
 argument to <code>Channel.build()</code> is where you can specify the expected
@@ -132,13 +123,10 @@ sophisticated API semantics.</p>
 <p>Here&rsquo;s a flavor of messages &lsquo;on the wire&rsquo; during the execution of the
 example at the start of this blog post:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>[gHvq1-R] post   message: {&quot;id&quot;:81351,&quot;method&quot;:&quot;testScope::reverse&quot;,&quot;params&quot;:&quot;hello world!&quot;}
+<pre><code>[gHvq1-R] post   message: {&quot;id&quot;:81351,&quot;method&quot;:&quot;testScope::reverse&quot;,&quot;params&quot;:&quot;hello world!&quot;}
 [SeYpI-L] got    message: {&quot;id&quot;:81351,&quot;method&quot;:&quot;testScope::reverse&quot;,&quot;params&quot;:&quot;hello world!&quot;}
 [SeYpI-L] post   message: {&quot;id&quot;:81351,&quot;result&quot;:&quot;!dlrow olleh&quot;}
-[gHvq1-R] got    message: {&quot;id&quot;:81351,&quot;result&quot;:&quot;!dlrow olleh&quot;}</pre></div>
-</div>
-
+[gHvq1-R] got    message: {&quot;id&quot;:81351,&quot;result&quot;:&quot;!dlrow olleh&quot;}</code></pre>
 
 <h2>Query/Response Semantics</h2>
 
@@ -164,14 +152,11 @@ channels to be created next to the code to which they&rsquo;re relevant will
 be useful in larger projects.  Instantiating multiple channel objects
 looks as you might expect, and can occur anywhere in your code:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre><span class="kw">var</span> chan1 = Channel.build(document.getElementById(<span class="s"><span class="dl">&quot;</span><span class="k">firstChildId</span><span class="dl">&quot;</span></span>).contentWindow,
+<pre><code><span class="kw">var</span> chan1 = Channel.build(document.getElementById(<span class="s"><span class="dl">&quot;</span><span class="k">firstChildId</span><span class="dl">&quot;</span></span>).contentWindow,
                           <span class="ke"><span class="dl">&quot;</span><span class="k">http://somesite.com</span><span class="dl">&quot;</span></span>, <span class="s"><span class="dl">&quot;</span><span class="k">scope1</span><span class="dl">&quot;</span></span>);
 
 <span class="kw">var</span> chan2 = Channel.build(document.getElementById(<span class="s"><span class="dl">&quot;</span><span class="k">secondChildId</span><span class="dl">&quot;</span></span>).contentWindow,
-                          <span class="ke"><span class="dl">&quot;</span><span class="k">http://someothersite.com</span><span class="dl">&quot;</span></span>, <span class="s"><span class="dl">&quot;</span><span class="k">scope2</span><span class="dl">&quot;</span></span>);</pre></div>
-</div>
-
+                          <span class="ke"><span class="dl">&quot;</span><span class="k">http://someothersite.com</span><span class="dl">&quot;</span></span>, <span class="s"><span class="dl">&quot;</span><span class="k">scope2</span><span class="dl">&quot;</span></span>);</code></pre>
 
 <h2>Scoping</h2>
 
@@ -191,25 +176,19 @@ structure up to higher level code, there is really no place to hang error handli
 
 <p>JSChannel introduces a protocol message to allow errors to be returned from invocations:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>[0p1uq-R] got    message: {&quot;id&quot;:483615,&quot;error&quot;:&quot;invalid_arguments&quot;,&quot;message&quot;:&quot;argument should be a string&quot;}</pre></div>
-</div>
-
+<pre><code>[0p1uq-R] got    message: {&quot;id&quot;:483615,&quot;error&quot;:&quot;invalid_arguments&quot;,&quot;message&quot;:&quot;argument should be a string&quot;}</code></pre>
 
 <p>At the API level, there are some niceties, like automatic conversion of exceptions
 into error messages.  For example, the following sample code would generate the
 error message above (when invoked without a string argument):</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>var chan = Channel.build(window.parent, &quot;*&quot;, &quot;testScope&quot;);
+<pre><code>var chan = Channel.build(window.parent, &quot;*&quot;, &quot;testScope&quot;);
 chan.bind(&quot;reverse&quot;, function(trans, s) {
     if (typeof s !== 'string') {
         throw { error: &quot;invalid_arguments&quot;, message: &quot;argument should be a string&quot; };
     }
     return s.split(&quot;&quot;).reverse().join(&quot;&quot;);
-});</pre></div>
-</div>
-
+});</code></pre>
 
 <p>Finally, the <a href="http://github.com/mozilla/jschannel/blob/9879dc6ad1349c4857b037e8a1b8ceb69ba099e1/src/jschannel.js#L184-215">code that handles
 exceptions</a>

@@ -64,7 +64,7 @@ body {
     opacity: .6;
 }
 
-#header .title {
+#header div.title {
   font-family: 'Cabin Sketch', arial, serif;
   font-size: 3.2em;
   padding-top: 0;
@@ -103,7 +103,7 @@ body {
   cursor: pointer;
 }
 
-.post .title {
+.post div.title {
   font-family: 'Cabin Sketch';
   font-size: 2.5em;
 }

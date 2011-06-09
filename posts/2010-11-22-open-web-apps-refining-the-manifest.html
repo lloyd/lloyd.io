@@ -139,27 +139,18 @@ my site and the redonkulousgames.com site, but from noone else.</p>
 who may distributed an application.  installed_by could simply be an array of url fragments, with
 the default being &ldquo;disallow syndication&rdquo;:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>&quot;installed_by&quot;: [ ]</pre></div>
-</div>
-
+<pre><code>&quot;installed_by&quot;: [ ]</code></pre>
 
 <p>The developer may explicitly allow promiscuous syndication of their app:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>&quot;installed_by&quot;: [ &quot;*&quot; ]</pre></div>
-</div>
-
+<pre><code>&quot;installed_by&quot;: [ &quot;*&quot; ]</code></pre>
 
 <p>And the whap the monkey case of above could look something like:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>&quot;installed_by&quot;: [ 
+<pre><code>&quot;installed_by&quot;: [ 
   &quot;http://whapthatmonkey.com&quot;,
   &quot;https://redonkulousgames.com&quot;
-]</pre></div>
-</div>
-
+]</code></pre>
 
 <p>This simple addition further empowers application developers (or app publishing platforms)
 with more control to protect apps against casual (even accidental) plagiarism, and unwanted

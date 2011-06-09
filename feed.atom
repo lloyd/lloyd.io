@@ -4,7 +4,7 @@
     <title>trickyco.de - Lloyd's blog</title>
     <link href="http://trickyco.de" rel="alternate" />
     <link type="application/atom+xml" rel="self" href="http://trickyco.de/feed.atom"/>
-    <updated>2011-06-08T20:47:31Z</updated>
+    <updated>2011-06-09T00:02:41Z</updated>
     <author>
         <name>Lloyd Hilaiel</name>
         <email>lloyd@hilaiel.com</email>
@@ -59,7 +59,7 @@ in Mozilla Labs, and one thing I like about the approach is that
 it leverages huge swaths of the &lt;a href="http://mozillalabs.com/jetpack"&gt;jetpack platform&lt;/a&gt;.&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title type="html">"JSChannel: Taming postMessage()"</title>
+        <title type="html">JSChannel: Taming postMessage()</title>
         <link href="http://trickyco.de/jschannel-taming-postmessage"/>
         <id>http://trickyco.de/jschannel-taming-postmessage</id>
         <updated>2010-09-20T06:00:00Z</updated>
@@ -144,18 +144,18 @@ laboriously writing boiler plate code validating that an input JSON
 document is of the form that I expect.&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title type="html">bi-directional git &lt;=&gt; svn - part I</title>
-        <link href="http://trickyco.de/bi-directional-git-andltgt-svn-part-i"/>
-        <id>http://trickyco.de/bi-directional-git-andltgt-svn-part-i</id>
-        <updated>2009-09-24T06:00:00Z</updated>
-        <summary type="html">&lt;h2&gt;What&rsquo;s the point?&lt;/h2&gt;</summary>
-    </entry>
-    <entry>
         <title type="html">fixing lockfile gem (v1.4.3) for ruby 1.9</title>
         <link href="http://trickyco.de/fixing-lockfile-gem-v1.4.3-for-ruby-1.9"/>
         <id>http://trickyco.de/fixing-lockfile-gem-v1.4.3-for-ruby-1.9</id>
         <updated>2009-09-24T06:00:00Z</updated>
         <summary type="html"></summary>
+    </entry>
+    <entry>
+        <title type="html">bi-directional git &lt;=&gt; svn - part I</title>
+        <link href="http://trickyco.de/bi-directional-git-andltgt-svn-part-i"/>
+        <id>http://trickyco.de/bi-directional-git-andltgt-svn-part-i</id>
+        <updated>2009-09-24T06:00:00Z</updated>
+        <summary type="html">&lt;h2&gt;What&rsquo;s the point?&lt;/h2&gt;</summary>
     </entry>
     <entry>
         <title type="html">installing the sup MUA on 64bit arch linux</title>
@@ -204,11 +204,11 @@ hell of a lot faster than the burning fox.  Steps?&lt;/p&gt;</summary>
         <summary type="html">&lt;h2&gt;Web Processification&lt;/h2&gt;</summary>
     </entry>
     <entry>
-        <title type="html">A breadth-first attempt at learning about programming and computers</title>
-        <link href="http://trickyco.de/a-breadth-first-attempt-at-learning-about-programming-and-computers"/>
-        <id>http://trickyco.de/a-breadth-first-attempt-at-learning-about-programming-and-computers</id>
+        <title type="html">The "Open Web", my spin.</title>
+        <link href="http://trickyco.de/the-open-web-my-spin"/>
+        <id>http://trickyco.de/the-open-web-my-spin</id>
         <updated>2009-09-03T06:00:00Z</updated>
-        <summary type="html">&lt;p&gt;A set of questions that can be used as a jump off point for discussions and learning about computers the internet, and programming.&lt;/p&gt;</summary>
+        <summary type="html">&lt;p&gt;Later this week I’ll be moderating a chat entitled “Implementing the open web” at &lt;a href="http://www.gluecon.com/"&gt;gluecon&lt;/a&gt; in my home town, Denver.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">Parse JSON in ruby in 1/4 the time of YAML</title>
@@ -218,11 +218,18 @@ hell of a lot faster than the burning fox.  Steps?&lt;/p&gt;</summary>
         <summary type="html">&lt;p&gt;Crazy claim, eh? I figure there’s no better way to get this claim tested that by posting it as a truth!&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title type="html">The "Open Web", my spin.</title>
-        <link href="http://trickyco.de/the-open-web-my-spin"/>
-        <id>http://trickyco.de/the-open-web-my-spin</id>
+        <title type="html">Load simulation for serving of large static content</title>
+        <link href="http://trickyco.de/load-simulation-for-serving-of-large-static-content"/>
+        <id>http://trickyco.de/load-simulation-for-serving-of-large-static-content</id>
         <updated>2009-09-03T06:00:00Z</updated>
-        <summary type="html">&lt;p&gt;Later this week I’ll be moderating a chat entitled “Implementing the open web” at &lt;a href="http://www.gluecon.com/"&gt;gluecon&lt;/a&gt; in my home town, Denver.&lt;/p&gt;</summary>
+        <summary type="html">&lt;p&gt;Recently we spent a little time optimizing some servers. These are
+linux machines running apache serving static and dynamic content using
+php. Each apache process consumes 13mb of private resident memory
+under load and has a gigabit net connection. A sample bit of “large
+static content” is 2mb. Assume cl\\ ients consuming that content need
+about 20s to get it down (100kb/s or so). That means we need to be
+spoon feeding about 2000 simultaneously connected clients in order to
+saturate the gigabit connection.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">a shiny new blog</title>
@@ -241,18 +248,11 @@ is a common theme in my life, get stuck in the interesting problems
 that pop up while trying to solve a problem…&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title type="html">Load simulation for serving of large static content</title>
-        <link href="http://trickyco.de/load-simulation-for-serving-of-large-static-content"/>
-        <id>http://trickyco.de/load-simulation-for-serving-of-large-static-content</id>
+        <title type="html">A breadth-first attempt at learning about programming and computers</title>
+        <link href="http://trickyco.de/a-breadth-first-attempt-at-learning-about-programming-and-computers"/>
+        <id>http://trickyco.de/a-breadth-first-attempt-at-learning-about-programming-and-computers</id>
         <updated>2009-09-03T06:00:00Z</updated>
-        <summary type="html">&lt;p&gt;Recently we spent a little time optimizing some servers. These are
-linux machines running apache serving static and dynamic content using
-php. Each apache process consumes 13mb of private resident memory
-under load and has a gigabit net connection. A sample bit of “large
-static content” is 2mb. Assume cl\\ ients consuming that content need
-about 20s to get it down (100kb/s or so). That means we need to be
-spoon feeding about 2000 simultaneously connected clients in order to
-saturate the gigabit connection.&lt;/p&gt;</summary>
+        <summary type="html">&lt;p&gt;A set of questions that can be used as a jump off point for discussions and learning about computers the internet, and programming.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">ruby 1.8.6 vs 1.9 - performance &amp; memory usage</title>
