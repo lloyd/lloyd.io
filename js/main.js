@@ -1,3 +1,6 @@
+//var disqus_identifier = undefined;
+//var disqus_url = undefined;
+
 // do we have pushstate support!?
 var linksRewritten = false;
 function usePushState() {
@@ -46,9 +49,18 @@ function doRoute() {
                 $("#content .post").html(data);
                 $("#content").fadeIn(700);
                 $('pre code').each(function(i, e) {hljs.highlightBlock(e, '    ')});
+
+                // now re-initialize disqus
+                $("#disqus_thread").empty();
+                $("iframe[name*=\"DISQUS\"]").remove();
+                $("#disqus_script").remove();
+                disqus_identifier = $(p).attr('shortname');
+                disqus_url = "http://trickyco.de" + pn;
+                $("<script id='disqus_script' type='text/javascript' async='true' " +
+                  " src='http://trickycode.disqus.com/embed.js'/>").appendTo("head");
             });
         }
-    }    
+    }
 }
 
 $(document).ready(function() {

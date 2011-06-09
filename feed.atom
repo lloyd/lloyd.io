@@ -4,7 +4,7 @@
     <title>trickyco.de - Lloyd's blog</title>
     <link href="http://trickyco.de" rel="alternate" />
     <link type="application/atom+xml" rel="self" href="http://trickyco.de/feed.atom"/>
-    <updated>2011-06-09T00:47:00Z</updated>
+    <updated>2011-06-09T16:51:22Z</updated>
     <author>
         <name>Lloyd Hilaiel</name>
         <email>lloyd@hilaiel.com</email>
@@ -144,17 +144,10 @@ laboriously writing boiler plate code validating that an input JSON
 document is of the form that I expect.&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title type="html">fixing lockfile gem (v1.4.3) for ruby 1.9</title>
-        <link href="http://trickyco.de/fixing-lockfile-gem-v1.4.3-for-ruby-1.9"/>
-        <id>http://trickyco.de/fixing-lockfile-gem-v1.4.3-for-ruby-1.9</id>
-        <updated>2009-09-24T06:00:00Z</updated>
-        <summary type="html"></summary>
-    </entry>
-    <entry>
         <title type="html">bi-directional git &lt;=&gt; svn - part I</title>
         <link href="http://trickyco.de/bi-directional-git-andltgt-svn-part-i"/>
         <id>http://trickyco.de/bi-directional-git-andltgt-svn-part-i</id>
-        <updated>2009-09-24T06:00:00Z</updated>
+        <updated>2009-09-25T06:00:00Z</updated>
         <summary type="html">&lt;h2&gt;What&rsquo;s the point?&lt;/h2&gt;</summary>
     </entry>
     <entry>
@@ -166,6 +159,13 @@ document is of the form that I expect.&lt;/p&gt;</summary>
 how to get sup running on your arch box that was recently upgraded to
 ruby 1.9.  sure it hurts, but it&rsquo;s progress!  Pick a different distro
 if you don&rsquo;t wanna play!&lt;/p&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">fixing lockfile gem (v1.4.3) for ruby 1.9</title>
+        <link href="http://trickyco.de/fixing-lockfile-gem-v1.4.3-for-ruby-1.9"/>
+        <id>http://trickyco.de/fixing-lockfile-gem-v1.4.3-for-ruby-1.9</id>
+        <updated>2009-09-23T06:00:00Z</updated>
+        <summary type="html"></summary>
     </entry>
     <entry>
         <title type="html">Drags a droppin' and events a bubblin'...</title>
@@ -204,11 +204,11 @@ hell of a lot faster than the burning fox.  Steps?&lt;/p&gt;</summary>
         <summary type="html">&lt;h2&gt;Web Processification&lt;/h2&gt;</summary>
     </entry>
     <entry>
-        <title type="html">The "Open Web", my spin.</title>
-        <link href="http://trickyco.de/the-open-web-my-spin"/>
-        <id>http://trickyco.de/the-open-web-my-spin</id>
+        <title type="html">A breadth-first attempt at learning about programming and computers</title>
+        <link href="http://trickyco.de/a-breadth-first-attempt-at-learning-about-programming-and-computers"/>
+        <id>http://trickyco.de/a-breadth-first-attempt-at-learning-about-programming-and-computers</id>
         <updated>2009-09-03T06:00:00Z</updated>
-        <summary type="html">&lt;p&gt;Later this week I’ll be moderating a chat entitled “Implementing the open web” at &lt;a href="http://www.gluecon.com/"&gt;gluecon&lt;/a&gt; in my home town, Denver.&lt;/p&gt;</summary>
+        <summary type="html">&lt;p&gt;A set of questions that can be used as a jump off point for discussions and learning about computers the internet, and programming.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">Parse JSON in ruby in 1/4 the time of YAML</title>
@@ -232,6 +232,13 @@ spoon feeding about 2000 simultaneously connected clients in order to
 saturate the gigabit connection.&lt;/p&gt;</summary>
     </entry>
     <entry>
+        <title type="html">The "Open Web", my spin.</title>
+        <link href="http://trickyco.de/the-open-web-my-spin"/>
+        <id>http://trickyco.de/the-open-web-my-spin</id>
+        <updated>2009-09-03T06:00:00Z</updated>
+        <summary type="html">&lt;p&gt;Later this week I’ll be moderating a chat entitled “Implementing the open web” at &lt;a href="http://www.gluecon.com/"&gt;gluecon&lt;/a&gt; in my home town, Denver.&lt;/p&gt;</summary>
+    </entry>
+    <entry>
         <title type="html">a shiny new blog</title>
         <link href="http://trickyco.de/a-shiny-new-blog"/>
         <id>http://trickyco.de/a-shiny-new-blog</id>
@@ -246,13 +253,6 @@ little wordpress at the problem (sorry erlang &amp; yaws, I still love
 you. don’t hate me ruby &amp; lighttpd, you guys are really cute!). This
 is a common theme in my life, get stuck in the interesting problems
 that pop up while trying to solve a problem…&lt;/p&gt;</summary>
-    </entry>
-    <entry>
-        <title type="html">A breadth-first attempt at learning about programming and computers</title>
-        <link href="http://trickyco.de/a-breadth-first-attempt-at-learning-about-programming-and-computers"/>
-        <id>http://trickyco.de/a-breadth-first-attempt-at-learning-about-programming-and-computers</id>
-        <updated>2009-09-03T06:00:00Z</updated>
-        <summary type="html">&lt;p&gt;A set of questions that can be used as a jump off point for discussions and learning about computers the internet, and programming.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">ruby 1.8.6 vs 1.9 - performance &amp; memory usage</title>
