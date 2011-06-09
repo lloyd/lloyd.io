@@ -55,6 +55,7 @@ const path = require('path'),
 var posts = [];
 
 const pathToPosts = path.join(path.dirname(__dirname), "posts");
+const pathToLinks = path.join(path.dirname(__dirname), "links");
 const pathToSummary = path.join(pathToPosts, "summary.html");
 const pathToFeed = path.join(path.dirname(__dirname), "feed.atom");
 
@@ -130,5 +131,11 @@ fs.writeFileSync(
         updated: ISODateString(new Date())
     })
 );
+
+console.log("Updating linkdir");
+posts.forEach(function(p) {
+    fs.symlink(path.join("..", "posts", p.filename),
+               path.join(pathToLinks, p.shortname));
+});
 
 console.log("now you should commit these changed files.");
