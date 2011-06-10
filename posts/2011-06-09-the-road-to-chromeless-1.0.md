@@ -20,11 +20,11 @@ to 1.0.
 
 ## So, what will 1.0 look like?
 
-> Chromeless 1.0 will be a well **documented** and **tested** platform that
-> lets you build **production quality** desktop applications with web
-> technologies.  A skilled web developer can **understand how it works**
-> in **five minutes**, and can have started **building their own application**
-> in about five more.
+> Chromeless 1.0 will be a well **documented** and **tested** platform
+> that lets you build **production quality** desktop applications with
+> web technologies.  A skilled web developer can **understand how it
+> works** in **five minutes**, and could be **building
+> their own application** in about five more.
 
 ## The Details
 
