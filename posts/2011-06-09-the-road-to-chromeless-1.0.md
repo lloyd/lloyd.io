@@ -174,5 +174,8 @@ The other form of participation will be telling us about modules you've
 written for inclusion in the module directory, or in some cases the
 platform itself.
 
-I look forward to your thoughts!
+I look forward to your thoughts!  You can share them here, on IRC
+([`#chromeless`](http://irclog.gr/#browse/irc.mozilla.org/chromeless) on `irc.mozilla.org`), or via
+[the mailing list](mailto:mozilla-labs@googlegroups.com).
+
 
