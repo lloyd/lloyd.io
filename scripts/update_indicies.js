@@ -6,7 +6,7 @@ generate a blog index and shit, and an atom feed and shit.
 
 var template = '' +
     '{{#posts}}' +
-    '<div class="post" filename="{{filename}}" shortname="{{shortname}}">\n'+
+    '<div class="post" filename="{{filename}}" shortname="{{shortname}}" format="{{type}}">\n'+
     '  <div class="title"><a href="/{{shortname}}">{{title}}</a></div>\n'+
     '  <div class="date">{{date}}</div>\n'+
     '  <div class="abstract">{{{abstract}}}</div>\n'+

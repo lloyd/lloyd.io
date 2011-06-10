@@ -1,5 +1,6 @@
 //var disqus_identifier = undefined;
 //var disqus_url = undefined;
+var converter = new Showdown.converter();
 
 // do we have pushstate support!?
 var linksRewritten = false;
@@ -49,9 +50,15 @@ function doRoute() {
                 $("#content .title").text(postTitle);
                 document.title = postTitle;
                 $("#content .date").text($(p).find(".date").text());
+                if ($(p).attr("format") === "markdown") {
+                    data = converter.makeHtml(data);
+                    console.log(data);
+                }
                 $("#content .post").html(data);
                 $("#content").fadeIn(700);
-                $('pre code').each(function(i, e) {hljs.highlightBlock(e, '    ')});
+                $('pre code').each(function(i, e) {
+                    hljs.highlightBlock(e, '    ')
+                });
 
                 // now re-initialize disqus
                 $("#disqus_thread").empty();

@@ -201,6 +201,10 @@ div#content > a.dsq-brlink {
   float: right;
 }
 
+blockquote {
+  font-size: 1.1em;
+  font-style: italic;
+}
 
 /*
 
