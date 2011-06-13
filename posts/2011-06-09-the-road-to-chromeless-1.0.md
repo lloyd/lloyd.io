@@ -13,10 +13,9 @@ This post attempts to define a *Minimum Viable Product* for
 Chromeless: the simplest possible set of requirements for a meaningful
 1.0.
 
-Please note, **this is a proposal**, I'm simply laying down my own
-opinion and biases to start the conversation.  My hope is to
-*collaboratively* refine this into an actual phased plan for getting
-to 1.0.
+Please note, **this is a proposal** intended to start the
+conversation.  My hope is to *collaboratively* refine this into an
+actual phased plan for getting to 1.0.
 
 So, what will 1.0 look like?
 
