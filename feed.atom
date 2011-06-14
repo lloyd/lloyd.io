@@ -4,11 +4,22 @@
     <title>trickyco.de - Lloyd's blog</title>
     <link href="http://trickyco.de" rel="alternate" />
     <link type="application/atom+xml" rel="self" href="http://trickyco.de/feed.atom"/>
-    <updated>2011-06-10T21:46:57Z</updated>
+    <updated>2011-06-14T02:17:42Z</updated>
     <author>
         <name>Lloyd Hilaiel</name>
         <email>lloyd@hilaiel.com</email>
     </author>
+    <entry>
+        <title type="html">Trivial Deployment With Git</title>
+        <link href="http://trickyco.de/trivial-deployment-with-git"/>
+        <id>http://trickyco.de/trivial-deployment-with-git</id>
+        <updated>2011-06-13T06:00:00Z</updated>
+        <summary type="html">
+This post provides a tiny recipe for small scale site deployment with
+git.  If you have a small, mostly static website that you develop using
+git, and you would like to streamline the publishing of the site to
+a server that you control, then this post is for you.</summary>
+    </entry>
     <entry>
         <title type="html">The Road to Chromeless 1.0</title>
         <link href="http://trickyco.de/the-road-to-chromeless-1.0"/>
@@ -226,22 +237,6 @@ hell of a lot faster than the burning fox.  Steps?&lt;/p&gt;</summary>
         <summary type="html">&lt;p&gt;Later this week I’ll be moderating a chat entitled “Implementing the open web” at &lt;a href="http://www.gluecon.com/"&gt;gluecon&lt;/a&gt; in my home town, Denver.&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title type="html">a shiny new blog</title>
-        <link href="http://trickyco.de/a-shiny-new-blog"/>
-        <id>http://trickyco.de/a-shiny-new-blog</id>
-        <updated>2009-09-03T06:00:00Z</updated>
-        <summary type="html">&lt;p&gt;Expiration of my account at &lt;a href="http://hub.org"&gt;hub.org&lt;/a&gt;, and my
-discovery of &lt;a href="http://mosso.com"&gt;mosso&lt;/a&gt; &amp;
-&lt;a href="http://slicehost.com"&gt;slicehost&lt;/a&gt; has prompted me to move all my
-personal shit around… Along with that move I figured I might as well
-disband my efforts at a ground up implementation of every piece of
-technology required to run a site, and just throw apache, php, and a
-little wordpress at the problem (sorry erlang &amp; yaws, I still love
-you. don’t hate me ruby &amp; lighttpd, you guys are really cute!). This
-is a common theme in my life, get stuck in the interesting problems
-that pop up while trying to solve a problem…&lt;/p&gt;</summary>
-    </entry>
-    <entry>
         <title type="html">Parse JSON in ruby in 1/4 the time of YAML</title>
         <link href="http://trickyco.de/parse-json-in-ruby-in-1-4-the-time-of-yaml"/>
         <id>http://trickyco.de/parse-json-in-ruby-in-1-4-the-time-of-yaml</id>
@@ -261,6 +256,22 @@ static content” is 2mb. Assume cl\\ ients consuming that content need
 about 20s to get it down (100kb/s or so). That means we need to be
 spoon feeding about 2000 simultaneously connected clients in order to
 saturate the gigabit connection.&lt;/p&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">a shiny new blog</title>
+        <link href="http://trickyco.de/a-shiny-new-blog"/>
+        <id>http://trickyco.de/a-shiny-new-blog</id>
+        <updated>2009-09-03T06:00:00Z</updated>
+        <summary type="html">&lt;p&gt;Expiration of my account at &lt;a href="http://hub.org"&gt;hub.org&lt;/a&gt;, and my
+discovery of &lt;a href="http://mosso.com"&gt;mosso&lt;/a&gt; &amp;
+&lt;a href="http://slicehost.com"&gt;slicehost&lt;/a&gt; has prompted me to move all my
+personal shit around… Along with that move I figured I might as well
+disband my efforts at a ground up implementation of every piece of
+technology required to run a site, and just throw apache, php, and a
+little wordpress at the problem (sorry erlang &amp; yaws, I still love
+you. don’t hate me ruby &amp; lighttpd, you guys are really cute!). This
+is a common theme in my life, get stuck in the interesting problems
+that pop up while trying to solve a problem…&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">A breadth-first attempt at learning about programming and computers</title>
