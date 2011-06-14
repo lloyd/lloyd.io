@@ -51,7 +51,7 @@ Now, when the repository is updated ("pushed" to), you want to make
 sure that the website is updated too.  In order to do this, we'll use a
 `post-update` hook which is a script that runs after every update.
 
-Create a file (owned by the user you created in step #1) at `<path to
+Create a file (owned by the git user) at `<path to
 repo>/hooks/post-update` with the following contents:
 
     #!/bin/bash
