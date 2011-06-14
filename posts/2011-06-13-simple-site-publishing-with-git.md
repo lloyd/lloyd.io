@@ -37,14 +37,15 @@ We need to now seed the server with a clone of your repository, and a
 checkout of the code at the paths determined in step two.  First let's
 get a "bare" copy of the repository:
 
-    $ git clone --bare git://github.com/lloyd/JSONSelect /home/gituser/repo
+    $ git clone --bare git://github.com/lloyd/trickyco.de /home/gituser/repo
+
+**NOTE:** the `git://` url in this case points to an example
+repository on github (the trickyco.de repo containing this site's
+code), you should replace this with some url pointing at your own repository.
 
 Next, let's get a snapshot of the latest code in repo and drop it in the
 specified location:
 
-**NOTE:** the `git://` url in this case points to a repo on github,
-you should replace this with some url pointing to the repo you wish to
-start with.
 
     $ git --git-dir /home/gituser/repo archive --format=tar --prefix=www/ HEAD | (cd /home/gituser/ && tar xf -)
 
@@ -78,7 +79,8 @@ This will forcefully update the code in your document root at each push.
 
 Now you need to add the public keys of everyone who will be allowed to
 update the site's code to the `.ssh` directory of the git user.
-Become the git user and add public keys to `$HOME/.ssh/authorized_keys`
+Become the git user and add public keys to `$HOME/.ssh/authorized_keys` (**NOTE:** you'll
+probably have to create the `.ssh` dir if you just created this user).
 
 You can also include some restrictions to minimize what may be done by
 folks authenticating as this account, here's a sample line:
@@ -111,8 +113,8 @@ tell her where the document root is.  Test it.  Look good?
 
 Now hop over to you client machine and we'll set up push access: 
 
-    $ git clone git@github.com:lloyd/JSONSelect
-    $ cd JSONSelect
+    $ git clone git@github.com:lloyd/trickyco.de
+    $ cd trickyco.de
     $ git remote add vm gituser@<servername>:/home/gituser/repo
 
 Now you're all done!  Make a test commit and verify you can publish
