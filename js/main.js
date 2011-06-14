@@ -52,7 +52,6 @@ function doRoute() {
                 $("#content .date").text($(p).find(".date").text());
                 if ($(p).attr("format") === "markdown") {
                     data = converter.makeHtml(data);
-                    console.log(data);
                 }
                 $("#content .post").html(data);
                 $("#content").fadeIn(700);
