@@ -16,7 +16,9 @@ When you're logging into your server, you'll be doing so as a specific user.
 This user account should be one with minimal system access.  I often use
 `http` or `www-data` for this purpose, but you can create a new user if you
 like.  For the purposes of this tutorial, we'll create a user with the name
-`jsonselect` and refer to him later in this tutorial as the *git user*.
+`gituser` and refer to him later in this tutorial as the *git user*.
+
+**NOTE:** The rest of this tutorial assumes you are authenticated as this user.
 
 ### Step 2: figure out paths
 
@@ -26,23 +28,28 @@ Now we must answer two questions:
   * Where will your webserver serve from (where is the the "document root")?
 
 For the purposes of this tutorial, let's say we're going to serve the
-website out of `/home/jsonselect/www`, and the repository will reside
-at `/home/jsonselect/repo`.
+website out of `/home/gituser/www`, and the repository will reside
+at `/home/gituser/repo`.
 
 ### Step 3: get the code
 
 We need to now seed the server with a clone of your repository, and a
-checkout of the code at the paths determined in step two.  Given the
-parameters of this example, here's something that might work:
+checkout of the code at the paths determined in step two.  First let's
+get a "bare" copy of the repository:
 
-    $ sudo -u jsonselect git --work-tree /home/jsonselect/www clone git://github.com/lloyd/JSONSelect /home/jsonselect/repo
+    $ git clone --bare git://github.com/lloyd/JSONSelect /home/gituser/repo
+
+Next, let's get a snapshot of the latest code in repo and drop it in the
+specified location:
 
 **NOTE:** the `git://` url in this case points to a repo on github,
 you should replace this with some url pointing to the repo you wish to
 start with.
 
-After this step is done you can peek in `/home/jsonselect/repo` to
-review the git administrative files, and `/home/jsonselect/www` to see
+    $ git --git-dir /home/gituser/repo archive --format=tar --prefix=www/ HEAD | (cd /home/gituser/ && tar xf -)
+
+After this step is done you can peek in `/home/gituser/repo` to
+review the git administrative files, and `/home/gituser/www` to see
 a copy of the code stored in your repo.
 
 ### Step 4: set up automatic site update on push
@@ -56,15 +63,16 @@ repo>/hooks/post-update` with the following contents:
 
     #!/bin/bash
     echo "updating server code, booyah."
-    git --git-dir `pwd` --work-tree /home/jsonselect/www reset --hard HEAD
+    rm -rf /home/gituser/www/*
+    git --git-dir /home/gituser/repo archive --format=tar HEAD | (cd /home/gituser/www/ && tar xf -)
 
 Now enable the hook you just created by making it executable
 
-    $ sudo -u jsonselect chmod +x <path to repo>/hooks/post-update
+    $ chmod +x <path to repo>/hooks/post-update
 
 This will forcefully update the code in your document root at each push.
 
-**NOTE:** in our example `<path to repo>` is `/home/jsonselect/repo`.
+**NOTE:** in our example `<path to repo>` is `/home/gituser/repo`.
 
 ### Step 5: Enable ssh access.
 
@@ -80,8 +88,8 @@ folks authenticating as this account, here's a sample line:
 When you're done, ensure `authorized_keys` is owned by your git user
 and the permissions ar `0600`:
 
-    $ sudo chown jsonselect.jsonselect ~jsonselect/.ssh/authorized_keys
-    $ sudo chmod 0600 ~jsonselect/.ssh/authorized_keys
+    $ chown gituser.gituser ~/.ssh/authorized_keys
+    $ chmod 0600 ~/.ssh/authorized_keys
 
 ### Step 6: (optional) Lock down the headless account
 
@@ -90,7 +98,7 @@ logging in via accounts like the one you just created can do.  This is
 a useful added security measure, and to enable it you simply change
 the shell of the account to git-shell:
 
-    $ sudo chsh -s `which git-shell` jsonselect
+    $ chsh -s `which git-shell`
 
 **At this point your server is all set up!**
 
@@ -105,7 +113,7 @@ Now hop over to you client machine and we'll set up push access:
 
     $ git clone git@github.com:lloyd/JSONSelect
     $ cd JSONSelect
-    $ git remote add vm jsonselect@<servername>:/home/jsonselect/repo
+    $ git remote add vm gituser@<servername>:/home/gituser/repo
 
 Now you're all done!  Make a test commit and verify you can publish
 using git by just pushing to `vm`:
