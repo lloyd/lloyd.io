@@ -119,12 +119,14 @@ and won't have multiple users pushing (like if you want use git to
 manage content of `public_html` or something), you can skip step #1
 and just use your own user account.
 
-**The Not-So-Trivial Variant**: [gitolite]() is a mature project which 
+**The Not-So-Trivial Variant**: [gitolite][] is a mature project which 
 consists of a pile of scripts which does basically what I described
 here, but with lots of additional features, and more sophisiticated
 administrative control for multiple repostitories.  At this point
 you should have a strong understanding of how it works, as it uses
 all the same hooks that we've used above.
+
+[gitolite]: https://github.com/sitaramc/gitolite
 
 Happy pushing!
 
