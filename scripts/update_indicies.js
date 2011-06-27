@@ -11,6 +11,7 @@ var template = '' +
     '{{#posts}}' +
     '<div class="post" filename="{{filename}}" shortname="{{shortname}}" format="{{type}}">\n'+
     '  <div class="title"><a href="/{{shortname}}">{{title}}</a></div>\n'+
+    '  <div class="comments"><a href="/{{shortname}}#disqus_thread" data-disqus-identifier="{{shortname}}">comments</a></div>\n'+
     '  <div class="date">{{date}}</div>\n'+
     '  <div class="abstract">{{{abstract}}}</div>\n'+
     '</div>\n' +

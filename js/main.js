@@ -2,6 +2,9 @@
 //var disqus_url = undefined;
 var converter = new Showdown.converter();
 
+// ahem.
+var disqus_shortname = "trickycode";
+
 // do we have pushstate support!?
 var linksRewritten = false;
 function usePushState() {
@@ -15,6 +18,7 @@ function usePushState() {
         });
     }
 }
+
 
 var pn = undefined;
 function doRoute() {
@@ -35,6 +39,14 @@ function doRoute() {
         if (pn === '/index.html' || pn === '/') {
             document.title = "trickyco.de - lloyd's blog";
             $("#posts").fadeIn(700);
+
+
+            $("#disqus_script").remove();
+            disqus_identifier = undefined;
+            disqus_url = "http://trickyco.de";
+            $("<script id='disqus_script' type='text/javascript' async='true' " +
+              " src='http://trickycode.disqus.com/count.js'/>").appendTo("head");
+
         } else {
             // find the post we're talking about
             var p = $(".post[shortname=\"" + pn.substr(1) + "\"]");
@@ -66,7 +78,7 @@ function doRoute() {
                 disqus_identifier = $(p).attr('shortname');
                 disqus_url = "http://trickyco.de" + pn;
                 $("<script id='disqus_script' type='text/javascript' async='true' " +
-                  " src='http://trickycode.disqus.com/embed.js?key=poo'/>").appendTo("head");
+                  " src='http://trickycode.disqus.com/embed.js'/>").appendTo("head");
             });
         }
     }
