@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+const Showdown = require('showdown').Showdown;
+const converter = new Showdown.converter();
+
 /*
 generate a blog index and shit, and an atom feed and shit.
 */
@@ -81,6 +84,10 @@ function processPost(pathToPost, date, name, ext) {
         p.title = m[1];
         // and now for an abstract
         p.abstract = m[2];
+
+        // if its markdown, then let's run it through showdown
+        p.abstract = converter.makeHtml(p.abstract);
+
     } else {
         // skip the abstract
         p.title = /^title:\s*(.*)$/m.exec(contents)[1];
