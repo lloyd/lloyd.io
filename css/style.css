@@ -108,11 +108,12 @@ body {
   font-size: 2.5em;
 }
 
-.post .date {
+.post .date, .post .comments {
   font-style: italic;
   font-size: .8em;
   opacity: .8;
-  margin-bottom: 1.5em;
+  float: left;
+  margin-left: 1em;
 }
 
 code, pre {
@@ -183,6 +184,10 @@ a:hover {
 .post div.abstract {
   width: 90%;
   margin: auto;
+}
+
+#posts .abstract, #content  .post {
+  margin-top: 2em;
 }
 
 h2 {
