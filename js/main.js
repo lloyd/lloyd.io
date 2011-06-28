@@ -19,6 +19,32 @@ function usePushState() {
     }
 }
 
+var dateRegex = /^(\d{4})-(\d{2})-(\d{2})$/;
+function relDates() {
+    $("div.date").each(function() {
+        var dt = $(this).text();
+        var m;
+        if (m = dateRegex.exec(dt)) {
+            var txt;
+
+            // credit?  John Resig of course: http://ejohn.org/blog/javascript-pretty-date/
+            var then = new Date();
+            then.setUTCFullYear(parseInt(m[1]), parseInt(m[2], 10) - 1 , parseInt(m[3], 10));
+            var diff = (((new Date()).getTime() - then.getTime()) / 1000),
+            day_diff = day_diff = Math.floor(diff / 86400);
+
+	        var txtDiff =
+                day_diff == 0 && "today" ||
+		        day_diff == 1 && "yesterday" ||
+		        day_diff < 7 && day_diff + " days ago" ||
+		        day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago" ||
+		        day_diff < 365 && Math.ceil( day_diff / 30 ) + " months ago" ||
+                dt;
+
+            $(this).text(txtDiff);
+        }
+    });
+}
 
 var pn = undefined;
 function doRoute() {
@@ -33,6 +59,7 @@ function doRoute() {
             $("#posts").html(data);
             pn = undefined;
             usePushState();
+            relDates();
             doRoute();
         });
     } else {
@@ -70,6 +97,9 @@ function doRoute() {
                 $('pre code').each(function(i, e) {
                     hljs.highlightBlock(e, '    ')
                 });
+
+                // manipulate dates.
+                relDates();
 
                 // now re-initialize disqus
                 $("#disqus_thread").empty();
