@@ -76,9 +76,9 @@ body {
 #header .container > a > div.me {
   margin: 6px;
   border: 3px solid #eee;
-  -moz-border-radius: 3px; 
-  -webkit-border-radius:  3px; 
-  border-radius: 3px 3px 3px 3px; 
+  -moz-border-radius: 3px;
+  -webkit-border-radius:  3px;
+  border-radius: 3px 3px 3px 3px;
 }
 
 #header .icon {
@@ -196,6 +196,10 @@ h2 {
 
 #dsq-content > div.dsq-options, #dsq-content > div#dsq-global-toolbar, #dsq-content div.dsq-attach-media {
   display: none;
+}
+
+#content li {
+  margin-bottom: .5em;
 }
 
 div#content > hr {
