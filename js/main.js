@@ -64,7 +64,7 @@ function doRoute() {
         });
     } else {
         if (pn === '/index.html' || pn === '/') {
-            document.title = "trickyco.de - lloyd's blog";
+            document.title = "lloyd.io - lloyd's blog";
             $("#posts").fadeIn(700);
 
 
