@@ -48,14 +48,12 @@ its key design features:
     provide a functional system today, BrowserID is designed to be
     adopted by browser vendors, which will afford improvements in user
     experience and security.
-  * **Federated** - Both sites wishing to use BrowserID for
-    authentication and sites wishing to provide authentication
-    services have a high degree of autonomy in making decisions about
-    whom to trust and how much.
-  * **Distributed** - A user authenticating to a website using an
+  * **Decentralized** - A user authenticating to a website using an
     identity provider can occur in relative isolation without network
     transactions to third parties (so it's efficient) nor information
-    leakage (and private).
+    leakage (and private).  Additionally, any email address may be used,
+    and any email provider may provide first class BrowserID support for
+    their users.
 
 To provide these features, BrowserID uses [public-key cryptography]
 which is applied both by a user's browser to create signed assertions
@@ -133,7 +131,7 @@ authority).
   3. gmail's javascript code on the client sends the public key up to
      a gmail server over SSL.
   4. gmail signs the user's email address, the public key, and a
-     validity interval generating a JWT encoded certificate.
+     validity interval generating a [JWT].
   5. gmail returns this bundle to the client as a response to the
      request in step 3.
   6. JavaScript code served from gmail on the client invokes
@@ -144,6 +142,8 @@ authority).
      user's BrowserID keyring.  The user now has a valid certificate
      from gmail stored in their browser which they can use to generate
      assertions proving their identity.
+
+  [JWT]:http://self-issued.info/docs/draft-goland-json-web-token-00.html
 
 Users encounter certificate provisioning anytime they wish to use
 an email to log into a site that they haven't used recently on their
@@ -167,33 +167,124 @@ cryptographic routines implemented in javascript .
 *Assertion Generation* is the process by which a user's browser produces an
 *assertion* that proves that a user owns a given email address.
 
-> **Assertion Generation diagram, Numbered**
+  1. During the process of logging into a website, the user clicks on a
+     "sign in" button on the RP's site, causing the RP to invoke
+     `navigator.id.getVerifiedEmail()`.
+  2. The user selects an email address that they would like to use to log in
+     from a list rendered by the browser.
+  3. The browser combines the the domain requesting
+     the identity (the *audience*), a validity period, and the certificate
+     associated with the identity in to a bundle (the certificate includes the
+     a PEM encoded public key, and the email address being shared).
+  4. That bundle is signed using the private key associated with the identity,
+     encoded into a [JWT], and returned to the web page.
+
+The result of assertion generation is a JSON structure which conceptually
+looks like this:
+
+    {
+        "audience": "myfavoritebeer.org",
+        "valid-until": 1308859352261,
+        "certificate": {
+            "email": "lloydhilaiel@gmail.com",
+            "public-key": "<lloyds-public-key>",
+            "valid-until": 1308860561861,
+        } // certificate is signed by gmail.com
+    } // entire assertion signed using lloyd's key for lloydhilaiel@gmail.com
+
+At the completion of this flow, the browser has provided the RP with
+an email address that they can verify is owned by the user.
+
+While the flow above describes the case where native browser support
+exists for BrowserID, the flow is identical (except for the user
+interface) when the browser does not have native support: In this case
+all of the required functionality can be supplied by a javascript
+shim.
 
 ### Assertion Verification
 
-*Assertion Verification* is interesting bit of a user login.  It is
-the process by which a *Relying Party* can verify that an assertion
-that a user owns a certain email is valid.
+*Assertion Verification* is the process by which a *Relying Party* can
+verify that an assertion of a user's ownership of a certain email is valid.
+Verification looks like this:
 
 >  **Assertion Verification diagram, Numbered**
 
+  1. The RP (securely) transmits the assertion from the client up to
+     her servers.
+  2. validity periods are checked on both the certificate and the assertion.
+  3. The RP extracts the hostname of the email within the assertion, this is
+     the primary identity authority for the email address.  In our example
+     above, it's `gmail.com`.
+  4. public key(s) for gmail.com are attained from a well known location on
+     their servers (specifics TBD).
+  5. The certificate signature if verified, after which point the RP knows the
+     embedded user's public key is valid.
+  6. The assertion signature is verified using the embedded user's public key,
+     after which point the RP knows the assertion is valid and the user owns
+     the specfied email address.
+
+At the conclusion of the *assertion verification* flow, the RP has a verified
+email address for the user.
+
+The above flow assumes that the primary identity authority supports
+BrowserID, specifically that would mean that they provision
+certificates and publish their public keys on their site.  In the case
+that the email that is the subject of the assertion is not from a
+domain where BrowserID support is present, then the assertion
+certificate will include an `issued-by` property that is the domain of
+*secondary authority*: the entity that has vouched for the validity of
+the email address.  The common case today is that this will be
+`browserid.org`, but in the future there may be a small number of secondary
+authorities run by browser vendors or trusted organizations.
+
+In a future where BrowserID is widely adopted, secondary authorities are
+the exception rather than the rule.
+
 ## Implementation Status
 
-**XXX**: Dis
+At the time of writing, [browserid.org] is a partial implementation of the
+system described here.  The key differences between what is described and what
+exists are:
+
+  * **certification** - BrowserID is today on requires that authorities host all
+    public keys associated with all users.  It will move to certificates
+    [in the coming weeks](https://github.com/mozilla/browserid/issues?milestone=6&state=open).
+  * **primary suppoort** - BrowserID doesn't currently support primary identity
+    authorities as described above, as there aren't any.  In the coming months it will
+    defer to 3rd parties properly and
+    [gain support for federated primary authorities](https://github.com/mozilla/browserid/issues?milestone=3&state=open).
 
 ## Differences from the Verified Email Protocol
 
-
+This post exists to provide a clear description of how BrowserID
+works, and also to precisely express the ways that it is different
+from various different implementations of the same theme.  BrowserID
+is a simplification of the protocol [originally
+proposed by Mike Hanson], having two key differences:
 
 ### Secondaries de-emphasized.
 
-**XXX**: Talk about how we've de-emphasized the federation of secondaries and said
-that this is the job of either the IP builders or browser vendors.
+The original proposal emphasized the distribution of secondary
+identity authorities more than BrowserID does.  There are significant
+UX and administrative challenges in supporting distributed secondary
+authorities, and with BrowserID the thinking is that it is better to
+focus on encouraging email providers to include BrowserID support than
+it is to create a new ecosystem of secondaries, which will ultimately
+may detriment users.
 
 ### No webfinger based assertion verification
 
-**XXX**:Talk about how we've thrown out the webfinger based serving of public keys
-for a user.
+The original proposal included two different ways for an identity
+authority to vouch for a user's identity.  The first method
+was as in BrowserID, via a cryptographic signature.  The second method
+was for the authority to publish the user's current keys via
+[webfinger] and in this way vouch for them.
 
+  [webfinger]:http://code.google.com/p/webfinger/
+
+The latter approach is ommitted from BrowserID because it is percieved
+as both reducing the privacy of the system (RPs would ultimately leak
+more information back to identity providers about the user's activities),
+and because it increases total system complexity.
 
 
