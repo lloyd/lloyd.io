@@ -1,17 +1,17 @@
 title: How BrowserID works
 
-[BrowserID](https://browserid.org) is a federated identity system and
+[BrowserID](https://browserid.org) is a decentralized identity system and
 set of protocols that makes it possible for users to prove ownership
 of email addresses in a secure manner, without requiring per-site
 passwords.  BrowserID is hoped to ultimately become an alternative to
 the tradition of ad-hoc application level authentication based on site
-specific usernames and passwords.  BrowserID is built by [mozilla],
+specific user-names and passwords.  BrowserID is built by [Mozilla],
 and implements a variant of the [verified email protocol] ([originally
 proposed by Mike Hanson], and refined by [Dan Mills] and others).
 
   [originally proposed by Mike Hanson]:http://www.open-mike.org/entry/verified-email-protocol
   [Dan Mills]:http://sandmill.org/
-  [mozilla]:http://www.mozilla.org/about/mission.html
+  [Mozilla]:http://www.mozilla.org/about/mission.html
   [verified email protocol]:http://www.open-mike.org/entry/verified-email-protocol
 
 > Before reading about the technical details of BrowserID, it's
@@ -37,7 +37,7 @@ material to tell someone who they are), and assertion verification
 Perhaps the best way to begin understanding BrowserID is to walk through
 its key design features:
 
-  * **Possesion Based Authentication** - In BrowserID, the browser manages
+  * **Possession Based Authentication** - In BrowserID, the browser manages
     authentication material which can be used without a
     password - making authentication with BrowserID more reliant on
     ownership factors, and less so on knowledge factors.
@@ -69,7 +69,7 @@ domains, which makes a usable implementation of BrowserID possible
 
 ## Actors
 
-As said above, BrowserID is *federated* and *distributed*, which means we have several
+As said above, BrowserID is *decentralized*, which means we have several
 different entities operating under a healthy mutual distrust:
 
   * **Primary Identity Authority** (or often just, *primary*) - A
@@ -81,7 +81,7 @@ different entities operating under a healthy mutual distrust:
     authentication (relying on the claims of identity authorities).
     The demonstration site [myfavoritebeer.org], is an example RP.
   * **Implementation Provider** (or *IP*) - This may be the user's web
-    browser if *native support* for browserid exists, otherwise
+    browser if *native support* for BrowserID exists, otherwise
     [browserid.org] fills this roll by serving web resources that
     implement the client portion of the system.  In addition to key
     management and implementations of the required algorithms, the
@@ -119,14 +119,14 @@ authority).
 
   0. Some event occurs whereby the user indicates that they'd like to
      log into an RP using their gmail address, and the user is
-     directed to a webpage on gmail.com designed for the purposes of
+     directed to a web-page on gmail.com designed for the purposes of
      key provisioning.
-  1. The user authenticates to gmail using their username and password.
+  1. The user authenticates to gmail using their user-name and password.
   2. gmail hosted javascript invokes `navigator.id.genKeyPair()`, a
      client side function, implemented by the browser, that causes a
-     keypair to be generated.  Upon the completion of this
+     key-pair to be generated.  Upon the completion of this
      computationally expensive operation, the public key is returned
-     to the callee (gmail's javascript), and the keypair is cached by
+     to the callee (gmail's javascript), and the key-pair is cached by
      the browser for the duration of the session.
   3. gmail's javascript code on the client sends the public key up to
      a gmail server over SSL.
@@ -139,7 +139,7 @@ authority).
      the certificate.
   7. The browser locates the private key generated in step #2 and
      moves it and certificate from temporary session storage into the
-     user's BrowserID keyring.  The user now has a valid certificate
+     user's BrowserID key-ring.  The user now has a valid certificate
      from gmail stored in their browser which they can use to generate
      assertions proving their identity.
 
@@ -157,7 +157,7 @@ browserid.org manually verifies email addresses and acts as a
 does not control).
 
 Finally, in the flow above the browser has *native* support for BrowserID,
-exposing functions to generate keypairs and store certificates.  In the
+exposing functions to generate key-pairs and store certificates.  In the
 absence of such support, BrowserID provides a small JavaScript shim that
 provides the missing functionality using standard HTML5 techniques and
 cryptographic routines implemented in javascript .
@@ -212,7 +212,7 @@ Verification looks like this:
   1. The RP (securely) transmits the assertion from the client up to
      her servers.
   2. validity periods are checked on both the certificate and the assertion.
-  3. The RP extracts the hostname of the email within the assertion, this is
+  3. The RP extracts the host-name of the email within the assertion, this is
      the primary identity authority for the email address.  In our example
      above, it's `gmail.com`.
   4. public key(s) for gmail.com are attained from a well known location on
@@ -221,7 +221,7 @@ Verification looks like this:
      embedded user's public key is valid.
   6. The assertion signature is verified using the embedded user's public key,
      after which point the RP knows the assertion is valid and the user owns
-     the specfied email address.
+     the specified email address.
 
 At the conclusion of the *assertion verification* flow, the RP has a verified
 email address for the user.
@@ -249,10 +249,10 @@ exists are:
   * **certification** - BrowserID is today on requires that authorities host all
     public keys associated with all users.  It will move to certificates
     [in the coming weeks](https://github.com/mozilla/browserid/issues?milestone=6&state=open).
-  * **primary suppoort** - BrowserID doesn't currently support primary identity
+  * **primary support** - BrowserID doesn't currently support primary identity
     authorities as described above, as there aren't any.  In the coming months it will
     defer to 3rd parties properly and
-    [gain support for federated primary authorities](https://github.com/mozilla/browserid/issues?milestone=3&state=open).
+    [gain support for primary authorities](https://github.com/mozilla/browserid/issues?milestone=3&state=open).
 
 ## Differences from the Verified Email Protocol
 
@@ -282,7 +282,7 @@ was for the authority to publish the user's current keys via
 
   [webfinger]:http://code.google.com/p/webfinger/
 
-The latter approach is ommitted from BrowserID because it is percieved
+The latter approach is omitted from BrowserID because it is perceived
 as both reducing the privacy of the system (RPs would ultimately leak
 more information back to identity providers about the user's activities),
 and because it increases total system complexity.
