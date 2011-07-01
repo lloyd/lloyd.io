@@ -1,12 +1,12 @@
 title: How BrowserID works
 
-[BrowserID](https://browserid.org) is a decentralized identity system and
-set of protocols that makes it possible for users to prove ownership
-of email addresses in a secure manner, without requiring per-site
-passwords.  BrowserID is hoped to ultimately become an alternative to
-the tradition of ad-hoc application level authentication based on site
-specific user-names and passwords.  BrowserID is built by [Mozilla],
-and implements a variant of the [verified email protocol] ([originally
+[BrowserID](https://browserid.org) is a decentralized identity system
+that makes it possible for users to prove ownership of email addresses
+in a secure manner, without requiring per-site passwords.  BrowserID
+is hoped to ultimately become an alternative to the tradition of
+ad-hoc application level authentication based on site specific
+user-names and passwords.  BrowserID is built by [Mozilla], and
+implements a variant of the [verified email protocol] ([originally
 proposed by Mike Hanson], and refined by [Dan Mills] and others).
 
   [originally proposed by Mike Hanson]:http://www.open-mike.org/entry/verified-email-protocol
@@ -14,52 +14,52 @@ proposed by Mike Hanson], and refined by [Dan Mills] and others).
   [Mozilla]:http://www.mozilla.org/about/mission.html
   [verified email protocol]:http://www.open-mike.org/entry/verified-email-protocol
 
-> Before reading about the technical details of BrowserID, it's
-> recommended you get a visceral understanding of how BrowserID feels
-> from a user perspective with the [myfavoritebeer.org] demo, and also
-> a developer perspective of usage with the [developer tutorial].
+> Before learning the technical details of BrowserID, it's recommended
+> you experience a user's perspective of BrowserID with the
+> [myfavoritebeer.org] demo, and then work through the [integration
+> tutorial] for a website developer's perspective.
 
   [myfavoritebeer.org]:http://myfavoritebeer.org
-  [developer tutorial]:https://browserid.org/developers.html
+  [integration tutorial]:https://browserid.org/developers.html
 
-This post aims to provide a readable overview of the functioning of
-the system.  First it will summarize the key design and technical elements
-of BrowserID.  Next, it will explore the various actors in
-the system and their inter-relationships.  Finally, we'll walk through
-several of the most important flows, including certificate
-provisioning (where the user attains authentication material from an
-identity provider), assertion generation (where the user uses that
-material to tell someone who they are), and assertion verification
-(where the website being logged into verifies the user's email address).
+This post aims to provide a readable technical overview of the system.
+First it will summarize the key design elements of BrowserID.  Next,
+it will explore the various actors in the system and their
+inter-relationships.  Finally, we'll walk through several of the most
+important flows, including certificate provisioning (where the user
+attains authentication material from an identity provider), assertion
+generation (where the user uses that material to tell someone who they
+are), and assertion verification (where the website being logged into
+verifies the user's email address).
 
 ## BrowserID Features
 
 Perhaps the best way to begin understanding BrowserID is to walk through
 its key design features:
 
-  * **Possession Based Authentication** - In BrowserID, the browser manages
-    authentication material which can be used without a
-    password - making authentication with BrowserID more reliant on
-    ownership factors, and less so on knowledge factors.
-  * **An email is an identity** - An identity is just an email addresses
-    in BrowserID: users identify with emails quite naturally, and no new
-    infrastructure is needed to reliably verify a users ownership of them.
-  * **Usable today, but better in browsers** - While HTML5 features
-    provide a functional system today, BrowserID is designed to be
-    adopted by browser vendors, which will afford improvements in user
-    experience and security.
+  * **An email is an identity** - Users identify with emails quite
+    naturally, and no new infrastructure is needed to reliably verify
+    a users ownership of them.
   * **Decentralized** - A user authenticating to a website using an
     identity provider can occur in relative isolation without network
     transactions to third parties (so it's efficient) nor information
-    leakage (and private).  Additionally, any email address may be used,
-    and any email provider may provide first class BrowserID support for
-    their users.
+    leakage (and respects privacy).  Additionally, any email address
+    may be used, and any email provider may provide first class
+    BrowserID support for their users.
+  * **Ownership Based Authentication** - In BrowserID, the browser manages
+    authentication material which can be used without a
+    password - making authentication with BrowserID more reliant on
+    ownership factors, and less so on knowledge factors.
+  * **Usable today, and better in browsers** - An HTML5 implementation
+    provides a functional system today, and BrowserID is designed with
+    adopted by browser vendors in mind, which will afford improvements
+    in both user experience and security.
 
 To provide these features, BrowserID uses [public-key cryptography]
 which is applied both by a user's browser to create signed assertions
 about the user's identity, and by identity providers to vouch (via
 signing of a key, email pair) for a user's identity in a disconnected
-fashion.  Finally, [cross document messaging] provides the
+fashion.  Finally, [cross document messaging] affords the
 ability to communicate between documents served from different
 domains, which makes a usable implementation of BrowserID possible
 *right now* without modifications to existing browsers.
@@ -69,19 +69,19 @@ domains, which makes a usable implementation of BrowserID possible
 
 ## Actors
 
-As said above, BrowserID is *decentralized*, which means we have several
-different entities operating under a healthy mutual distrust:
+As said above, BrowserID is *decentralized*, which results in several
+actors interacting under a healthy mutual distrust:
 
   * **Primary Identity Authority** (or often just, *primary*) - A
     service that directly provides the user with an identity in the
-    form of an email address.  Example primaries include [Yahoo! mail]
-    or [gmail].  This service can build "BrowserID support" and
-    directly (cryptographically) vouch for its user's identities.
+    form of an email address.  Example *primaries* include [Yahoo! mail]
+    or [gmail].  A primary can build "BrowserID support" and
+    directly vouch for its user's identities.
   * **Relying Party** (or *RP*) - A site that uses BrowserID for
     authentication (relying on the claims of identity authorities).
     The demonstration site [myfavoritebeer.org], is an example RP.
   * **Implementation Provider** (or *IP*) - This may be the user's web
-    browser if *native support* for BrowserID exists, otherwise
+    browser if native support for BrowserID exists, otherwise
     [browserid.org] fills this roll by serving web resources that
     implement the client portion of the system.  In addition to key
     management and implementations of the required algorithms, the
@@ -99,7 +99,7 @@ different entities operating under a healthy mutual distrust:
 
 A solid understanding of how BrowserID works can be attained by working through
 the main flows of the system, in terms of the interactions between the actors defined
-above.  This section will walk through the three most important flows in the system:
+above.  This section will walk through the three most important flows:
 
 ### Certificate Provisioning
 
@@ -123,11 +123,10 @@ authority).
      key provisioning.
   1. The user authenticates to gmail using their user-name and password.
   2. gmail hosted javascript invokes `navigator.id.genKeyPair()`, a
-     client side function, implemented by the browser, that causes a
-     key-pair to be generated.  Upon the completion of this
-     computationally expensive operation, the public key is returned
-     to the callee (gmail's javascript), and the key-pair is cached by
-     the browser for the duration of the session.
+     client side function implemented by the browser, that causes a
+     key-pair to be generated.  Upon the completion, the public key is
+     returned to the callee (gmail's javascript), and the key-pair is
+     cached by the browser for the duration of the session.
   3. gmail's javascript code on the client sends the public key up to
      a gmail server over SSL.
   4. gmail signs the user's email address, the public key, and a
@@ -138,10 +137,10 @@ authority).
      `navigator.id.registerVerifiedEmail()` on the client passing in
      the certificate.
   7. The browser locates the private key generated in step #2 and
-     moves it and certificate from temporary session storage into the
-     user's BrowserID key-ring.  The user now has a valid certificate
-     from gmail stored in their browser which they can use to generate
-     assertions proving their identity.
+     moves it and the certificate from temporary session storage into
+     the user's BrowserID key-ring.  The user now has a valid
+     certificate from gmail stored in their browser which they can use
+     to generate assertions proving their identity.
 
   [JWT]:http://self-issued.info/docs/draft-goland-json-web-token-00.html
 
@@ -159,7 +158,7 @@ does not control).
 Finally, in the flow above the browser has *native* support for BrowserID,
 exposing functions to generate key-pairs and store certificates.  In the
 absence of such support, BrowserID provides a small JavaScript shim that
-provides the missing functionality using standard HTML5 techniques and
+implements the missing functionality using standard HTML5 techniques and
 cryptographic routines implemented in javascript .
 
 ### Assertion Generation
