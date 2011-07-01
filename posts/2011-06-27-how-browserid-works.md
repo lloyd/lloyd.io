@@ -1,5 +1,9 @@
 title: How BrowserID works
 
+<small>(a special thanks to [Mike Hanson] for his careful review of this post)</small>
+
+ [Mike Hanson]:http://open-mike.org
+
 [BrowserID](https://browserid.org) is a decentralized identity system
 that makes it possible for users to prove ownership of email addresses
 in a secure manner, without requiring per-site passwords.  BrowserID
@@ -37,10 +41,11 @@ verifies the user's email address).
 Perhaps the best way to begin understanding BrowserID is to walk through
 its key design features:
 
-  * **An email is an identity** - Users identify with emails quite
+  * **An email is an identity** - There are no *usernames* in BrowserID, it uses
+    emails addresses instead.  Users identify with emails quite
     naturally, and no new infrastructure is needed to reliably verify
-    a users ownership of them.
-  * **Decentralized** - A user's authentication to a website using an
+    ownership of them.
+  * **Decentralized** - A user's authentication to a website
     occurs in relative isolation.  No network transactions with third
     parties are needed, so it is efficient and privacy-protecting.
     Additionally, any email address may be used, and any email
@@ -69,17 +74,17 @@ to existing browsers.
 ## Actors
 
 As said above, BrowserID is *decentralized*, which results in several
-actors interacting under a healthy mutual distrust:
+actors interacting under a healthy mutual distrust.  These actors include:
 
-  * **Primary Identity Authority** (or often just *primary*) - A
-    service that directly provides the user with an identity in the
+  * **Primary Identity Authorities** (or often just *primary*) - 
+    Services that directly provide the user with an identity in the
     form of an email address.  Example *primaries* include [Yahoo! mail]
     or [gmail].  A primary can build "BrowserID support" and
     directly vouch for its user's identities.
-  * **Relying Party** (or *RP*) - A site that uses BrowserID for
+  * **Relying Parties** (or *RPs*) - Sites that use BrowserID for
     authentication (relying on the claims of identity authorities).
     The demonstration site [myfavoritebeer.org], is an example RP.
-  * **Implementation Provider** (or *IP*) - This may be the user's web
+  * The **Implementation Provider** (or *IP*) - This may be the user's web
     browser if native support for BrowserID exists, otherwise
     [browserid.org] fills this role by serving web resources that
     implement the client portion of the system.  In addition to key
@@ -131,10 +136,11 @@ authority).
   3. gmail's javascript code on the client sends the public key up to
      a gmail server over SSL.
   4. gmail signs the user's email address, the public key, and a
-     validity interval generating a [JWT].
+     validity interval generating a [JWT] (which is just a means of
+     encoding a signed JSON object).
   5. gmail returns this bundle to the client as a response to the
      request in step 3.
-  6. JavaScript code served from gmail on the client invokes
+  6. JavaScript code served from gmail invokes
      `navigator.id.registerVerifiedEmail()` on the client passing in
      the certificate.
   7. The browser locates the private key generated in step #2 and
@@ -172,14 +178,14 @@ cryptographic routines implemented in JavaScript.
      `navigator.id.getVerifiedEmail()`.
   2. The user selects an email address that they would like to use to log in
      from a list rendered by the browser.
-  3. The browser combines the the domain requesting
+  3. The browser combines the domain requesting
      the identity (the *audience*), a validity period, and the certificate
-     associated with the identity in to a bundle (the certificate includes the
+     associated with the identity in to a bundle (the certificate includes
      a public key, and the email address being shared).
   4. That bundle is signed using the private key associated with the identity,
      encoded into a [JWT], and returned to the web page.
 
-The result of assertion generation is a JSON structure which 
+The result of assertion generation is a JSON structure which
 looks like this:
 
     {
