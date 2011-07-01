@@ -82,7 +82,7 @@ actors interacting under a healthy mutual distrust:
     The demonstration site [myfavoritebeer.org], is an example RP.
   * **Implementation Provider** (or *IP*) - This may be the user's web
     browser if native support for BrowserID exists, otherwise
-    [browserid.org] fills this roll by serving web resources that
+    [browserid.org] fills this role by serving web resources that
     implement the client portion of the system.  In addition to key
     management and implementations of the required algorithms, the
     *IP* also serves as a *Secondary Identity Authority*.  That is
