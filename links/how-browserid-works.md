@@ -1,1 +1,1 @@
-../posts/2011-06-27-how-browserid-works.md
+../posts/2011-07-01-how-browserid-works.md
