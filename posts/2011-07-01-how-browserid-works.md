@@ -66,7 +66,7 @@ its key design features:
 ## Mechanism
 
 BrowserID uses asymmetric cryptography and
-[digitial signatures] to allow browsers to
+[digital signatures] to allow browsers to
 create signed assertions about the user's identity, and by identity
 providers to vouch (via signing of a key-email pair) for a user's
 identity in a disconnected fashion.  BrowserID uses [cross document
@@ -74,7 +74,7 @@ messaging] to communicate between documents served from different
 domains, which makes a usable implementation of BrowserID possible
 *right now* without modifications to existing browsers.
 
-  [digitial signatures]:http://en.wikipedia.org/wiki/Digital_signature
+  [digital signatures]:http://en.wikipedia.org/wiki/Digital_signature
   [cross document messaging]:http://en.wikipedia.org/wiki/Cross-document_messaging
 
 ## Actors
