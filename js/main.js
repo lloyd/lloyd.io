@@ -31,10 +31,10 @@ function relDates() {
             var then = new Date();
             then.setUTCFullYear(parseInt(m[1]), parseInt(m[2], 10) - 1 , parseInt(m[3], 10));
             var diff = (((new Date()).getTime() - then.getTime()) / 1000),
-            day_diff = day_diff = Math.floor(diff / 86400);
+            day_diff = day_diff = Math.floor((diff-1) / 86400);
 
 	        var txtDiff =
-                day_diff == 0 && "today" ||
+                day_diff <= 0 && "today" ||
 		        day_diff == 1 && "yesterday" ||
 		        day_diff < 7 && day_diff + " days ago" ||
 		        day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago" ||

@@ -4,6 +4,7 @@ title: How BrowserID works
 
  [Mike Hanson]:http://open-mike.org
 
+<abstract>
 [BrowserID](https://browserid.org) is a decentralized identity system
 that makes it possible for users to prove ownership of email addresses
 in a secure manner, without requiring per-site passwords.  BrowserID
@@ -17,6 +18,7 @@ proposed by Mike Hanson], and refined by [Dan Mills] and others).
   [Dan Mills]:http://sandmill.org/
   [Mozilla]:http://www.mozilla.org/about/mission.html
   [verified email protocol]:http://www.open-mike.org/entry/verified-email-protocol
+</abstract>
 
 > Before learning the technical details of BrowserID, it's recommended
 > you experience a user's perspective of BrowserID with the

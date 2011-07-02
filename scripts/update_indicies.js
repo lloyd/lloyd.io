@@ -69,6 +69,7 @@ function titleToShortname(title) {
     return title.toLowerCase().replace('&','and').replace(/[^a-z0-9 \-./]/g , "").trim().replace(/[\s\/]+/g, "-").replace(/\.+$/,"").replace(/--+/, '-');
 }
 
+
 function processPost(pathToPost, date, name, ext) {
     var p = {};
     p.shortname = name;
@@ -83,8 +84,11 @@ function processPost(pathToPost, date, name, ext) {
     var m = /^title:\s*(.*)\n([\s\S]*?)\n\n/m.exec(contents);
     if (m) {
         p.title = m[1];
-        // and now for an abstract
-        p.abstract = m[2];
+        // and now for an abstract (look for <abstract> tags, otherwise
+        // just use the first paragraph
+        var abstract = /<abstract>((?:\n|.)*)<\/abstract>/.exec(contents);
+        p.abstract = abstract ? abstract[1] : m[2];
+        console.log(p.abstract);
 
         // if its markdown, then let's run it through showdown
         p.abstract = converter.makeHtml(p.abstract);
