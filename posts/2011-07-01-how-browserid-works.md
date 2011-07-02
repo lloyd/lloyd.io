@@ -1,15 +1,17 @@
 title: How BrowserID works
 
-<small>(a special thanks to [Mike Hanson] for his careful review of this post)</small>
+<small>(a special thanks to [Mike Hanson] and [Ben Adida] for their
+careful review of this post)</small>
 
  [Mike Hanson]:http://open-mike.org
+ [Ben Adida]:http://benlog.com
 
 <abstract>
 [BrowserID](https://browserid.org) is a decentralized identity system
 that makes it possible for users to prove ownership of email addresses
 in a secure manner, without requiring per-site passwords.  BrowserID
 is hoped to ultimately become an alternative to the tradition of
-ad-hoc application level authentication based on site specific
+ad-hoc application-level authentication based on site-specific
 user-names and passwords.  BrowserID is built by [Mozilla], and
 implements a variant of the [verified email protocol] ([originally
 proposed by Mike Hanson], and refined by [Dan Mills] and others).
@@ -52,25 +54,27 @@ its key design features:
     parties are needed, so it is efficient and privacy-protecting.
     Additionally, any email address may be used, and any email
     provider may provide first class BrowserID support for their users.
-  * **Ownership Based Authentication** - In BrowserID, the browser manages
+  * **Ownership-Based Authentication** - In BrowserID, the browser manages
     authentication material which can be used without a
     password - making authentication with BrowserID more reliant on
     ownership factors, and less on knowledge factors.
-  * **Usable today, and better in browsers** - An HTML5 implementation
+  * **Usable today, and better tomorrow** - An HTML5 implementation
     provides a functional system today, and BrowserID is designed with
-    adoption by browser vendors in mind, which will afford improvements
-    in both user experience and security.
+    adoption by browser vendors in mind.  Native support in browsers
+    will afford improvements in both user experience and security.
 
-To provide these features, BrowserID uses [public-key cryptography]
-which is applied both by a user's browser to create signed assertions
-about the user's identity, and by identity providers to vouch (via
-signing of a key-email pair) for a user's identity in a disconnected
-fashion.  BrowserID uses [cross document messaging] to communicate
-between documents served from different domains, which makes a usable
-implementation of BrowserID possible *right now* without modifications
-to existing browsers.
+## Mechanism
 
-  [public-key cryptography]:http://en.wikipedia.org/wiki/Public_key_crytography
+BrowserID uses asymmetric cryptography and
+[digitial signatures] to allow browsers to
+create signed assertions about the user's identity, and by identity
+providers to vouch (via signing of a key-email pair) for a user's
+identity in a disconnected fashion.  BrowserID uses [cross document
+messaging] to communicate between documents served from different
+domains, which makes a usable implementation of BrowserID possible
+*right now* without modifications to existing browsers.
+
+  [digitial signatures]:http://en.wikipedia.org/wiki/Digital_signature
   [cross document messaging]:http://en.wikipedia.org/wiki/Cross-document_messaging
 
 ## Actors
@@ -82,7 +86,7 @@ actors interacting under a healthy mutual distrust.  These actors include:
     Services that directly provide the user with an identity in the
     form of an email address.  Example *primaries* include [Yahoo! mail]
     or [gmail].  A primary can build "BrowserID support" and
-    directly vouch for its user's identities.
+    directly vouch for its users' identities.
   * **Relying Parties** (or *RPs*) - Sites that use BrowserID for
     authentication (relying on the claims of identity authorities).
     The demonstration site [myfavoritebeer.org], is an example RP.
@@ -191,14 +195,16 @@ The result of assertion generation is a JSON structure which
 looks like this:
 
     {
-        "audience": "myfavoritebeer.org",
-        "valid-until": 1308859352261,
+        "assertion": {
+          "audience": "myfavoritebeer.org",
+          "valid-until": 1308859352261,
+        }, // signed using lloyd's key for lloydhilaiel@gmail.com
         "certificate": {
             "email": "lloydhilaiel@gmail.com",
             "public-key": "<lloyds-public-key>",
             "valid-until": 1308860561861,
         } // certificate is signed by gmail.com
-    } // entire assertion signed using lloyd's key for lloydhilaiel@gmail.com
+    }
 
 At the completion of this flow, the browser has provided the RP with
 an email address that they can verify is owned by the user.  See the
@@ -255,11 +261,11 @@ responsible for the security of their own users.
 
 ## Implementation Status
 
-At the time of writing, [browserid.org] is a partial implementation of the
+At the time of writing [browserid.org] is a partial implementation of the
 system described here.  The key differences between what is described and what
 exists are:
 
-  * **certification** - BrowserID is today on requires that authorities host all
+  * **certification** - BrowserID today requires that authorities host all
     public keys associated with all users.  It will move to certificates
     [in the coming weeks](https://github.com/mozilla/browserid/issues?milestone=6&state=open).
   * **primary support** - BrowserID doesn't currently support primary identity
