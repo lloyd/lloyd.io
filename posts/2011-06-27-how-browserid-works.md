@@ -114,7 +114,7 @@ certificate that vouches for their ownership of that email.
 
 Visually, the flow looks like this:
 
-> **Provisioning diagram, Numbered**
+<center>![Certificate Provisioning](posts/i/certificate_provisioning.png)</center>
 
 The actors involved in this flow include the user, her browser (which
 happens to have BrowserID support built in), and her email provider
@@ -214,7 +214,7 @@ shim.
 verify that an assertion of a user's ownership of a certain email is valid.
 Verification looks like this:
 
->  **Assertion Verification diagram, Numbered**
+<center>![Assertion Verification](posts/i/assertion_verification.png)</center>
 
   1. The RP (securely) transmits the assertion from the client up to
      her servers.
