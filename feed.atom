@@ -4,13 +4,13 @@
     <title>trickyco.de - Lloyd's blog</title>
     <link href="http://trickyco.de" rel="alternate" />
     <link type="application/atom+xml" rel="self" href="http://trickyco.de/feed.atom"/>
-    <updated>2011-07-02T01:23:18Z</updated>
+    <updated>2011-07-02T05:42:17Z</updated>
     <author>
         <name>Lloyd Hilaiel</name>
         <email>lloyd@hilaiel.com</email>
     </author>
     <entry>
-        <title type="html">How BrowserID works</title>
+        <title type="html">How BrowserID Works</title>
         <link href="http://trickyco.de/how-browserid-works"/>
         <id>http://trickyco.de/how-browserid-works</id>
         <updated>2011-07-01T06:00:00Z</updated>
@@ -24,7 +24,7 @@ implements a variant of the &lt;a href="http://www.open-mike.org/entry/verified-
 proposed by Mike Hanson&lt;/a&gt;, and refined by &lt;a href="http://sandmill.org/"&gt;Dan Mills&lt;/a&gt; and others).&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title type="html">Simple Site Publishing With Git</title>
+        <title type="html">Simple Site Publishing with Git</title>
         <link href="http://trickyco.de/simple-site-publishing-with-git"/>
         <id>http://trickyco.de/simple-site-publishing-with-git</id>
         <updated>2011-06-13T06:00:00Z</updated>
@@ -213,19 +213,19 @@ if you don&rsquo;t wanna play!&lt;/p&gt;</summary>
         <summary type="html"></summary>
     </entry>
     <entry>
+        <title type="html">Would the real "HTML5" File please stand up?</title>
+        <link href="http://trickyco.de/would-the-real-html5-file-please-stand-up"/>
+        <id>http://trickyco.de/would-the-real-html5-file-please-stand-up</id>
+        <updated>2009-09-11T06:00:00Z</updated>
+        <summary type="html">&lt;p&gt;In fiddling around with HTML5 desktop sourced drag and drop, present in Safari Version 4.0.3 (6531.9), I&rsquo;m faced with the interesting challenge of understanding when I can &lt;em&gt;trust&lt;/em&gt; that a drop is really a drop &ndash; that a File is the result of user interaction.  For a little context, here&rsquo;s a bit of code cobbled up by Gordon Durand that&rsquo;ll let us capture desktop sourced drops in the latest snow leopard:&lt;/p&gt;</summary>
+    </entry>
+    <entry>
         <title type="html">chromium on 64 bit (arch) linux</title>
         <link href="http://trickyco.de/chromium-on-64-bit-arch-linux"/>
         <id>http://trickyco.de/chromium-on-64-bit-arch-linux</id>
         <updated>2009-09-11T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;Really not much to write about, it was trivial to do, and &lt;em&gt;feels&lt;/em&gt; a
 hell of a lot faster than the burning fox.  Steps?&lt;/p&gt;</summary>
-    </entry>
-    <entry>
-        <title type="html">Would the real "HTML5" File please stand up?</title>
-        <link href="http://trickyco.de/would-the-real-html5-file-please-stand-up"/>
-        <id>http://trickyco.de/would-the-real-html5-file-please-stand-up</id>
-        <updated>2009-09-11T06:00:00Z</updated>
-        <summary type="html">&lt;p&gt;In fiddling around with HTML5 desktop sourced drag and drop, present in Safari Version 4.0.3 (6531.9), I&rsquo;m faced with the interesting challenge of understanding when I can &lt;em&gt;trust&lt;/em&gt; that a drop is really a drop &ndash; that a File is the result of user interaction.  For a little context, here&rsquo;s a bit of code cobbled up by Gordon Durand that&rsquo;ll let us capture desktop sourced drops in the latest snow leopard:&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">Redcloth/Textile to PDF conversion</title>
@@ -256,6 +256,20 @@ hell of a lot faster than the burning fox.  Steps?&lt;/p&gt;</summary>
         <summary type="html">&lt;p&gt;Crazy claim, eh? I figure there’s no better way to get this claim tested that by posting it as a truth!&lt;/p&gt;</summary>
     </entry>
     <entry>
+        <title type="html">Load simulation for serving of large static content</title>
+        <link href="http://trickyco.de/load-simulation-for-serving-of-large-static-content"/>
+        <id>http://trickyco.de/load-simulation-for-serving-of-large-static-content</id>
+        <updated>2009-09-03T06:00:00Z</updated>
+        <summary type="html">&lt;p&gt;Recently we spent a little time optimizing some servers. These are
+linux machines running apache serving static and dynamic content using
+php. Each apache process consumes 13mb of private resident memory
+under load and has a gigabit net connection. A sample bit of “large
+static content” is 2mb. Assume cl\\ ients consuming that content need
+about 20s to get it down (100kb/s or so). That means we need to be
+spoon feeding about 2000 simultaneously connected clients in order to
+saturate the gigabit connection.&lt;/p&gt;</summary>
+    </entry>
+    <entry>
         <title type="html">a shiny new blog</title>
         <link href="http://trickyco.de/a-shiny-new-blog"/>
         <id>http://trickyco.de/a-shiny-new-blog</id>
@@ -270,20 +284,6 @@ little wordpress at the problem (sorry erlang &amp; yaws, I still love
 you. don’t hate me ruby &amp; lighttpd, you guys are really cute!). This
 is a common theme in my life, get stuck in the interesting problems
 that pop up while trying to solve a problem…&lt;/p&gt;</summary>
-    </entry>
-    <entry>
-        <title type="html">Load simulation for serving of large static content</title>
-        <link href="http://trickyco.de/load-simulation-for-serving-of-large-static-content"/>
-        <id>http://trickyco.de/load-simulation-for-serving-of-large-static-content</id>
-        <updated>2009-09-03T06:00:00Z</updated>
-        <summary type="html">&lt;p&gt;Recently we spent a little time optimizing some servers. These are
-linux machines running apache serving static and dynamic content using
-php. Each apache process consumes 13mb of private resident memory
-under load and has a gigabit net connection. A sample bit of “large
-static content” is 2mb. Assume cl\\ ients consuming that content need
-about 20s to get it down (100kb/s or so). That means we need to be
-spoon feeding about 2000 simultaneously connected clients in order to
-saturate the gigabit connection.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">A breadth-first attempt at learning about programming and computers</title>

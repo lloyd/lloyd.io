@@ -1,4 +1,4 @@
-title: How BrowserID works
+title: How BrowserID Works
 
 <small>(a special thanks to [Mike Hanson] and [Ben Adida] for their
 careful review of this post)</small>
