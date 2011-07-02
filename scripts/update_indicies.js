@@ -88,7 +88,6 @@ function processPost(pathToPost, date, name, ext) {
         // just use the first paragraph
         var abstract = /<abstract>((?:\n|.)*)<\/abstract>/.exec(contents);
         p.abstract = abstract ? abstract[1] : m[2];
-        console.log(p.abstract);
 
         // if its markdown, then let's run it through showdown
         p.abstract = converter.makeHtml(p.abstract);

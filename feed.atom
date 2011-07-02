@@ -4,7 +4,7 @@
     <title>trickyco.de - Lloyd's blog</title>
     <link href="http://trickyco.de" rel="alternate" />
     <link type="application/atom+xml" rel="self" href="http://trickyco.de/feed.atom"/>
-    <updated>2011-07-02T00:39:00Z</updated>
+    <updated>2011-07-02T01:23:18Z</updated>
     <author>
         <name>Lloyd Hilaiel</name>
         <email>lloyd@hilaiel.com</email>
@@ -18,7 +18,7 @@
 that makes it possible for users to prove ownership of email addresses
 in a secure manner, without requiring per-site passwords.  BrowserID
 is hoped to ultimately become an alternative to the tradition of
-ad-hoc application level authentication based on site specific
+ad-hoc application-level authentication based on site-specific
 user-names and passwords.  BrowserID is built by &lt;a href="http://www.mozilla.org/about/mission.html"&gt;Mozilla&lt;/a&gt;, and
 implements a variant of the &lt;a href="http://www.open-mike.org/entry/verified-email-protocol"&gt;verified email protocol&lt;/a&gt; (&lt;a href="http://www.open-mike.org/entry/verified-email-protocol"&gt;originally
 proposed by Mike Hanson&lt;/a&gt;, and refined by &lt;a href="http://sandmill.org/"&gt;Dan Mills&lt;/a&gt; and others).&lt;/p&gt;</summary>
