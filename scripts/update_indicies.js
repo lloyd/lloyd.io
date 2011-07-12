@@ -21,10 +21,10 @@ var atomTemplate = '' +
     '<?xml version="1.0" encoding="utf-8"?>\n' +
     '<feed xmlns="http://www.w3.org/2005/Atom">\n' +
     '\n' +
-    '    <id>http://trickyco.de</id>\n' +
-    '    <title>trickyco.de - Lloyd\'s blog</title>\n' +
-    '    <link href="http://trickyco.de" rel="alternate" />\n' +
-    '    <link type="application/atom+xml" rel="self" href="http://trickyco.de/feed.atom"/>\n' +
+    '    <id>http://lloyd.io</id>\n' +
+    '    <title>lloyd.io - Lloyd\'s blog</title>\n' +
+    '    <link href="http://lloyd.io" rel="alternate" />\n' +
+    '    <link type="application/atom+xml" rel="self" href="http://lloyd.io/feed.atom"/>\n' +
     '    <updated>{{updated}}</updated>\n' +
     '    <author>\n' +
     '        <name>Lloyd Hilaiel</name>\n' +
@@ -33,8 +33,8 @@ var atomTemplate = '' +
     '{{#posts}}' +
     '    <entry>\n' +
     '        <title type="html">{{title}}</title>\n' +
-    '        <link href="http://trickyco.de/{{shortname}}"/>\n' +
-    '        <id>http://trickyco.de/{{shortname}}</id>\n' +
+    '        <link href="http://lloyd.io/{{shortname}}"/>\n' +
+    '        <id>http://lloyd.io/{{shortname}}</id>\n' +
     '        <updated>{{updated}}</updated>\n' +
     '        <summary type="html">{{abstract}}</summary>\n' +
     '    </entry>\n' +

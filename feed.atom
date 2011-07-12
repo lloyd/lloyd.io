@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>http://trickyco.de</id>
-    <title>trickyco.de - Lloyd's blog</title>
-    <link href="http://trickyco.de" rel="alternate" />
-    <link type="application/atom+xml" rel="self" href="http://trickyco.de/feed.atom"/>
-    <updated>2011-07-02T15:26:51Z</updated>
+    <id>http://lloyd.io</id>
+    <title>lloyd.io - Lloyd's blog</title>
+    <link href="http://lloyd.io" rel="alternate" />
+    <link type="application/atom+xml" rel="self" href="http://lloyd.io/feed.atom"/>
+    <updated>2011-07-12T04:47:18Z</updated>
     <author>
         <name>Lloyd Hilaiel</name>
         <email>lloyd@hilaiel.com</email>
     </author>
     <entry>
         <title type="html">How BrowserID Works</title>
-        <link href="http://trickyco.de/how-browserid-works"/>
-        <id>http://trickyco.de/how-browserid-works</id>
+        <link href="http://lloyd.io/how-browserid-works"/>
+        <id>http://lloyd.io/how-browserid-works</id>
         <updated>2011-07-01T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;&lt;a href="https://browserid.org"&gt;BrowserID&lt;/a&gt; is a decentralized identity system
 that makes it possible for users to prove ownership of email addresses
@@ -25,8 +25,8 @@ proposed by Mike Hanson&lt;/a&gt;, and refined by &lt;a href="http://sandmill.or
     </entry>
     <entry>
         <title type="html">Simple Site Publishing with Git</title>
-        <link href="http://trickyco.de/simple-site-publishing-with-git"/>
-        <id>http://trickyco.de/simple-site-publishing-with-git</id>
+        <link href="http://lloyd.io/simple-site-publishing-with-git"/>
+        <id>http://lloyd.io/simple-site-publishing-with-git</id>
         <updated>2011-06-13T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;This post provides a tiny recipe for small scale site deployment with
 git.  If you have a small, mostly static website that you develop using
@@ -35,8 +35,8 @@ a server that you control, then this post is for you.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">The Road to Chromeless 1.0</title>
-        <link href="http://trickyco.de/the-road-to-chromeless-1.0"/>
-        <id>http://trickyco.de/the-road-to-chromeless-1.0</id>
+        <link href="http://lloyd.io/the-road-to-chromeless-1.0"/>
+        <id>http://lloyd.io/the-road-to-chromeless-1.0</id>
         <updated>2011-06-09T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;Mozilla's &lt;a href="http://github.com/mozilla/chromeless"&gt;Chromeless&lt;/a&gt; project is an experiment toward building
 desktop applications with web technologies.  So far, it's been more
@@ -49,8 +49,8 @@ which &lt;em&gt;others&lt;/em&gt; can experiment, play, and ship products.&lt;/p
     </entry>
     <entry>
         <title type="html">JSONSelect Grows Up</title>
-        <link href="http://trickyco.de/jsonselect-grows-up"/>
-        <id>http://trickyco.de/jsonselect-grows-up</id>
+        <link href="http://lloyd.io/jsonselect-grows-up"/>
+        <id>http://lloyd.io/jsonselect-grows-up</id>
         <updated>2011-06-02T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;&lt;a href="http://jsonselect.org/"&gt;JSONSelect&lt;/a&gt; is a query language for JSON.
 With JSONSelect you can write small patterns that match against JSON
@@ -59,8 +59,8 @@ motivated by the belief that CSS does a fine job and is widely understood.&lt;/p
     </entry>
     <entry>
         <title type="html">What's New In YAJL Two?</title>
-        <link href="http://trickyco.de/whats-new-in-yajl-two"/>
-        <id>http://trickyco.de/whats-new-in-yajl-two</id>
+        <link href="http://lloyd.io/whats-new-in-yajl-two"/>
+        <id>http://lloyd.io/whats-new-in-yajl-two</id>
         <updated>2011-04-26T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;&lt;a href="http://lloyd.github.com/yajl"&gt;YAJL&lt;/a&gt; is a little sax style JSON parser written
 in C (conforming to C99).  The first iteration was put together in a couple
@@ -71,8 +71,8 @@ joke, because the same day it hit version 1.0.2).&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">A Chromeless Snapshot</title>
-        <link href="http://trickyco.de/a-chromeless-snapshot"/>
-        <id>http://trickyco.de/a-chromeless-snapshot</id>
+        <link href="http://lloyd.io/a-chromeless-snapshot"/>
+        <id>http://lloyd.io/a-chromeless-snapshot</id>
         <updated>2011-02-11T07:00:00Z</updated>
         <summary type="html">&lt;p&gt;There has been a ton of development in the Mozilla Labs
 &lt;a href="https://mozillalabs.com/chromeless"&gt;&lt;em&gt;Chromeless&lt;/em&gt;&lt;/a&gt; project since the
@@ -81,15 +81,15 @@ and I wanted to take a moment to give a snapshot of our progress.&lt;/p&gt;</sum
     </entry>
     <entry>
         <title type="html">Open Web Apps: Refining The Manifest</title>
-        <link href="http://trickyco.de/open-web-apps-refining-the-manifest"/>
-        <id>http://trickyco.de/open-web-apps-refining-the-manifest</id>
+        <link href="http://lloyd.io/open-web-apps-refining-the-manifest"/>
+        <id>http://lloyd.io/open-web-apps-refining-the-manifest</id>
         <updated>2010-11-22T07:00:00Z</updated>
         <summary type="html">&lt;p&gt;In the month since we &lt;a href="http://blog.mozilla.com/blog/2010/10/19/prototype-of-an-open-web-app-ecosystem/"&gt;announced &ldquo;Open Web Apps&rdquo;&lt;/a&gt;, there&rsquo;s been a lot of discussion around the particulars of the Mozilla proposal.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">Challenges in Repurposing the Addon SDK (aka, jetpack)</title>
-        <link href="http://trickyco.de/challenges-in-repurposing-the-addon-sdk-aka-jetpack"/>
-        <id>http://trickyco.de/challenges-in-repurposing-the-addon-sdk-aka-jetpack</id>
+        <link href="http://lloyd.io/challenges-in-repurposing-the-addon-sdk-aka-jetpack"/>
+        <id>http://lloyd.io/challenges-in-repurposing-the-addon-sdk-aka-jetpack</id>
         <updated>2010-10-25T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;Lately I&rsquo;ve been collaborating with Marcio Galli on the
 &lt;a href="http://mozillalabs.com/chromeless"&gt;chromeless project&lt;/a&gt;
@@ -98,8 +98,8 @@ it leverages huge swaths of the &lt;a href="http://mozillalabs.com/jetpack"&gt;j
     </entry>
     <entry>
         <title type="html">JSChannel: Taming postMessage()</title>
-        <link href="http://trickyco.de/jschannel-taming-postmessage"/>
-        <id>http://trickyco.de/jschannel-taming-postmessage</id>
+        <link href="http://lloyd.io/jschannel-taming-postmessage"/>
+        <id>http://lloyd.io/jschannel-taming-postmessage</id>
         <updated>2010-09-20T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;This post presents &lt;a href="http://github.com/mozilla/jschannel"&gt;JSChannel&lt;/a&gt;, a
 little open source JavaScript library that sits atop HTML5&rsquo;s
@@ -108,15 +108,15 @@ ergonomic API.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">Cheating on Subversion Without Getting Caught</title>
-        <link href="http://trickyco.de/cheating-on-subversion-without-getting-caught"/>
-        <id>http://trickyco.de/cheating-on-subversion-without-getting-caught</id>
+        <link href="http://lloyd.io/cheating-on-subversion-without-getting-caught"/>
+        <id>http://lloyd.io/cheating-on-subversion-without-getting-caught</id>
         <updated>2010-08-12T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;This post lightly explores the problem of &ldquo;automatically&rdquo; backing up a git repository to subversion.  &lt;em&gt;Why&lt;/em&gt; would anyone want to do this? Well, if your organization has a policy that all code must make it into subversion, but your team is interested in leveraging git in a deeper way than just by using git-svn as a sexy subversion client, then you&rsquo;ll find yourself pondering the question of repository synchronization.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">itches, #2010.8.6</title>
-        <link href="http://trickyco.de/itches-2010.8.6"/>
-        <id>http://trickyco.de/itches-2010.8.6</id>
+        <link href="http://lloyd.io/itches-2010.8.6"/>
+        <id>http://lloyd.io/itches-2010.8.6</id>
         <updated>2010-08-06T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;As I spend more and more of my free time digging around in reptilian
 mailing lists and such, I find that I&rsquo;ve begun feeling itchy.  Here
@@ -125,8 +125,8 @@ scratch, micro-projects if you will:&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">Going Lizard Riding</title>
-        <link href="http://trickyco.de/going-lizard-riding"/>
-        <id>http://trickyco.de/going-lizard-riding</id>
+        <link href="http://lloyd.io/going-lizard-riding"/>
+        <id>http://lloyd.io/going-lizard-riding</id>
         <updated>2010-08-04T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;Six years ago, when the &lt;a href="http://en.wikipedia.org/wiki/WUF_Networks"&gt;little
 startup&lt;/a&gt; I worked for was
@@ -139,36 +139,36 @@ friends I&rsquo;d gained and the accomplishments we shared.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">footnotes</title>
-        <link href="http://trickyco.de/footnotes"/>
-        <id>http://trickyco.de/footnotes</id>
+        <link href="http://lloyd.io/footnotes"/>
+        <id>http://lloyd.io/footnotes</id>
         <updated>2010-02-03T07:00:00Z</updated>
         <summary type="html"></summary>
     </entry>
     <entry>
         <title type="html">Securing Web Extensibility</title>
-        <link href="http://trickyco.de/securing-web-extensibility"/>
-        <id>http://trickyco.de/securing-web-extensibility</id>
+        <link href="http://lloyd.io/securing-web-extensibility"/>
+        <id>http://lloyd.io/securing-web-extensibility</id>
         <updated>2010-01-31T07:00:00Z</updated>
         <summary type="html">&lt;p&gt;In recent years, we've seen increased energy put into web extensibility platforms. These platforms let distributed developers collaborate to produce new kinds of interactive features on websites and in the web browser itself.  Because these platforms frequently enable data-sharing between multiple distinct organizations, and often sit between two completely different security domains (desktop vs. web), the security and privacy issues that arise are complex and interesting.  This post explores some of that complexity: both the current state of platforms that extend the web and their associated security challenges.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">Web Security</title>
-        <link href="http://trickyco.de/web-security"/>
-        <id>http://trickyco.de/web-security</id>
+        <link href="http://lloyd.io/web-security"/>
+        <id>http://lloyd.io/web-security</id>
         <updated>2010-01-13T07:00:00Z</updated>
         <summary type="html"></summary>
     </entry>
     <entry>
         <title type="html">how the web works</title>
-        <link href="http://trickyco.de/how-the-web-works"/>
-        <id>http://trickyco.de/how-the-web-works</id>
+        <link href="http://lloyd.io/how-the-web-works"/>
+        <id>http://lloyd.io/how-the-web-works</id>
         <updated>2010-01-07T07:00:00Z</updated>
         <summary type="html"></summary>
     </entry>
     <entry>
         <title type="html">Forwarding Orderly JSON - v0</title>
-        <link href="http://trickyco.de/forwarding-orderly-json-v0"/>
-        <id>http://trickyco.de/forwarding-orderly-json-v0</id>
+        <link href="http://lloyd.io/forwarding-orderly-json-v0"/>
+        <id>http://lloyd.io/forwarding-orderly-json-v0</id>
         <updated>2009-10-06T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;Recently I proposed
 &lt;a href="http://trickyco.de/orderly-jsonschema"&gt;orderly&lt;/a&gt;, an idea
@@ -177,8 +177,8 @@ read and write.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">Orderly JSONSchema</title>
-        <link href="http://trickyco.de/orderly-jsonschema"/>
-        <id>http://trickyco.de/orderly-jsonschema</id>
+        <link href="http://lloyd.io/orderly-jsonschema"/>
+        <id>http://lloyd.io/orderly-jsonschema</id>
         <updated>2009-10-02T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;I&rsquo;ve always wanted a concise and beautiful schema language for JSON.
 This desire stems from a real world need that I&rsquo;ve hit repeatedly.
@@ -190,15 +190,15 @@ document is of the form that I expect.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">bi-directional git &lt;=&gt; svn - part I</title>
-        <link href="http://trickyco.de/bi-directional-git-andltgt-svn-part-i"/>
-        <id>http://trickyco.de/bi-directional-git-andltgt-svn-part-i</id>
+        <link href="http://lloyd.io/bi-directional-git-andltgt-svn-part-i"/>
+        <id>http://lloyd.io/bi-directional-git-andltgt-svn-part-i</id>
         <updated>2009-09-25T06:00:00Z</updated>
         <summary type="html">&lt;h2&gt;What&rsquo;s the point?&lt;/h2&gt;</summary>
     </entry>
     <entry>
         <title type="html">installing the sup MUA on 64bit arch linux</title>
-        <link href="http://trickyco.de/installing-the-sup-mua-on-64bit-arch-linux"/>
-        <id>http://trickyco.de/installing-the-sup-mua-on-64bit-arch-linux</id>
+        <link href="http://lloyd.io/installing-the-sup-mua-on-64bit-arch-linux"/>
+        <id>http://lloyd.io/installing-the-sup-mua-on-64bit-arch-linux</id>
         <updated>2009-09-24T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;You&rsquo;ll probably get here from a google search on trying to figure out
 how to get sup running on your arch box that was recently upgraded to
@@ -207,79 +207,65 @@ if you don&rsquo;t wanna play!&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">fixing lockfile gem (v1.4.3) for ruby 1.9</title>
-        <link href="http://trickyco.de/fixing-lockfile-gem-v1.4.3-for-ruby-1.9"/>
-        <id>http://trickyco.de/fixing-lockfile-gem-v1.4.3-for-ruby-1.9</id>
+        <link href="http://lloyd.io/fixing-lockfile-gem-v1.4.3-for-ruby-1.9"/>
+        <id>http://lloyd.io/fixing-lockfile-gem-v1.4.3-for-ruby-1.9</id>
         <updated>2009-09-23T06:00:00Z</updated>
         <summary type="html"></summary>
     </entry>
     <entry>
         <title type="html">Drags a droppin' and events a bubblin'...</title>
-        <link href="http://trickyco.de/drags-a-droppin-and-events-a-bubblin"/>
-        <id>http://trickyco.de/drags-a-droppin-and-events-a-bubblin</id>
+        <link href="http://lloyd.io/drags-a-droppin-and-events-a-bubblin"/>
+        <id>http://lloyd.io/drags-a-droppin-and-events-a-bubblin</id>
         <updated>2009-09-16T06:00:00Z</updated>
         <summary type="html"></summary>
     </entry>
     <entry>
-        <title type="html">Would the real "HTML5" File please stand up?</title>
-        <link href="http://trickyco.de/would-the-real-html5-file-please-stand-up"/>
-        <id>http://trickyco.de/would-the-real-html5-file-please-stand-up</id>
-        <updated>2009-09-11T06:00:00Z</updated>
-        <summary type="html">&lt;p&gt;In fiddling around with HTML5 desktop sourced drag and drop, present in Safari Version 4.0.3 (6531.9), I&rsquo;m faced with the interesting challenge of understanding when I can &lt;em&gt;trust&lt;/em&gt; that a drop is really a drop &ndash; that a File is the result of user interaction.  For a little context, here&rsquo;s a bit of code cobbled up by Gordon Durand that&rsquo;ll let us capture desktop sourced drops in the latest snow leopard:&lt;/p&gt;</summary>
-    </entry>
-    <entry>
         <title type="html">chromium on 64 bit (arch) linux</title>
-        <link href="http://trickyco.de/chromium-on-64-bit-arch-linux"/>
-        <id>http://trickyco.de/chromium-on-64-bit-arch-linux</id>
+        <link href="http://lloyd.io/chromium-on-64-bit-arch-linux"/>
+        <id>http://lloyd.io/chromium-on-64-bit-arch-linux</id>
         <updated>2009-09-11T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;Really not much to write about, it was trivial to do, and &lt;em&gt;feels&lt;/em&gt; a
 hell of a lot faster than the burning fox.  Steps?&lt;/p&gt;</summary>
     </entry>
     <entry>
+        <title type="html">Would the real "HTML5" File please stand up?</title>
+        <link href="http://lloyd.io/would-the-real-html5-file-please-stand-up"/>
+        <id>http://lloyd.io/would-the-real-html5-file-please-stand-up</id>
+        <updated>2009-09-11T06:00:00Z</updated>
+        <summary type="html">&lt;p&gt;In fiddling around with HTML5 desktop sourced drag and drop, present in Safari Version 4.0.3 (6531.9), I&rsquo;m faced with the interesting challenge of understanding when I can &lt;em&gt;trust&lt;/em&gt; that a drop is really a drop &ndash; that a File is the result of user interaction.  For a little context, here&rsquo;s a bit of code cobbled up by Gordon Durand that&rsquo;ll let us capture desktop sourced drops in the latest snow leopard:&lt;/p&gt;</summary>
+    </entry>
+    <entry>
         <title type="html">Redcloth/Textile to PDF conversion</title>
-        <link href="http://trickyco.de/redcloth-textile-to-pdf-conversion"/>
-        <id>http://trickyco.de/redcloth-textile-to-pdf-conversion</id>
+        <link href="http://lloyd.io/redcloth-textile-to-pdf-conversion"/>
+        <id>http://lloyd.io/redcloth-textile-to-pdf-conversion</id>
         <updated>2009-09-09T06:00:00Z</updated>
         <summary type="html"></summary>
     </entry>
     <entry>
         <title type="html">NPAPI, the HTML5 File object, and the glory of UNIX</title>
-        <link href="http://trickyco.de/npapi-the-html5-file-object-and-the-glory-of-unix"/>
-        <id>http://trickyco.de/npapi-the-html5-file-object-and-the-glory-of-unix</id>
+        <link href="http://lloyd.io/npapi-the-html5-file-object-and-the-glory-of-unix"/>
+        <id>http://lloyd.io/npapi-the-html5-file-object-and-the-glory-of-unix</id>
         <updated>2009-09-04T06:00:00Z</updated>
         <summary type="html">&lt;h2&gt;Web Processification&lt;/h2&gt;</summary>
     </entry>
     <entry>
         <title type="html">The "Open Web", my spin.</title>
-        <link href="http://trickyco.de/the-open-web-my-spin"/>
-        <id>http://trickyco.de/the-open-web-my-spin</id>
+        <link href="http://lloyd.io/the-open-web-my-spin"/>
+        <id>http://lloyd.io/the-open-web-my-spin</id>
         <updated>2009-09-03T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;Later this week I’ll be moderating a chat entitled “Implementing the open web” at &lt;a href="http://www.gluecon.com/"&gt;gluecon&lt;/a&gt; in my home town, Denver.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">Parse JSON in ruby in 1/4 the time of YAML</title>
-        <link href="http://trickyco.de/parse-json-in-ruby-in-1-4-the-time-of-yaml"/>
-        <id>http://trickyco.de/parse-json-in-ruby-in-1-4-the-time-of-yaml</id>
+        <link href="http://lloyd.io/parse-json-in-ruby-in-1-4-the-time-of-yaml"/>
+        <id>http://lloyd.io/parse-json-in-ruby-in-1-4-the-time-of-yaml</id>
         <updated>2009-09-03T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;Crazy claim, eh? I figure there’s no better way to get this claim tested that by posting it as a truth!&lt;/p&gt;</summary>
     </entry>
     <entry>
-        <title type="html">Load simulation for serving of large static content</title>
-        <link href="http://trickyco.de/load-simulation-for-serving-of-large-static-content"/>
-        <id>http://trickyco.de/load-simulation-for-serving-of-large-static-content</id>
-        <updated>2009-09-03T06:00:00Z</updated>
-        <summary type="html">&lt;p&gt;Recently we spent a little time optimizing some servers. These are
-linux machines running apache serving static and dynamic content using
-php. Each apache process consumes 13mb of private resident memory
-under load and has a gigabit net connection. A sample bit of “large
-static content” is 2mb. Assume cl\\ ients consuming that content need
-about 20s to get it down (100kb/s or so). That means we need to be
-spoon feeding about 2000 simultaneously connected clients in order to
-saturate the gigabit connection.&lt;/p&gt;</summary>
-    </entry>
-    <entry>
         <title type="html">a shiny new blog</title>
-        <link href="http://trickyco.de/a-shiny-new-blog"/>
-        <id>http://trickyco.de/a-shiny-new-blog</id>
+        <link href="http://lloyd.io/a-shiny-new-blog"/>
+        <id>http://lloyd.io/a-shiny-new-blog</id>
         <updated>2009-09-03T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;Expiration of my account at &lt;a href="http://hub.org"&gt;hub.org&lt;/a&gt;, and my
 discovery of &lt;a href="http://mosso.com"&gt;mosso&lt;/a&gt; &amp;
@@ -293,24 +279,38 @@ is a common theme in my life, get stuck in the interesting problems
 that pop up while trying to solve a problem…&lt;/p&gt;</summary>
     </entry>
     <entry>
+        <title type="html">Load simulation for serving of large static content</title>
+        <link href="http://lloyd.io/load-simulation-for-serving-of-large-static-content"/>
+        <id>http://lloyd.io/load-simulation-for-serving-of-large-static-content</id>
+        <updated>2009-09-03T06:00:00Z</updated>
+        <summary type="html">&lt;p&gt;Recently we spent a little time optimizing some servers. These are
+linux machines running apache serving static and dynamic content using
+php. Each apache process consumes 13mb of private resident memory
+under load and has a gigabit net connection. A sample bit of “large
+static content” is 2mb. Assume cl\\ ients consuming that content need
+about 20s to get it down (100kb/s or so). That means we need to be
+spoon feeding about 2000 simultaneously connected clients in order to
+saturate the gigabit connection.&lt;/p&gt;</summary>
+    </entry>
+    <entry>
         <title type="html">A breadth-first attempt at learning about programming and computers</title>
-        <link href="http://trickyco.de/a-breadth-first-attempt-at-learning-about-programming-and-computers"/>
-        <id>http://trickyco.de/a-breadth-first-attempt-at-learning-about-programming-and-computers</id>
+        <link href="http://lloyd.io/a-breadth-first-attempt-at-learning-about-programming-and-computers"/>
+        <id>http://lloyd.io/a-breadth-first-attempt-at-learning-about-programming-and-computers</id>
         <updated>2009-09-03T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;A set of questions that can be used as a jump off point for discussions and learning about computers the internet, and programming.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">ruby 1.8.6 vs 1.9 - performance &amp; memory usage</title>
-        <link href="http://trickyco.de/ruby-1.8.6-vs-1.9-performance-and-memory-usage"/>
-        <id>http://trickyco.de/ruby-1.8.6-vs-1.9-performance-and-memory-usage</id>
+        <link href="http://lloyd.io/ruby-1.8.6-vs-1.9-performance-and-memory-usage"/>
+        <id>http://lloyd.io/ruby-1.8.6-vs-1.9-performance-and-memory-usage</id>
         <updated>2008-05-15T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;Seeing all this action in ruby trunk, combined with what I’ve read
 ’round the net had piqued my interest in 1.9 performance differences.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">matz, the ruby trunk, and GC changes</title>
-        <link href="http://trickyco.de/matz-the-ruby-trunk-and-gc-changes"/>
-        <id>http://trickyco.de/matz-the-ruby-trunk-and-gc-changes</id>
+        <link href="http://lloyd.io/matz-the-ruby-trunk-and-gc-changes"/>
+        <id>http://lloyd.io/matz-the-ruby-trunk-and-gc-changes</id>
         <updated>2008-05-01T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;w00t. An email from matz, and a little spelunking in the ruby subversion
 repository shows that there’s some tinkering going on in ruby garbage
@@ -318,29 +318,29 @@ collection land. Here are the interesting change logs:&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">Improving the Ruby GC</title>
-        <link href="http://trickyco.de/improving-the-ruby-gc"/>
-        <id>http://trickyco.de/improving-the-ruby-gc</id>
+        <link href="http://lloyd.io/improving-the-ruby-gc"/>
+        <id>http://lloyd.io/improving-the-ruby-gc</id>
         <updated>2008-02-07T07:00:00Z</updated>
         <summary type="html">&lt;h2&gt;overview&lt;/h2&gt;</summary>
     </entry>
     <entry>
         <title type="html">Fullscreen X11 broken on Leopard!?</title>
-        <link href="http://trickyco.de/fullscreen-x11-broken-on-leopard"/>
-        <id>http://trickyco.de/fullscreen-x11-broken-on-leopard</id>
+        <link href="http://lloyd.io/fullscreen-x11-broken-on-leopard"/>
+        <id>http://lloyd.io/fullscreen-x11-broken-on-leopard</id>
         <updated>2007-12-22T07:00:00Z</updated>
         <summary type="html"></summary>
     </entry>
     <entry>
         <title type="html">hacking on ruby's garbage collector</title>
-        <link href="http://trickyco.de/hacking-on-rubys-garbage-collector"/>
-        <id>http://trickyco.de/hacking-on-rubys-garbage-collector</id>
+        <link href="http://lloyd.io/hacking-on-rubys-garbage-collector"/>
+        <id>http://lloyd.io/hacking-on-rubys-garbage-collector</id>
         <updated>2007-04-22T06:00:00Z</updated>
         <summary type="html">&lt;h2&gt;overview&lt;/h2&gt;</summary>
     </entry>
     <entry>
         <title type="html">building emacs on leopard from macports</title>
-        <link href="http://trickyco.de/building-emacs-on-leopard-from-macports"/>
-        <id>http://trickyco.de/building-emacs-on-leopard-from-macports</id>
+        <link href="http://lloyd.io/building-emacs-on-leopard-from-macports"/>
+        <id>http://lloyd.io/building-emacs-on-leopard-from-macports</id>
         <updated>2006-08-31T06:00:00Z</updated>
         <summary type="html">&lt;p&gt;I cannot live without X11 emacs!  It doesn&rsquo;t build from macports right
 now.  As far as I can tell, the emacs that apple ships with leopard is
