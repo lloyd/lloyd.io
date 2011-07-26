@@ -1,3 +1,14 @@
+<div class="post" filename="2011-07-26-improving-browserid-ux.md" shortname="improving-browserid-ux" format="markdown">
+  <div class="title"><a href="/improving-browserid-ux">Improving BrowserID UX</a></div>
+  <div class="date">2011-07-26</div>
+  <div class="comments"><a href="/improving-browserid-ux#disqus_thread" data-disqus-identifier="improving-browserid-ux">comments</a></div>
+  <div class="abstract"><p>[BrowserID] poses interesting user experience problems.  The first release
+was sufficiently complete to provide a usable system, but we've learned
+a lot from community feedback and user testing.  Now we can do better.
+This post proposes a new set of UX diagrams intended to solve several
+concrete UX problems.  The goal of this post is to start a 
+discussion which will lead us to incremental improvments in BrowserID's UX.</p></div>
+</div>
 <div class="post" filename="2011-07-01-how-browserid-works.md" shortname="how-browserid-works" format="markdown">
   <div class="title"><a href="/how-browserid-works">How BrowserID Works</a></div>
   <div class="date">2011-07-01</div>
@@ -186,18 +197,18 @@ if you don&rsquo;t wanna play!</p></div>
   <div class="comments"><a href="/drags-a-droppin-and-events-a-bubblin#disqus_thread" data-disqus-identifier="drags-a-droppin-and-events-a-bubblin">comments</a></div>
   <div class="abstract"></div>
 </div>
+<div class="post" filename="2009-09-11-would-the-real-html5-file-please-stand-up.html" shortname="would-the-real-html5-file-please-stand-up" format="html">
+  <div class="title"><a href="/would-the-real-html5-file-please-stand-up">Would the real "HTML5" File please stand up?</a></div>
+  <div class="date">2009-09-11</div>
+  <div class="comments"><a href="/would-the-real-html5-file-please-stand-up#disqus_thread" data-disqus-identifier="would-the-real-html5-file-please-stand-up">comments</a></div>
+  <div class="abstract"><p>In fiddling around with HTML5 desktop sourced drag and drop, present in Safari Version 4.0.3 (6531.9), I&rsquo;m faced with the interesting challenge of understanding when I can <em>trust</em> that a drop is really a drop &ndash; that a File is the result of user interaction.  For a little context, here&rsquo;s a bit of code cobbled up by Gordon Durand that&rsquo;ll let us capture desktop sourced drops in the latest snow leopard:</p></div>
+</div>
 <div class="post" filename="2009-09-11-chromium-on-64-bit-arch-linux.html" shortname="chromium-on-64-bit-arch-linux" format="html">
   <div class="title"><a href="/chromium-on-64-bit-arch-linux">chromium on 64 bit (arch) linux</a></div>
   <div class="date">2009-09-11</div>
   <div class="comments"><a href="/chromium-on-64-bit-arch-linux#disqus_thread" data-disqus-identifier="chromium-on-64-bit-arch-linux">comments</a></div>
   <div class="abstract"><p>Really not much to write about, it was trivial to do, and <em>feels</em> a
 hell of a lot faster than the burning fox.  Steps?</p></div>
-</div>
-<div class="post" filename="2009-09-11-would-the-real-html5-file-please-stand-up.html" shortname="would-the-real-html5-file-please-stand-up" format="html">
-  <div class="title"><a href="/would-the-real-html5-file-please-stand-up">Would the real "HTML5" File please stand up?</a></div>
-  <div class="date">2009-09-11</div>
-  <div class="comments"><a href="/would-the-real-html5-file-please-stand-up#disqus_thread" data-disqus-identifier="would-the-real-html5-file-please-stand-up">comments</a></div>
-  <div class="abstract"><p>In fiddling around with HTML5 desktop sourced drag and drop, present in Safari Version 4.0.3 (6531.9), I&rsquo;m faced with the interesting challenge of understanding when I can <em>trust</em> that a drop is really a drop &ndash; that a File is the result of user interaction.  For a little context, here&rsquo;s a bit of code cobbled up by Gordon Durand that&rsquo;ll let us capture desktop sourced drops in the latest snow leopard:</p></div>
 </div>
 <div class="post" filename="2009-09-09-redcloth-textile-to-pdf-conversion.html" shortname="redcloth-textile-to-pdf-conversion" format="html">
   <div class="title"><a href="/redcloth-textile-to-pdf-conversion">Redcloth/Textile to PDF conversion</a></div>
@@ -223,6 +234,19 @@ hell of a lot faster than the burning fox.  Steps?</p></div>
   <div class="comments"><a href="/parse-json-in-ruby-in-1-4-the-time-of-yaml#disqus_thread" data-disqus-identifier="parse-json-in-ruby-in-1-4-the-time-of-yaml">comments</a></div>
   <div class="abstract"><p>Crazy claim, eh? I figure there’s no better way to get this claim tested that by posting it as a truth!</p></div>
 </div>
+<div class="post" filename="2009-09-03-load-simulation-for-serving-of-large-static-content.html" shortname="load-simulation-for-serving-of-large-static-content" format="html">
+  <div class="title"><a href="/load-simulation-for-serving-of-large-static-content">Load simulation for serving of large static content</a></div>
+  <div class="date">2009-09-03</div>
+  <div class="comments"><a href="/load-simulation-for-serving-of-large-static-content#disqus_thread" data-disqus-identifier="load-simulation-for-serving-of-large-static-content">comments</a></div>
+  <div class="abstract"><p>Recently we spent a little time optimizing some servers. These are
+linux machines running apache serving static and dynamic content using
+php. Each apache process consumes 13mb of private resident memory
+under load and has a gigabit net connection. A sample bit of “large
+static content” is 2mb. Assume cl\ ients consuming that content need
+about 20s to get it down (100kb/s or so). That means we need to be
+spoon feeding about 2000 simultaneously connected clients in order to
+saturate the gigabit connection.</p></div>
+</div>
 <div class="post" filename="2009-09-03-a-shiny-new-blog.html" shortname="a-shiny-new-blog" format="html">
   <div class="title"><a href="/a-shiny-new-blog">a shiny new blog</a></div>
   <div class="date">2009-09-03</div>
@@ -237,19 +261,6 @@ little wordpress at the problem (sorry erlang &amp; yaws, I still love
 you. don’t hate me ruby &amp; lighttpd, you guys are really cute!). This
 is a common theme in my life, get stuck in the interesting problems
 that pop up while trying to solve a problem…</p></div>
-</div>
-<div class="post" filename="2009-09-03-load-simulation-for-serving-of-large-static-content.html" shortname="load-simulation-for-serving-of-large-static-content" format="html">
-  <div class="title"><a href="/load-simulation-for-serving-of-large-static-content">Load simulation for serving of large static content</a></div>
-  <div class="date">2009-09-03</div>
-  <div class="comments"><a href="/load-simulation-for-serving-of-large-static-content#disqus_thread" data-disqus-identifier="load-simulation-for-serving-of-large-static-content">comments</a></div>
-  <div class="abstract"><p>Recently we spent a little time optimizing some servers. These are
-linux machines running apache serving static and dynamic content using
-php. Each apache process consumes 13mb of private resident memory
-under load and has a gigabit net connection. A sample bit of “large
-static content” is 2mb. Assume cl\ ients consuming that content need
-about 20s to get it down (100kb/s or so). That means we need to be
-spoon feeding about 2000 simultaneously connected clients in order to
-saturate the gigabit connection.</p></div>
 </div>
 <div class="post" filename="2009-09-03-a-breadth-first-attempt-at-learning-about-programming-and-computers.html" shortname="a-breadth-first-attempt-at-learning-about-programming-and-computers" format="html">
   <div class="title"><a href="/a-breadth-first-attempt-at-learning-about-programming-and-computers">A breadth-first attempt at learning about programming and computers</a></div>
