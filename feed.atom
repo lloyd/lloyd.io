@@ -4,7 +4,7 @@
     <title>lloyd.io - Lloyd's blog</title>
     <link href="http://lloyd.io" rel="alternate" />
     <link type="application/atom+xml" rel="self" href="http://lloyd.io/feed.atom"/>
-    <updated>2011-07-26T22:24:57Z</updated>
+    <updated>2011-07-29T18:33:14Z</updated>
     <author>
         <name>Lloyd Hilaiel</name>
         <email>lloyd@hilaiel.com</email>
@@ -14,12 +14,13 @@
         <link href="http://lloyd.io/improving-browserid-ux"/>
         <id>http://lloyd.io/improving-browserid-ux</id>
         <updated>2011-07-26T07:00:00Z</updated>
-        <summary type="html">&lt;p&gt;[BrowserID] poses interesting user experience problems.  The first release
-was sufficiently complete to provide a usable system, but we've learned
-a lot from community feedback and user testing.  Now we can do better.
-This post proposes a new set of UX diagrams intended to solve several
-concrete UX problems.  The goal of this post is to start a 
-discussion which will lead us to incremental improvments in BrowserID's UX.&lt;/p&gt;</summary>
+        <summary type="html">&lt;p&gt;&lt;a href="https://browserid.org/"&gt;BrowserID&lt;/a&gt; poses interesting user experience
+problems.  The first release was sufficiently complete to provide a
+usable system, but we've learned a lot from community feedback and
+user testing.  Now we can do better.  This post proposes a new set of
+UX diagrams intended to solve several concrete UX problems.  The goal
+of this post is to start a discussion which will lead us to
+incremental improvments in BrowserID's UX.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">How BrowserID Works</title>
