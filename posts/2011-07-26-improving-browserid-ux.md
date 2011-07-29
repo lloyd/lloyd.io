@@ -56,7 +56,7 @@ sign-in or verification, we present you with the identity picker.
 Why does the user in this case have to type in their email address, and 
 then go and select it?  
 
-**The problem:** In the case of re-authentication or initial email
+**The solution:** In the case of re-authentication or initial email
 verification, the flows proposed here omit the email picker in these
 cases and directly transition a user to a logged in state.
 
