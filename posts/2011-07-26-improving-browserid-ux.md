@@ -1,13 +1,12 @@
 title: Improving BrowserID UX
 
-[BrowserID] poses interesting user experience problems.  The first release
-was sufficiently complete to provide a usable system, but we've learned
-a lot from community feedback and user testing.  Now we can do better.
-This post proposes a new set of UX diagrams intended to solve several
-concrete UX problems.  The goal of this post is to start a 
-discussion which will lead us to incremental improvments in BrowserID's UX.
-
-  [BrowserID]:https://browserid.org/
+[BrowserID](https://browserid.org/) poses interesting user experience
+problems.  The first release was sufficiently complete to provide a
+usable system, but we've learned a lot from community feedback and
+user testing.  Now we can do better.  This post proposes a new set of
+UX diagrams intended to solve several concrete UX problems.  The goal
+of this post is to start a discussion which will lead us to
+incremental improvments in BrowserID's UX.
 
 ## The proposal
 
