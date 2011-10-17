@@ -265,11 +265,23 @@ downward.
 
 ### Communication by fragment
 
-XXX
+In the case of provisioning, information is passed from the BrowserID dialog to the
+IdP's content via url fragment, while the response is passed via `postMessage()`.
+This assymetry exists to avoid load time race conditions present with postMessage
+(i.e. avoid the issue that if a message is posted to the provisioning frame before
+the provisioning frame has bound a listener, the message will be missed).
 
 ### postMessage vs. navigator.id.XXX
 
-XXX
+The provisioning frame communicates the results of provisioning via messages posted
+back to its parent.  This is unlike how websites that use browserid communicate
+(via an abstraction parked at `navigator.id`) for one reason:  In order to shim in
+that abstraction, primary code must include a bit of javascript that itself
+embeds content in an iframe.
+
+Having IdP code postMessage to its parent is thought to be of low complexity and
+to require much less in the way of resource loading.  This does imply, however, that
+when browser native implementations arise, they must intercept this
 
 ### Inline authentication
 
