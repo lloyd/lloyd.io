@@ -1,21 +1,21 @@
 title: Primary Identity Authorities in BrowserID
 
 There have been some misperceptions regarding
-[BrowserID](https://browserid.org), specifically around the claim that
+[BrowserID](https://browserid.org), specifically regarding the claim that
 it is a fully *distributed* authentication system.  The source of this
 confusion is the presence of central servers in the current
 incarnation of BrowserID.  To clarify, the role of these centralized
 servers in BrowserID today is to make the system immediately usable -
 allowing users to use *any email address* to log into *any site* from
 *any browser*, from day one.  The design goal of the system, however,
-is to quickly render these servers obsolete: to do this we must
-migrate client logic from web resources served by browserid servers
+is to ultimately render these servers obsolete: to do this we must
+migrate client logic from web resources served by BrowserID servers
 directly into the browser, and we must migrate the verification and
-certification of email addresses from BrowserID servers, to those of
+certification of email addresses from BrowserID servers to those of
 identity providers.  These two tasks are going to take a while as
 they require the participation of browser vendors and identity
 providers, respectively.  This post addresses the latter task by
-proposing a precise means by which identity providers may directly
+proposing precise means by which identity providers may directly
 vouch for their user's email addresses.
 
 ## Overview
@@ -23,15 +23,15 @@ vouch for their user's email addresses.
 [BrowserID](https://browserid.org) is a distributed authentication
 system from Mozilla.  It lets users leverage existing email addresses
 as the means by which they identify themselves to websites.  Public
-key cryptography allows a user to identify themselves without
+key cryptography is applied to allow a user to identify themselves without
 requiring per-site usernames or passwords.  A key design goal of
 BrowserID is that once fully deployed, no central 3rd party servers
 are required to facilitate the authentication of a user to a website.
-Specifically, the goal is that the process of authenticating to
-website is a detached two party transaction whereby a user is directly
+Specifically, the process of authenticating to
+website will be a detached two party transaction whereby a user is directly
 provisioned with a certificate from their identity provider which
 proves their ownership of a given email address.  This certificate can
-then be used to generate an *assertion* which can be sent to a website
+then be used by the user's browser to generate an *assertion* which can be sent to a website
 to verify this user's ownership of the email in question.
 
 In order for this system to work, existing identity providers (like
@@ -41,8 +41,8 @@ following are required:
 
   1. **A declaration of support**: An IdP must explicitly declare, in the form of a document hosted on their domain, that they support BrowserID.
   2. **A public key**: In order to allow 3rd parties to verify certificates issued by the IdP, they must publically host the key with which those certificates are signed.
-  3. **Authentication webpage**: A user must be able to interact with their IdP at the time that they are logging into a website to acquire a *certificate* that is signed by the IdP and proves their ownership of an identity from that IdP
-  4. **Provisioning webpage**: Once authenticated, a webpage capable of provisioning the user with certificates must be provided.
+  3. **Authentication webpage**: A user must be able to interact with their IdP at the time that they are logging into a website to prove their identity to the IdP and establish a session.
+  4. **Provisioning webpage**: A webpage must be provided which is capable of provisioning an authenticated user with a certificate.
 
 ## Interactions
 
@@ -58,35 +58,35 @@ authenticate.
 
   1. Bob clicks on a sign-in link on `myfavoritebeer.org`.
   2. Javascript on `myfavoritebeer.org` invokes `navigator.id.getVerifiedEmailAddress()`
-  3. BrowserID is invoked and spawns a login dialog, prompting the user to enter the email address they wish to use to authenticate
+  3. BrowserID is invoked and spawns a sign-in dialog, prompting the user to enter the email address they wish to use to authenticate
   4. The user types in `bob@exampleprimary.org`, and clicks sign-in.
   5. BrowserID servers (or the browser) request a (cachable) resource from `exampleprimary.org` to determine if it supports BrowserID: `https://exampleprimary.org/.well-known/browserid`
   6. `exampleprimary.org` returns a JSON formatted response that both indicates their support for BrowserID, and provides links to their public key and web resources which provision certificates
   7. BrowserID servers (or the browser) relay these links to the dialog
-  8. The BrowserID dialog loads the provisioning url in a hidden iframe to attempt to acquire a certificate for the user.
-  9. The BrowserID dialog communicates with the provisioning content to start a provisioning attempt
+  8. The BrowserID dialog loads the provisioning url in a hidden `iframe` to attempt to acquire a certificate for the user.
+  9. The BrowserID dialog communicates the user's claimed email address to the dialog which starts a provisioning attempt
   10. If the user is not currently authenticated, a failure response is attained from the IFrame
-  11. The BrowserID dialog redirects the user to the Primary authentication provider's *authentication* url (changing the content and user visible URL of the dialog), conveying the email address chosen by the user.
+  11. The BrowserID dialog redirects the user to the Primary authentication provider's *authentication* url (changing the content and user visible URL of the dialog), conveying the email address chosen by the user, and the URL to which the user should be returned.
   12. The user interacts with the primary's web interface to authenticate.
   13. Once this interaction is complete, the primary redirects the web content in the dialog back to BrowserID.
   14. BrowserID again loads the provisioning url and interacts with it.
-  15. the primary's provisioning code generates a keypair, signs the public key on the server, and returns the result to BrowserID via a javascript call
+  15. the primary's provisioning code generates a keypair, signs the public key on the server, and returns the result to BrowserID via a postMessage response.
   16. the BrowserID dialog uses the provisioned certificate to generate an assertion, return it to the webpage, and close.
 
 In this case, the user has not recently visited `exampleprimary.org`,
 and thus does not have an existing authenticated session.  In this
-case, the user must authenticate inline during the authentication
+case, the user must authenticate inline during the sign-in
 process.
 
 ### First Time BrowserID Authentication with a Primary IdP (with session)
 
-A more ideal variation of the first case, in this case the user has
+A more ideal variation of the first case arises when the user has
 recently visited their IdP in their browser (which is likely if the
 provider is something the user visits often, like a social networking
 site or webmail).  In this case, step #8 completes successfully, and
 the flow skips directly to step #15.
 
-### Re-provisioning an Previously verified Email Address
+### Re-provisioning an Previously Verified Email Address
 
 In this case the user has several email addresses in use with
 BrowserID, and selects one for which the provider has BrowserID
@@ -97,8 +97,8 @@ varies depending on whether the user has an exisiting session.
 
 ## Primary IdP Responsibilities
 
-As discussed above, there are four distinct things a primary IdP must
-provide in order to become a primary identity provider in BrowserID.
+As discussed above, there are four distinct things an IdP must
+provide in order to become a primary identity authority for BrowserID.
 The following sections will explore these requirements in greater
 detail.
 
@@ -106,12 +106,11 @@ detail.
 
 In order to make it possible for the browser or BrowserID servers to
 determine if there is primary support available for a given domain,
-there must be a well location that an expression of support can be
-published.  [RFC 5785][] proposes a convention for well-known resources
-such as that required by BrowserID, which is to tuck them under a
-`.well-known` directory under document root.  Given this, primaries
-must serve a JSON document under `.well-known/browserid`, that looks
-something like this:
+there must be a well location where an expression of support is
+published.  [RFC 5785][] proposes a convention for well-known
+resources, such as that required by BrowserID, which is a `.well-known`
+directory under document root.  Given this, primaries must serve a
+JSON document under `.well-known/browserid`, for example:
 
   [RFC 5785]: http://tools.ietf.org/html/rfc5785
 
@@ -131,7 +130,7 @@ The top level keys present have the following contents and meaning:
 
   * **public-key** is a path underneath the same domain where the
     public-key for the domain is published.
-  * **authorization** is a path that serves web content that can be
+  * **authentication** is a path that serves web content that can be
     rendered inside the BrowserID dialog to allow the user to
     authenticate to the IdP.
   * **provisioning** is a path to content that is capable of generating
@@ -140,7 +139,7 @@ The top level keys present have the following contents and meaning:
 ### Provisioning Webpage
 
 Web content hosted at IdP's *provisioning* url is designed to be
-loaded in an invisible iframe, and communicate with the content that
+loaded in a hidden iframe, and communicate with the content that
 loads it via [cross document messaging][].
 
   [cross document messaging]: http://www.whatwg.org/specs/web-apps/current-work/multipage/web-messaging.html#web-messaging
@@ -148,10 +147,10 @@ loads it via [cross document messaging][].
 Upon load, provisioning web content may verify that the content which has
 loaded it has been served from `https://browserid.org`.  Subsequent to that,
 the content can determine which email address needs to be provisioned by
-checking `window.location.hash`.  In the case of the example above, the
+extracting the local part of the email from `window.location.hash`.  In the case of the example above, the
 provisioning webpage would be loaded with a url of:
 
-    https://exampleprimary.org/browserid/provision.html#bob@exampleprimary.org
+    https://exampleprimary.org/browserid/provision#bob
 
 Once the email is attained, the provisioning page can determine whether there
 is an authenticated session in the user's present browser that can be leveraged
@@ -183,7 +182,7 @@ to emit this message follows:
       "https://browserid.org"
     );
 
-In the event of a failure, the should emit a 'failure' message with an
+In the event of a failure, a 'failure' message should be emitted with an
 optional developer readable error message:
 
     {
@@ -204,7 +203,7 @@ content should emit a success message containing authentication material:
 
 The authentication webpage is displayed from within the BrowserID dialog after
 silent provisioning fails, and is intended to allow the user to provide
-authentication credentials to the primary as part of authenticating to a site.
+authentication credentials to the primary as part of authenticating to a website.
 
 The authentication page should be designed to work well on mobile devices and
 desktops.  For the latter, the IdP may assume a resolution of 700 pixels by
@@ -224,18 +223,18 @@ Once the user's interaction with the authentication dialog is complete, the
 dialog should redirect to the url provided in the `return_to` GET parameter.
 
 Subsequent to this interaction, the BrowserID dialog will re-attempt the
-provisioning process, and the results of that will indicated whether the
+provisioning process, and the results of that will indicates whether the
 user has successfully authenticated with the primary.
 
 ## Data Formats
 
-The conversation above avoids the important issue of data formats for certificates,
-public keys, and private keys.  At the time of writing, we're working to
-finalize the specific cryptographic algorithms and encoding formats we'll
-be using.  BrowserID at present leverages RSA encoded in [JSON Web Tokens][].
-At present we're revisiting these choices to attempt to come up with an algorithm and
-encoding that has adequate performance, security, and has mature and widely avaiable
-libraries.
+Above we avoid the important issue of data formats for certificates,
+public keys, and private keys.  At the time of writing, we're working
+to finalize the specific cryptographic algorithms and encoding formats
+we'll be using.  BrowserID at present leverages RSA encoded in [JSON
+Web Tokens][].  These choices are being revisited to attempt to come
+up with an algorithm and encoding that has adequate performance and
+security with ideally mature and widely available implementations.
 
   [JSON Web Tokens]: http://self-issued.info/docs/draft-jones-json-web-token.html
 
@@ -273,55 +272,55 @@ the provisioning frame has bound a listener, the message will be missed).
 
 ### Inline authentication
 
-One complexity of primary IdPs is that today, the flow of authenticating to a 
-website becomes a three party transaction:  BrowserID, primary, and website.  
-There are many ways to transfer control from BrowserID to the primary once we
+One complexity of primary IdPs is that today, the flow of authenticating to a
+website becomes a three party transaction:  BrowserID, primary, and website. There
+are many ways to transfer control from BrowserID to the primary once we
 determine that the email the user wishes to use is associated with a primary
-identity authority.  
+identity authority.
 
 The mechanism that was chosen is to replace the BrowserID dialog with content from
 the primary.  This decision has significant tradeoffs to consider.  The benefits
 of this approach include:
 
-  1. The url bar is displayed by the browser as usual, using familiar anti-phishing UI.
-  2. Primary content has full control over how the user should be authenticated, and
+  1. The url bar is displayed by the browser as usual, leveraging familiar anti-phishing UI.
+  2. Primary content has full control over branding, how the user should be authenticated, and
      what sessioning mechanisms to use.
   3. The user need not find a different window and return to the dialog subsequently,
      which would raise UX problems.
   4. The protocol is highly portable.
 
-Discovering the downsides to the proposed approach are left as an excercise to the reader.
+Discovering the problems with the proposed approach is left as an excercise for the reader.
 
 ### Division of Authentication and Provisioning
 
-The above design breaks the process of certificate provisioning from a
-primary into two distinct processes, implemented by two distinct web
+The above design breaks certificate provisioning
+into two distinct processes, implemented by two distinct web
 resources.  These are *authentication* - the process of establishing an
 authenticated session with your primary - and *provisioning* - the
 process of attaining a keypair and signed certificate.
 
-This decision was made to minimize the duplication of code, and simplify requirements on 
+This decision was made to minimize the duplication of code, and simplify requirements on
 primaries.  There are several features of this approach worth consideration:
 
   * If the authentication code was to directly provision a key, it would add
-    communication requirements, probably indicating post message or browserid hosted
+    communication requirements, probably requiring postMessage or BrowserID hosted
     resource inclusion
   * By not having the authentication process provision a certificate, we're
     forced to retry provisioning after successful authentication, adding some latency
     and error modes.
   * The provisioning page is loaded twice when a user must authenticate, however browser
     caching may mitigate user perceptible latency.
-  * Authentication code needs not use postMessage include any crytographic code
-  * provisioning code needs not include any styling nor provide any visibile UI.
-  * Authentication code can refuse to be run in a frame
-  * provisioning code must run in a frame but may only allow `browserid.org` to include it.
+  * Authentication code need not use postMessage include any crytographic code
+  * Provisioning code need not include any styling nor provide any visibile UI.
+  * Authentication code can refuse to be run in a frame.
+  * Provisioning code must run in a frame but may allow only `browserid.org` to include it.
 
 ### `return_to` vs. A Well-Known Return URL
 
-When the authentication resource is loaded, it's passed a URL to send the user to upon completion 
+When the authentication resource is loaded, it's passed a URL to send the user to upon completion
 in the `return_to` GET parameter.  An alternative implementation would be to define this return
-URL, making it well known.  Benefits of `return_to` include a means for the dialog to pass 
-temporal, non-sensitive state to itself, and one bit of specification to have to rev.
+URL, making it well known.  Benefits of `return_to` include a means for the dialog to pass
+temporal, non-sensitive state to itself, and a bit less specification to rev.
 
 ### Errors during provisioning
 
@@ -331,26 +330,26 @@ iframe, malformed responses, or it can try to frame-bust to try to capture the B
 For the first two cases, we should develop heuristics which can detect
 runaway dialogs.  One motivation for including progress messages is
 that these give us an early indication that the provisioning code is
-functioning as expected.  These timeout heuristics can consider this
-information to determine whether provisioning stalled.
+functioning as expected.  Timeout heuristics can consider this
+information to determine whether provisioning should be considered stalled.
 
-As far as frame busting, a reasonable countermeasure may be the BrowserID dialog closing dialog
-upon unload with a failure, upon attempts to frame bust by embedded code.  Further the iframe
+As far as frame busting, a reasonable countermeasure may be to have the BrowserID dialog close
+upon unload with a failure, upon attempts by embedded code to frame bust.  Further, the iframe
 [sandbox property][] can be used in browsers where it's supported.
 
   [sandbox property]: http://www.whatwg.org/specs/web-apps/current-work/multipage/the-iframe-element.html#attr-iframe-sandbox
 
 ### Errors during authentication
 
-Authentication code is in no way forced to redirect the user back to BrowserID as is designed.  
-The countermeasure here is a combination of existing browser native mechansims to 
-help indicate to the user that something phishy is going on, combined with potentially a 
+Authentication code is in no way *forced* to redirect the user back to BrowserID as is designed.
+The countermeasure here is a combination of existing browser native mechansims to
+help indicate to the user that something phishy is going on, combined with potentially a
 dynamic blacklist of known bad actors.
 
 ### Versioning
 
 Several protocols are defined in this proposal.  Drastic change can be handled by versioning
-of the top level support declaration, which would obviate the need for more granular versioning
+of the support declaration document, which would obviate the need for more granular versioning
 (i.e. postMessage bodies).
 
 There is ample precedent to address this issue when it arises.
@@ -358,23 +357,23 @@ There is ample precedent to address this issue when it arises.
 ### postMessage vs. navigator.id.XXX
 
 The provisioning frame communicates the results of provisioning via messages posted
-back to its parent.  This is unlike how websites that use browserid communicate
+back to its parent.  This is unlike how websites that use BrowserID communicate
 (via an abstraction parked at `navigator.id`).  This is intended to alleviate
-provisioning code from including a javascript shim in its evaluation context.
+the need for provisioning code to include a javascript shim in its evaluation context.
 
 ### Forwards compatibility with Browser Native implementations
 
-A browser plugin (or built in implementation) should be able to fully
+A browser plugin (or native implementation) should be able to fully
 perform the responsibilities of the BrowserID dialog implemented today
 in web content, however there are some places where that will be made
 more complex by compatibility considerations.
 
 Specifically, it might be cleaner to provide provisioning code with a proper
 javascript API rather than using postMessage, however this can be simulated
-in native code with some care.  
+in native code with some care.
 
-The proposal for now is a single protocol over postMessage for now,
+The proposal for now is a single protocol over postMessage,
 with a gradual streamlining of the interface as browser adoption picks up.
 Whether we could simplify the client implementation and improve forward
-compatibility with a small provisioning specific javascript shim, is 
+compatibility with a small provisioning specific javascript shim, is
 an open question.
