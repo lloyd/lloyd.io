@@ -244,7 +244,7 @@ libraries.
 There are several open issues with this proposal, and by no means should it be
 considered final.  The intention of this post is to open up our present thinking
 for discussion.  Along with fielding community feedback and ideas, we'll now start
-prototyping an exampleprimary to get a feel for implementation considerations and
+prototyping an example primary to get a feel for implementation considerations and
 user experience, to allows us to refine the proposal.
 
 ## Issues for further consideration
@@ -271,42 +271,110 @@ This assymetry exists to avoid load time race conditions present with postMessag
 (i.e. avoid the issue that if a message is posted to the provisioning frame before
 the provisioning frame has bound a listener, the message will be missed).
 
+### Inline authentication
+
+One complexity of primary IdPs is that today, the flow of authenticating to a 
+website becomes a three party transaction:  BrowserID, primary, and website.  
+There are many ways to transfer control from BrowserID to the primary once we
+determine that the email the user wishes to use is associated with a primary
+identity authority.  
+
+The mechanism that was chosen is to replace the BrowserID dialog with content from
+the primary.  This decision has significant tradeoffs to consider.  The benefits
+of this approach include:
+
+  1. The url bar is displayed by the browser as usual, using familiar anti-phishing UI.
+  2. Primary content has full control over how the user should be authenticated, and
+     what sessioning mechanisms to use.
+  3. The user need not find a different window and return to the dialog subsequently,
+     which would raise UX problems.
+  4. The protocol is highly portable.
+
+Discovering the downsides to the proposed approach are left as an excercise to the reader.
+
+### Division of Authentication and Provisioning
+
+The above design breaks the process of certificate provisioning from a
+primary into two distinct processes, implemented by two distinct web
+resources.  These are *authentication* - the process of establishing an
+authenticated session with your primary - and *provisioning* - the
+process of attaining a keypair and signed certificate.
+
+This decision was made to minimize the duplication of code, and simplify requirements on 
+primaries.  There are several features of this approach worth consideration:
+
+  * If the authentication code was to directly provision a key, it would add
+    communication requirements, probably indicating post message or browserid hosted
+    resource inclusion
+  * By not having the authentication process provision a certificate, we're
+    forced to retry provisioning after successful authentication, adding some latency
+    and error modes.
+  * The provisioning page is loaded twice when a user must authenticate, however browser
+    caching may mitigate user perceptible latency.
+  * Authentication code needs not use postMessage include any crytographic code
+  * provisioning code needs not include any styling nor provide any visibile UI.
+  * Authentication code can refuse to be run in a frame
+  * provisioning code must run in a frame but may only allow `browserid.org` to include it.
+
+### `return_to` vs. A Well-Known Return URL
+
+When the authentication resource is loaded, it's passed a URL to send the user to upon completion 
+in the `return_to` GET parameter.  An alternative implementation would be to define this return
+URL, making it well known.  Benefits of `return_to` include a means for the dialog to pass 
+temporal, non-sensitive state to itself, and one bit of specification to have to rev.
+
+### Errors during provisioning
+
+The provisioning iframe can fail in a number of ways.  It can send no response to the containing
+iframe, malformed responses, or it can try to frame-bust to try to capture the BrowserID dialog.
+
+For the first two cases, we should develop heuristics which can detect
+runaway dialogs.  One motivation for including progress messages is
+that these give us an early indication that the provisioning code is
+functioning as expected.  These timeout heuristics can consider this
+information to determine whether provisioning stalled.
+
+As far as frame busting, a reasonable countermeasure may be the BrowserID dialog closing dialog
+upon unload with a failure, upon attempts to frame bust by embedded code.  Further the iframe
+[sandbox property][] can be used in browsers where it's supported.
+
+  [sandbox property]: http://www.whatwg.org/specs/web-apps/current-work/multipage/the-iframe-element.html#attr-iframe-sandbox
+
+### Errors during authentication
+
+Authentication code is in no way forced to redirect the user back to BrowserID as is designed.  
+The countermeasure here is a combination of existing browser native mechansims to 
+help indicate to the user that something phishy is going on, combined with potentially a 
+dynamic blacklist of known bad actors.
+
+### Versioning
+
+Several protocols are defined in this proposal.  Drastic change can be handled by versioning
+of the top level support declaration, which would obviate the need for more granular versioning
+(i.e. postMessage bodies).
+
+There is ample precedent to address this issue when it arises.
+
 ### postMessage vs. navigator.id.XXX
 
 The provisioning frame communicates the results of provisioning via messages posted
 back to its parent.  This is unlike how websites that use browserid communicate
-(via an abstraction parked at `navigator.id`) for one reason:  In order to shim in
-that abstraction, primary code must include a bit of javascript that itself
-embeds content in an iframe.
-
-Having IdP code postMessage to its parent is thought to be of low complexity and
-to require much less in the way of resource loading.  This does imply, however, that
-when browser native implementations arise, they must intercept this
-
-### Inline authentication
-
-XXX
-
-### Division of Authentication and Provisioning
-
-XXX
-
-### `return_to` vs. A Well-Known Return URL
-
-XXX
-
-### Errors during provisioning
-
-XXX
-
-### Errors during authentication
-
-XXX
-
-### Versioning
-
-XXX
+(via an abstraction parked at `navigator.id`).  This is intended to alleviate
+provisioning code from including a javascript shim in its evaluation context.
 
 ### Forwards compatibility with Browser Native implementations
 
-XXX
+A browser plugin (or built in implementation) should be able to fully
+perform the responsibilities of the BrowserID dialog implemented today
+in web content, however there are some places where that will be made
+more complex by compatibility considerations.
+
+Specifically, it might be cleaner to provide provisioning code with a proper
+javascript API rather than using postMessage, however this can be simulated
+in native code with some care.  
+
+The proposal for now is a single protocol over postMessage for now,
+with a gradual streamlining of the interface as browser adoption picks up.
+Whether we could simplify the client implementation and improve forward
+compatibility with a small provisioning specific javascript shim, is 
+an open question.
