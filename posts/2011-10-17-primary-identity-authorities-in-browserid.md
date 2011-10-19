@@ -1,38 +1,34 @@
 title: Primary Identity Authorities in BrowserID
 
-There have been some misperceptions regarding
-[BrowserID](https://browserid.org), specifically regarding the claim that
-it is a fully *distributed* authentication system.  The source of this
-confusion is the presence of central servers in the current
-incarnation of BrowserID.  To clarify, the role of these centralized
-servers in BrowserID today is to make the system immediately usable -
-allowing users to use *any email address* to log into *any site* from
-*any browser*, from day one.  The design goal of the system, however,
-is to ultimately render these servers obsolete: to do this we must
-migrate client logic from web resources served by BrowserID servers
-directly into the browser, and we must migrate the verification and
-certification of email addresses from BrowserID servers to those of
-identity providers.  These two tasks are going to take a while as
-they require the participation of browser vendors and identity
-providers, respectively.  This post addresses the latter task by
-proposing precise means by which identity providers may directly
-vouch for their user's email addresses.
+<abstract>
+BrowserID is designed to be a distributed authentication system.
+Once fully deployed there will be no central servers required for the 
+system to function, and the process of authenticating to a website will
+require minimal live communication between the user's browser, the 
+idenity provider (IdP), and the website being logged into.  In order to 
+achieve this, two things are required:
+
+  1. Browser vendors must build native support for BrowerID into their products.
+  2. IdP's must build BrowserID support to vouch for their users ownership of issued email addresses.
+
+This post addresses #2, proposing precisly what *BrowserID Support* means 
+for an IdP, and how it works.
+</abstract>
 
 ## Overview
 
-[BrowserID](https://browserid.org) is a distributed authentication
-system from Mozilla.  It lets users leverage existing email addresses
-as the means by which they identify themselves to websites.  Public
-key cryptography is applied to allow a user to identify themselves without
+[BrowserID](https://browserid.org) lets users leverage existing email
+addresses as the means by which they identify themselves to websites.
+Public key cryptography allows a user to identify themselves without
 requiring per-site usernames or passwords.  A key design goal of
 BrowserID is that once fully deployed, no central 3rd party servers
 are required to facilitate the authentication of a user to a website.
-Specifically, the process of authenticating to
-website will be a detached two party transaction whereby a user is directly
-provisioned with a certificate from their identity provider which
-proves their ownership of a given email address.  This certificate can
-then be used by the user's browser to generate an *assertion* which can be sent to a website
-to verify this user's ownership of the email in question.
+Specifically, the process of authenticating to website will be a
+detached two party transaction whereby a user is directly provisioned
+with a certificate from their identity provider which proves their
+ownership of a given email address.  This certificate can then be used
+by the user's browser to generate an *assertion* which can be sent to
+a website to verify this user's ownership of the email in question.
 
 In order for this system to work, existing identity providers (like
 gmail, yahoo mail, twitter, facebook, and countless others), would
@@ -60,7 +56,7 @@ authenticate.
   2. Javascript on `myfavoritebeer.org` invokes `navigator.id.getVerifiedEmailAddress()`
   3. BrowserID is invoked and spawns a sign-in dialog, prompting the user to enter the email address they wish to use to authenticate
   4. The user types in `bob@exampleprimary.org`, and clicks sign-in.
-  5. BrowserID servers (or the browser) request a (cachable) resource from `exampleprimary.org` to determine if it supports BrowserID: `https://exampleprimary.org/.well-known/browserid`
+  5. BrowserID servers (or the browser) request a (cachable) resource from `exampleprimary.org` to determine if it supports BrowserID: `https://exampleprimary.org/.well-known/vep`
   6. `exampleprimary.org` returns a JSON formatted response that both indicates their support for BrowserID, and provides links to their public key and web resources which provision certificates
   7. BrowserID servers (or the browser) relay these links to the dialog
   8. The BrowserID dialog loads the provisioning url in a hidden `iframe` to attempt to acquire a certificate for the user.
@@ -110,45 +106,95 @@ there must be a well location where an expression of support is
 published.  [RFC 5785][] proposes a convention for well-known
 resources, such as that required by BrowserID, which is a `.well-known`
 directory under document root.  Given this, primaries must serve a
-JSON document under `.well-known/browserid`, for example:
+JSON document under `.well-known/vep`, for example:
 
   [RFC 5785]: http://tools.ietf.org/html/rfc5785
 
     {
-        "public-key": "/.well-known/browserid.pk",
+        "public-key": "<encoded public key>",
         "authentication": "/browserid/auth",
         "provisioning": "/browserid/provision"
     }
 
 This document should:
 
-  1. be served from `/.well-known/browserid`
+  1. be served from `/.well-known/vep`
   2. be served with a `Content-Type` of `application/json`
   3. be provided over SSL.
 
+**NOTE:** The file name `vep`, is an acronym for **V**erified
+**E**mail **P**rotocol, the standard which the BrowserID service from
+Mozilla implements.
+
 The top level keys present have the following contents and meaning:
 
-  * **public-key** is a path underneath the same domain where the
-    public-key for the domain is published.
+  * **public-key** is an encoded public key that can be used to
+    verify certificates issued from the primary are authentic.
   * **authentication** is a path that serves web content that can be
     rendered inside the BrowserID dialog to allow the user to
     authenticate to the IdP.
   * **provisioning** is a path to content that is capable of generating
     a certificate using an established session with the IdP.
 
+### Delegation of Authority
+
+Many large organizations or email products span multiple domains.
+Mozilla's own web presence spans multiple domains, two of which are
+`mozilla.org` and `mozilla.com`.  For large organizations, it's often
+useful from and administrative and security standpoint to have
+centrally maintained, shared infrastructure.  To support this need,
+BrowserID supports *delegation of authority*, the process by which
+a domain explicitly delegates authentication and provisioning for 
+email addresses that fall under it to another host.  Delegation
+occurs when a `authority` propery is present in the declaration
+of support which contains a domain name (in which case, all other
+properties present are ignored).   
+
+For example, mozila.org and mozilla.com might include the following
+JSON file in `/.well-known/vep`:
+
+    {
+        "authority": "browserid.mozilla.org"
+    }
+
+In attempting to determine whether primary BrowserID support exists
+for an email address `lloyd@mozilla.com`, one would first pull
+`https://mozilla.com/.well-known/vep`, upon discovery of delegated
+authority, next one would check
+`https://browserid.mozilla.org/.well-known/vep`.
+
+Normal caching rules apply, and as with HTTP, clients should detect
+infinite redirection loops and may limit redirection to a reasonable
+maximum, like 5.
+
 ### Provisioning Webpage
 
 Web content hosted at IdP's *provisioning* url is designed to be
 loaded in a hidden iframe, and communicate with the content that
-loads it via [cross document messaging][].
+loads it via an supplied either by the browser, or by a javascript 
+shim for browsers that don't yet have native support for BrowserID.
+The API used by the provisioning page includes the following functions:
 
-  [cross document messaging]: http://www.whatwg.org/specs/web-apps/current-work/multipage/web-messaging.html#web-messaging
+    // cause the browser to generate a keypair, cache the private key
+    // and return the public key for signing.
+    navigator.id.genKeyPair(function(pubkey) { });
+    // upon successful certificate signing, register the certificate
+    // with the browser.
+    navigator.id.registerCertificate(certificate);
+    // in the event of a failure, the provisioning code should
+    // invoke this function to terminate the provisioning process,
+    // providing a developer readable string
+    navigator.id.raiseProvisioningFailure(string reason);
 
-Upon load, provisioning web content may verify that the content which has
-loaded it has been served from `https://browserid.org`.  Subsequent to that,
-the content can determine which email address needs to be provisioned by
-extracting the local part of the email from `window.location.hash`.  In the case of the example above, the
-provisioning webpage would be loaded with a url of:
+Provisioning web content should include the following javascript to
+provide the above functions:
+
+    https://browserid.org/provisioning_api.js
+
+Upon load, provisioning web content may determine which email address
+needs to be provisioned by checking `window.location.hash`.  In the
+case of the example above, the provisioning webpage would be loaded
+with a url of:
 
     https://exampleprimary.org/browserid/provision#bob
 
@@ -159,45 +205,19 @@ and the user may be silently provisioned with a certificate is up to
 the primary IdP who may use standard web sessioning mechanisms (like cookies).
 
 As soon as it is determined that the user may be provisioned, the primary's
-provisioning code should emit a message to its parent indicating that provisioning
-is underway.  The message that should be emitted should be JSON encoded as a string:
+provisioning code should cause a keypair to be generated by the browser by
+invoking `navigator.id.genKeyPair()`, providing a callback that will be called
+with the encoded public key once the generation process is complete.
 
-    {
-        "status": "provisioning",
-        [ "progress", 0.0 ]
-    }
+Once provisioning code has a public key, it should pass it up to IdP servers
+for signing, and return the signed version to the client.  Finally the 
+provisioning code should invoke `navigator.id.registerCertificate()` with the 
+encoded certificate as a paramter to successfully complete the provisioning
+process.
 
-This message implies to parent code implicitly that thus far there
-have been no errors, and provisioning is proceeding.  The
-"provisioning" message may be emitted any number of times, and if
-meaningiful approximate progress is available it may be added to the
-message as a number under the "progress" property.  Sample javascript
-to emit this message follows:
-
-    window.parent.postMessage(
-      JSON.stringify({
-        status: "provisioning",
-        progress: 0.0
-      }),
-      "https://browserid.org"
-    );
-
-In the event of a failure, a 'failure' message should be emitted with an
-optional developer readable error message:
-
-    {
-        "status": "failure",
-        [ "reason", "email address requires authentication" ]
-    }
-
-Finally, upon successful keypair and certificate generation, the provisioning
-content should emit a success message containing authentication material:
-
-    {
-        "status": "success",
-        "certificate": "<encoded signed certificate>",
-        "private-key": "<encoded private key>"
-    }
+If at any point an error is encountered during the provisioning process, 
+`navigator.id.raiseProvisioningFailure()` may be called with a developer
+readable failure string to indicate to the browser that an error has occured.
 
 ### Authentication Webpage
 
