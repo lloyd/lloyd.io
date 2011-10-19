@@ -4,11 +4,29 @@
     <title>lloyd.io - Lloyd's blog</title>
     <link href="http://lloyd.io" rel="alternate" />
     <link type="application/atom+xml" rel="self" href="http://lloyd.io/feed.atom"/>
-    <updated>2011-08-01T19:38:02Z</updated>
+    <updated>2011-10-19T20:58:53Z</updated>
     <author>
         <name>Lloyd Hilaiel</name>
         <email>lloyd@hilaiel.com</email>
     </author>
+    <entry>
+        <title type="html">Primary Identity Authorities in BrowserID</title>
+        <link href="http://lloyd.io/primary-identity-authorities-in-browserid"/>
+        <id>http://lloyd.io/primary-identity-authorities-in-browserid</id>
+        <updated>2011-10-17T06:00:00Z</updated>
+        <summary type="html">&lt;p&gt;BrowserID is designed to be a distributed authentication system.
+Once fully deployed there will be no central servers required for the 
+system to function, and the process of authenticating to a website will
+require minimal live communication between the user's browser, the 
+identity provider (IdP), and the website being logged into.  In order to 
+achieve this, two things are required:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Browser vendors must build native support for BrowserID into their products.&lt;/li&gt;
+&lt;li&gt;IdP's must build BrowserID support to vouch for their users ownership of issued email addresses.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This post addresses #2, proposing precisely what &lt;em&gt;BrowserID Support&lt;/em&gt; means 
+for an IdP, and how it works.&lt;/p&gt;</summary>
+    </entry>
     <entry>
         <title type="html">Applying Gitflow</title>
         <link href="http://lloyd.io/applying-gitflow"/>
@@ -20,7 +38,7 @@ BrowserID project, which is based on
 The &lt;a href="https://browserid.org"&gt;BrowserID&lt;/a&gt; project has recently become a
 high visibility venture, with many sites actively using the service
 for authentication.  This overnight change from experiment to
-production service presents us with a dilemma: the project is still in
+production presents us with a dilemma: the project is still in
 early stages and needs to be able to rapidly iterate and evolve, but
 at the same time it must be stable and available for those who have
 started using it.  This post describes how we'll resolve this dilemma.&lt;/p&gt;</summary>
