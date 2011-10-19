@@ -1,6 +1,13 @@
 title: Primary Identity Authorities in BrowserID
 
+<small>(This post builds on the work of [Mike Hanson][], [Ben Adida][], [Dan Mills][], and the [mozilla community][])</small>
+
+ [Mike Hanson]:http://open-mike.org
+ [Ben Adida]:http://benlog.com
+ [Dan Mills]:https://twitter.com/#!/thunder 
+ [mozilla community]:http://groups.google.com/group/mozilla.dev.identity/topics
 <abstract>
+
 BrowserID is designed to be a distributed authentication system.
 Once fully deployed there will be no central servers required for the 
 system to function, and the process of authenticating to a website will
