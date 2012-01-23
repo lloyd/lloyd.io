@@ -28,7 +28,7 @@ proposed by Mike Hanson], and refined by [Dan Mills] and others).
 > tutorial] for a website developer's perspective.
 
   [myfavoritebeer.org]:http://myfavoritebeer.org
-  [integration tutorial]:https://browserid.org/developers.html
+  [integration tutorial]:https://developer.mozilla.org/en/BrowserID/Quick_Setup
 
 This post aims to provide a readable technical overview of the system.
 First it will summarize the key design elements of BrowserID.  Next,
