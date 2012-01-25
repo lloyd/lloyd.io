@@ -63,7 +63,7 @@ authenticate.
   2. Javascript on `myfavoritebeer.org` invokes `navigator.id.getVerifiedEmailAddress()`.
   3. BrowserID is invoked and spawns a sign-in dialog, prompting the user to enter their email address.
   4. The user types in `bob@exampleprimary.org`, and clicks sign-in.
-  5. BrowserID servers (or the browser) request a (cachable) resource from `exampleprimary.org` to determine if it supports BrowserID: `https://exampleprimary.org/.well-known/vep`
+  5. BrowserID servers (or the browser) request a (cachable) resource from `exampleprimary.org` to determine if it supports BrowserID: `https://exampleprimary.org/.well-known/browserid`
   6. `exampleprimary.org` returns a JSON formatted response that both indicates their support for BrowserID, and provides their public key and links to web resources which provision certificates.
   7. BrowserID servers (or the browser) relay these links to the dialog
   8. The BrowserID dialog loads the provisioning URL in a hidden `iframe` to attempt to acquire a certificate for the user.
@@ -113,7 +113,7 @@ there must be a well location where an expression of support is
 published.  [RFC 5785][] proposes a convention for well-known
 resources, such as that required by BrowserID, which is a `.well-known`
 directory under document root.  Applying this convention, primaries must serve a
-JSON document under `.well-known/vep`, for example:
+JSON document under `.well-known/browserid`, for example:
 
   [RFC 5785]: http://tools.ietf.org/html/rfc5785
 
@@ -125,15 +125,9 @@ JSON document under `.well-known/vep`, for example:
 
 This document should:
 
-  1. be served from `/.well-known/vep`
+  1. be served from `/.well-known/browserid`
   2. be served with a `Content-Type` of `application/json`
   3. be provided over SSL.
-
-**NOTE:** The file name `vep`, is an acronym for **V**erified
-**E**mail **P**rotocol, [the standard][] which the BrowserID service from
-Mozilla implements.
-
-  [the standard]: https://wiki.mozilla.org/Identity/Verified_Email_Protocol/Latest
 
 The top level keys present have the following contents and meaning:
 
@@ -160,7 +154,7 @@ of support which contains a domain name (in which case, all other
 properties present are ignored).
 
 For example, mozila.org and mozilla.com might include the following
-JSON file in `/.well-known/vep`:
+JSON file in `/.well-known/browserid`:
 
     {
         "authority": "browserid.mozilla.org"
@@ -168,9 +162,9 @@ JSON file in `/.well-known/vep`:
 
 In attempting to determine whether primary BrowserID support exists
 for an email address `lloyd@mozilla.com`, one would first pull
-`https://mozilla.com/.well-known/vep`, upon discovery of delegated
+`https://mozilla.com/.well-known/browserid`, upon discovery of delegated
 authority, next one would check
-`https://browserid.mozilla.org/.well-known/vep`.
+`https://browserid.mozilla.org/.well-known/browserid`.
 
 Normal caching rules apply, and as with HTTP, clients should detect
 infinite redirection loops and may limit redirection to a reasonable
