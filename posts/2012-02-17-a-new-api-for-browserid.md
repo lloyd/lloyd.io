@@ -72,10 +72,12 @@ possible application in pseudo code is:
         navigator.id.request();
       });
     } else {
-      navigator.id.addEventListener('logout', function(event) {
-        // The user has logged out!  perform a page transition or
-        // an ajax request to end the user's session, and
-        // update the page.
+      navigator.id.addEventListener('status', function(event) {
+        if (event.type === 'logged_out') {
+          // The user has logged out!  perform a page transition or
+          // an ajax request to end the user's session, and
+          // update the page.
+        }
       });
     }
 
