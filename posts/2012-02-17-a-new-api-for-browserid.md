@@ -152,6 +152,6 @@ this post, as well as the requirement that the API work when implemented
 both in HTML and when implemented natively by browsers.  If you're interested
 in more context, it's all available in [a previous post][].
 
-  [a previous post][http://lloyd.io/doing-more-with-browserid]
+  [a previous post]: http://lloyd.io/doing-more-with-browserid
 
 I look forward to your thoughts!
