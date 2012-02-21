@@ -4,16 +4,36 @@
     <title>lloyd.io - Lloyd's blog</title>
     <link href="http://lloyd.io" rel="alternate" />
     <link type="application/atom+xml" rel="self" href="http://lloyd.io/feed.atom"/>
-    <updated>2011-10-19T20:58:53Z</updated>
+    <updated>2012-02-21T22:18:50Z</updated>
     <author>
         <name>Lloyd Hilaiel</name>
         <email>lloyd@hilaiel.com</email>
     </author>
     <entry>
+        <title type="html">A new API for BrowserID</title>
+        <link href="http://lloyd.io/a-new-api-for-browserid"/>
+        <id>http://lloyd.io/a-new-api-for-browserid</id>
+        <updated>2012-02-17T00:00:00Z</updated>
+        <summary type="html">&lt;p&gt;There are important features in BrowserID that &lt;a href="https://gist.github.com/1336528"&gt;existing API&lt;/a&gt;
+prevents us from implementing.  This post motivates and &lt;em&gt;proposes&lt;/em&gt; a
+new API building off the work of the Mozilla community and other
+BrowserID engineers.&lt;/p&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Doing More With BrowserID</title>
+        <link href="http://lloyd.io/doing-more-with-browserid"/>
+        <id>http://lloyd.io/doing-more-with-browserid</id>
+        <updated>2012-02-16T00:00:00Z</updated>
+        <summary type="html">&lt;p&gt;This post explores proposed BrowserID features that cannot be
+implemented with the current API.  I'll talk about four important
+features that would require a change to the API, and discuss the
+precise ways in which it would need to change.&lt;/p&gt;</summary>
+    </entry>
+    <entry>
         <title type="html">Primary Identity Authorities in BrowserID</title>
         <link href="http://lloyd.io/primary-identity-authorities-in-browserid"/>
         <id>http://lloyd.io/primary-identity-authorities-in-browserid</id>
-        <updated>2011-10-17T06:00:00Z</updated>
+        <updated>2011-10-17T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;BrowserID is designed to be a distributed authentication system.
 Once fully deployed there will be no central servers required for the 
 system to function, and the process of authenticating to a website will
@@ -31,7 +51,7 @@ for an IdP, and how it works.&lt;/p&gt;</summary>
         <title type="html">Applying Gitflow</title>
         <link href="http://lloyd.io/applying-gitflow"/>
         <id>http://lloyd.io/applying-gitflow</id>
-        <updated>2011-08-01T06:00:00Z</updated>
+        <updated>2011-08-01T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;This post will describe the release management processes of the
 BrowserID project, which is based on
 &lt;a href="http://nvie.com/posts/a-successful-git-branching-model/"&gt;gitflow&lt;/a&gt;.
@@ -47,7 +67,7 @@ started using it.  This post describes how we'll resolve this dilemma.&lt;/p&gt;
         <title type="html">Improving BrowserID UX</title>
         <link href="http://lloyd.io/improving-browserid-ux"/>
         <id>http://lloyd.io/improving-browserid-ux</id>
-        <updated>2011-07-26T06:00:00Z</updated>
+        <updated>2011-07-26T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;&lt;a href="https://browserid.org/"&gt;BrowserID&lt;/a&gt; poses interesting user experience
 problems.  The first release was sufficiently complete to provide a
 usable system, but we've learned a lot from community feedback and
@@ -60,7 +80,7 @@ incremental improvments in BrowserID's UX.&lt;/p&gt;</summary>
         <title type="html">How BrowserID Works</title>
         <link href="http://lloyd.io/how-browserid-works"/>
         <id>http://lloyd.io/how-browserid-works</id>
-        <updated>2011-07-01T06:00:00Z</updated>
+        <updated>2011-07-01T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;&lt;a href="https://browserid.org"&gt;BrowserID&lt;/a&gt; is a decentralized identity system
 that makes it possible for users to prove ownership of email addresses
 in a secure manner, without requiring per-site passwords.  BrowserID
@@ -74,7 +94,7 @@ proposed by Mike Hanson&lt;/a&gt;, and refined by &lt;a href="http://sandmill.or
         <title type="html">Simple Site Publishing with Git</title>
         <link href="http://lloyd.io/simple-site-publishing-with-git"/>
         <id>http://lloyd.io/simple-site-publishing-with-git</id>
-        <updated>2011-06-13T06:00:00Z</updated>
+        <updated>2011-06-13T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;This post provides a tiny recipe for small scale site deployment with
 git.  If you have a small, mostly static website that you develop using
 git, and you would like to streamline the publishing of the site to
@@ -84,7 +104,7 @@ a server that you control, then this post is for you.&lt;/p&gt;</summary>
         <title type="html">The Road to Chromeless 1.0</title>
         <link href="http://lloyd.io/the-road-to-chromeless-1.0"/>
         <id>http://lloyd.io/the-road-to-chromeless-1.0</id>
-        <updated>2011-06-09T06:00:00Z</updated>
+        <updated>2011-06-09T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;Mozilla's &lt;a href="http://github.com/mozilla/chromeless"&gt;Chromeless&lt;/a&gt; project is an experiment toward building
 desktop applications with web technologies.  So far, it's been more
 of a fancy-free exploration of interesting features or applications than
@@ -98,7 +118,7 @@ which &lt;em&gt;others&lt;/em&gt; can experiment, play, and ship products.&lt;/p
         <title type="html">JSONSelect Grows Up</title>
         <link href="http://lloyd.io/jsonselect-grows-up"/>
         <id>http://lloyd.io/jsonselect-grows-up</id>
-        <updated>2011-06-02T06:00:00Z</updated>
+        <updated>2011-06-02T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;&lt;a href="http://jsonselect.org/"&gt;JSONSelect&lt;/a&gt; is a query language for JSON.
 With JSONSelect you can write small patterns that match against JSON
 documents.  The language is mostly an adaptation of CSS to JSON,
@@ -108,7 +128,7 @@ motivated by the belief that CSS does a fine job and is widely understood.&lt;/p
         <title type="html">What's New In YAJL Two?</title>
         <link href="http://lloyd.io/whats-new-in-yajl-two"/>
         <id>http://lloyd.io/whats-new-in-yajl-two</id>
-        <updated>2011-04-26T06:00:00Z</updated>
+        <updated>2011-04-26T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;&lt;a href="http://lloyd.github.com/yajl"&gt;YAJL&lt;/a&gt; is a little sax style JSON parser written
 in C (conforming to C99).  The first iteration was put together in a couple
 evening/weekend hacking sessions, and YAJL sat in version zero for about two
@@ -120,7 +140,7 @@ joke, because the same day it hit version 1.0.2).&lt;/p&gt;</summary>
         <title type="html">A Chromeless Snapshot</title>
         <link href="http://lloyd.io/a-chromeless-snapshot"/>
         <id>http://lloyd.io/a-chromeless-snapshot</id>
-        <updated>2011-02-11T07:00:00Z</updated>
+        <updated>2011-02-11T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;There has been a ton of development in the Mozilla Labs
 &lt;a href="https://mozillalabs.com/chromeless"&gt;&lt;em&gt;Chromeless&lt;/em&gt;&lt;/a&gt; project since the
 &lt;a href="https://mozillalabs.com/chromeless/2010/12/15/chromeless-0-1/"&gt;0.1 release&lt;/a&gt;,
@@ -130,14 +150,14 @@ and I wanted to take a moment to give a snapshot of our progress.&lt;/p&gt;</sum
         <title type="html">Open Web Apps: Refining The Manifest</title>
         <link href="http://lloyd.io/open-web-apps-refining-the-manifest"/>
         <id>http://lloyd.io/open-web-apps-refining-the-manifest</id>
-        <updated>2010-11-22T07:00:00Z</updated>
+        <updated>2010-11-22T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;In the month since we &lt;a href="http://blog.mozilla.com/blog/2010/10/19/prototype-of-an-open-web-app-ecosystem/"&gt;announced &ldquo;Open Web Apps&rdquo;&lt;/a&gt;, there&rsquo;s been a lot of discussion around the particulars of the Mozilla proposal.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">Challenges in Repurposing the Addon SDK (aka, jetpack)</title>
         <link href="http://lloyd.io/challenges-in-repurposing-the-addon-sdk-aka-jetpack"/>
         <id>http://lloyd.io/challenges-in-repurposing-the-addon-sdk-aka-jetpack</id>
-        <updated>2010-10-25T06:00:00Z</updated>
+        <updated>2010-10-25T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;Lately I&rsquo;ve been collaborating with Marcio Galli on the
 &lt;a href="http://mozillalabs.com/chromeless"&gt;chromeless project&lt;/a&gt;
 in Mozilla Labs, and one thing I like about the approach is that
@@ -147,7 +167,7 @@ it leverages huge swaths of the &lt;a href="http://mozillalabs.com/jetpack"&gt;j
         <title type="html">JSChannel: Taming postMessage()</title>
         <link href="http://lloyd.io/jschannel-taming-postmessage"/>
         <id>http://lloyd.io/jschannel-taming-postmessage</id>
-        <updated>2010-09-20T06:00:00Z</updated>
+        <updated>2010-09-20T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;This post presents &lt;a href="http://github.com/mozilla/jschannel"&gt;JSChannel&lt;/a&gt;, a
 little open source JavaScript library that sits atop HTML5&rsquo;s
 cross-document messaging and provides rich messaging semantics and an
@@ -157,14 +177,14 @@ ergonomic API.&lt;/p&gt;</summary>
         <title type="html">Cheating on Subversion Without Getting Caught</title>
         <link href="http://lloyd.io/cheating-on-subversion-without-getting-caught"/>
         <id>http://lloyd.io/cheating-on-subversion-without-getting-caught</id>
-        <updated>2010-08-12T06:00:00Z</updated>
+        <updated>2010-08-12T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;This post lightly explores the problem of &ldquo;automatically&rdquo; backing up a git repository to subversion.  &lt;em&gt;Why&lt;/em&gt; would anyone want to do this? Well, if your organization has a policy that all code must make it into subversion, but your team is interested in leveraging git in a deeper way than just by using git-svn as a sexy subversion client, then you&rsquo;ll find yourself pondering the question of repository synchronization.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">itches, #2010.8.6</title>
         <link href="http://lloyd.io/itches-2010.8.6"/>
         <id>http://lloyd.io/itches-2010.8.6</id>
-        <updated>2010-08-06T06:00:00Z</updated>
+        <updated>2010-08-06T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;As I spend more and more of my free time digging around in reptilian
 mailing lists and such, I find that I&rsquo;ve begun feeling itchy.  Here
 are four little itches that might be interesting for someone to
@@ -174,7 +194,7 @@ scratch, micro-projects if you will:&lt;/p&gt;</summary>
         <title type="html">Going Lizard Riding</title>
         <link href="http://lloyd.io/going-lizard-riding"/>
         <id>http://lloyd.io/going-lizard-riding</id>
-        <updated>2010-08-04T06:00:00Z</updated>
+        <updated>2010-08-04T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;Six years ago, when the &lt;a href="http://en.wikipedia.org/wiki/WUF_Networks"&gt;little
 startup&lt;/a&gt; I worked for was
 swallowed up by a &lt;a href="http://www.flickr.com/photos/livenature/412180053/"&gt;big purple cow&lt;/a&gt;, I was convinced that I would be
@@ -188,35 +208,35 @@ friends I&rsquo;d gained and the accomplishments we shared.&lt;/p&gt;</summary>
         <title type="html">footnotes</title>
         <link href="http://lloyd.io/footnotes"/>
         <id>http://lloyd.io/footnotes</id>
-        <updated>2010-02-03T07:00:00Z</updated>
+        <updated>2010-02-03T00:00:00Z</updated>
         <summary type="html"></summary>
     </entry>
     <entry>
         <title type="html">Securing Web Extensibility</title>
         <link href="http://lloyd.io/securing-web-extensibility"/>
         <id>http://lloyd.io/securing-web-extensibility</id>
-        <updated>2010-01-31T07:00:00Z</updated>
+        <updated>2010-01-31T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;In recent years, we've seen increased energy put into web extensibility platforms. These platforms let distributed developers collaborate to produce new kinds of interactive features on websites and in the web browser itself.  Because these platforms frequently enable data-sharing between multiple distinct organizations, and often sit between two completely different security domains (desktop vs. web), the security and privacy issues that arise are complex and interesting.  This post explores some of that complexity: both the current state of platforms that extend the web and their associated security challenges.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">Web Security</title>
         <link href="http://lloyd.io/web-security"/>
         <id>http://lloyd.io/web-security</id>
-        <updated>2010-01-13T07:00:00Z</updated>
+        <updated>2010-01-13T00:00:00Z</updated>
         <summary type="html"></summary>
     </entry>
     <entry>
         <title type="html">how the web works</title>
         <link href="http://lloyd.io/how-the-web-works"/>
         <id>http://lloyd.io/how-the-web-works</id>
-        <updated>2010-01-07T07:00:00Z</updated>
+        <updated>2010-01-07T00:00:00Z</updated>
         <summary type="html"></summary>
     </entry>
     <entry>
         <title type="html">Forwarding Orderly JSON - v0</title>
         <link href="http://lloyd.io/forwarding-orderly-json-v0"/>
         <id>http://lloyd.io/forwarding-orderly-json-v0</id>
-        <updated>2009-10-06T06:00:00Z</updated>
+        <updated>2009-10-06T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;Recently I proposed
 &lt;a href="http://trickyco.de/orderly-jsonschema"&gt;orderly&lt;/a&gt;, an idea
 for a small microlanguage on top of JSONSchema &mdash; something easier to
@@ -226,7 +246,7 @@ read and write.&lt;/p&gt;</summary>
         <title type="html">Orderly JSONSchema</title>
         <link href="http://lloyd.io/orderly-jsonschema"/>
         <id>http://lloyd.io/orderly-jsonschema</id>
-        <updated>2009-10-02T06:00:00Z</updated>
+        <updated>2009-10-02T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;I&rsquo;ve always wanted a concise and beautiful schema language for JSON.
 This desire stems from a real world need that I&rsquo;ve hit repeatedly.
 Given in-memory data that has been hydrated from a stream of JSON, of
@@ -239,14 +259,14 @@ document is of the form that I expect.&lt;/p&gt;</summary>
         <title type="html">bi-directional git &lt;=&gt; svn - part I</title>
         <link href="http://lloyd.io/bi-directional-git-andltgt-svn-part-i"/>
         <id>http://lloyd.io/bi-directional-git-andltgt-svn-part-i</id>
-        <updated>2009-09-25T06:00:00Z</updated>
+        <updated>2009-09-25T00:00:00Z</updated>
         <summary type="html">&lt;h2&gt;What&rsquo;s the point?&lt;/h2&gt;</summary>
     </entry>
     <entry>
         <title type="html">installing the sup MUA on 64bit arch linux</title>
         <link href="http://lloyd.io/installing-the-sup-mua-on-64bit-arch-linux"/>
         <id>http://lloyd.io/installing-the-sup-mua-on-64bit-arch-linux</id>
-        <updated>2009-09-24T06:00:00Z</updated>
+        <updated>2009-09-24T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;You&rsquo;ll probably get here from a google search on trying to figure out
 how to get sup running on your arch box that was recently upgraded to
 ruby 1.9.  sure it hurts, but it&rsquo;s progress!  Pick a different distro
@@ -256,64 +276,57 @@ if you don&rsquo;t wanna play!&lt;/p&gt;</summary>
         <title type="html">fixing lockfile gem (v1.4.3) for ruby 1.9</title>
         <link href="http://lloyd.io/fixing-lockfile-gem-v1.4.3-for-ruby-1.9"/>
         <id>http://lloyd.io/fixing-lockfile-gem-v1.4.3-for-ruby-1.9</id>
-        <updated>2009-09-23T06:00:00Z</updated>
+        <updated>2009-09-23T00:00:00Z</updated>
         <summary type="html"></summary>
     </entry>
     <entry>
         <title type="html">Drags a droppin' and events a bubblin'...</title>
         <link href="http://lloyd.io/drags-a-droppin-and-events-a-bubblin"/>
         <id>http://lloyd.io/drags-a-droppin-and-events-a-bubblin</id>
-        <updated>2009-09-16T06:00:00Z</updated>
+        <updated>2009-09-16T00:00:00Z</updated>
         <summary type="html"></summary>
-    </entry>
-    <entry>
-        <title type="html">Would the real "HTML5" File please stand up?</title>
-        <link href="http://lloyd.io/would-the-real-html5-file-please-stand-up"/>
-        <id>http://lloyd.io/would-the-real-html5-file-please-stand-up</id>
-        <updated>2009-09-11T06:00:00Z</updated>
-        <summary type="html">&lt;p&gt;In fiddling around with HTML5 desktop sourced drag and drop, present in Safari Version 4.0.3 (6531.9), I&rsquo;m faced with the interesting challenge of understanding when I can &lt;em&gt;trust&lt;/em&gt; that a drop is really a drop &ndash; that a File is the result of user interaction.  For a little context, here&rsquo;s a bit of code cobbled up by Gordon Durand that&rsquo;ll let us capture desktop sourced drops in the latest snow leopard:&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">chromium on 64 bit (arch) linux</title>
         <link href="http://lloyd.io/chromium-on-64-bit-arch-linux"/>
         <id>http://lloyd.io/chromium-on-64-bit-arch-linux</id>
-        <updated>2009-09-11T06:00:00Z</updated>
+        <updated>2009-09-11T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;Really not much to write about, it was trivial to do, and &lt;em&gt;feels&lt;/em&gt; a
 hell of a lot faster than the burning fox.  Steps?&lt;/p&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Would the real "HTML5" File please stand up?</title>
+        <link href="http://lloyd.io/would-the-real-html5-file-please-stand-up"/>
+        <id>http://lloyd.io/would-the-real-html5-file-please-stand-up</id>
+        <updated>2009-09-11T00:00:00Z</updated>
+        <summary type="html">&lt;p&gt;In fiddling around with HTML5 desktop sourced drag and drop, present in Safari Version 4.0.3 (6531.9), I&rsquo;m faced with the interesting challenge of understanding when I can &lt;em&gt;trust&lt;/em&gt; that a drop is really a drop &ndash; that a File is the result of user interaction.  For a little context, here&rsquo;s a bit of code cobbled up by Gordon Durand that&rsquo;ll let us capture desktop sourced drops in the latest snow leopard:&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">Redcloth/Textile to PDF conversion</title>
         <link href="http://lloyd.io/redcloth-textile-to-pdf-conversion"/>
         <id>http://lloyd.io/redcloth-textile-to-pdf-conversion</id>
-        <updated>2009-09-09T06:00:00Z</updated>
+        <updated>2009-09-09T00:00:00Z</updated>
         <summary type="html"></summary>
     </entry>
     <entry>
         <title type="html">NPAPI, the HTML5 File object, and the glory of UNIX</title>
         <link href="http://lloyd.io/npapi-the-html5-file-object-and-the-glory-of-unix"/>
         <id>http://lloyd.io/npapi-the-html5-file-object-and-the-glory-of-unix</id>
-        <updated>2009-09-04T06:00:00Z</updated>
+        <updated>2009-09-04T00:00:00Z</updated>
         <summary type="html">&lt;h2&gt;Web Processification&lt;/h2&gt;</summary>
     </entry>
     <entry>
         <title type="html">The "Open Web", my spin.</title>
         <link href="http://lloyd.io/the-open-web-my-spin"/>
         <id>http://lloyd.io/the-open-web-my-spin</id>
-        <updated>2009-09-03T06:00:00Z</updated>
+        <updated>2009-09-03T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;Later this week I’ll be moderating a chat entitled “Implementing the open web” at &lt;a href="http://www.gluecon.com/"&gt;gluecon&lt;/a&gt; in my home town, Denver.&lt;/p&gt;</summary>
-    </entry>
-    <entry>
-        <title type="html">Parse JSON in ruby in 1/4 the time of YAML</title>
-        <link href="http://lloyd.io/parse-json-in-ruby-in-1-4-the-time-of-yaml"/>
-        <id>http://lloyd.io/parse-json-in-ruby-in-1-4-the-time-of-yaml</id>
-        <updated>2009-09-03T06:00:00Z</updated>
-        <summary type="html">&lt;p&gt;Crazy claim, eh? I figure there’s no better way to get this claim tested that by posting it as a truth!&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">Load simulation for serving of large static content</title>
         <link href="http://lloyd.io/load-simulation-for-serving-of-large-static-content"/>
         <id>http://lloyd.io/load-simulation-for-serving-of-large-static-content</id>
-        <updated>2009-09-03T06:00:00Z</updated>
+        <updated>2009-09-03T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;Recently we spent a little time optimizing some servers. These are
 linux machines running apache serving static and dynamic content using
 php. Each apache process consumes 13mb of private resident memory
@@ -324,10 +337,17 @@ spoon feeding about 2000 simultaneously connected clients in order to
 saturate the gigabit connection.&lt;/p&gt;</summary>
     </entry>
     <entry>
+        <title type="html">Parse JSON in ruby in 1/4 the time of YAML</title>
+        <link href="http://lloyd.io/parse-json-in-ruby-in-1-4-the-time-of-yaml"/>
+        <id>http://lloyd.io/parse-json-in-ruby-in-1-4-the-time-of-yaml</id>
+        <updated>2009-09-03T00:00:00Z</updated>
+        <summary type="html">&lt;p&gt;Crazy claim, eh? I figure there’s no better way to get this claim tested that by posting it as a truth!&lt;/p&gt;</summary>
+    </entry>
+    <entry>
         <title type="html">a shiny new blog</title>
         <link href="http://lloyd.io/a-shiny-new-blog"/>
         <id>http://lloyd.io/a-shiny-new-blog</id>
-        <updated>2009-09-03T06:00:00Z</updated>
+        <updated>2009-09-03T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;Expiration of my account at &lt;a href="http://hub.org"&gt;hub.org&lt;/a&gt;, and my
 discovery of &lt;a href="http://mosso.com"&gt;mosso&lt;/a&gt; &amp;
 &lt;a href="http://slicehost.com"&gt;slicehost&lt;/a&gt; has prompted me to move all my
@@ -343,14 +363,14 @@ that pop up while trying to solve a problem…&lt;/p&gt;</summary>
         <title type="html">A breadth-first attempt at learning about programming and computers</title>
         <link href="http://lloyd.io/a-breadth-first-attempt-at-learning-about-programming-and-computers"/>
         <id>http://lloyd.io/a-breadth-first-attempt-at-learning-about-programming-and-computers</id>
-        <updated>2009-09-03T06:00:00Z</updated>
+        <updated>2009-09-03T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;A set of questions that can be used as a jump off point for discussions and learning about computers the internet, and programming.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">ruby 1.8.6 vs 1.9 - performance &amp; memory usage</title>
         <link href="http://lloyd.io/ruby-1.8.6-vs-1.9-performance-and-memory-usage"/>
         <id>http://lloyd.io/ruby-1.8.6-vs-1.9-performance-and-memory-usage</id>
-        <updated>2008-05-15T06:00:00Z</updated>
+        <updated>2008-05-15T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;Seeing all this action in ruby trunk, combined with what I’ve read
 ’round the net had piqued my interest in 1.9 performance differences.&lt;/p&gt;</summary>
     </entry>
@@ -358,7 +378,7 @@ that pop up while trying to solve a problem…&lt;/p&gt;</summary>
         <title type="html">matz, the ruby trunk, and GC changes</title>
         <link href="http://lloyd.io/matz-the-ruby-trunk-and-gc-changes"/>
         <id>http://lloyd.io/matz-the-ruby-trunk-and-gc-changes</id>
-        <updated>2008-05-01T06:00:00Z</updated>
+        <updated>2008-05-01T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;w00t. An email from matz, and a little spelunking in the ruby subversion
 repository shows that there’s some tinkering going on in ruby garbage
 collection land. Here are the interesting change logs:&lt;/p&gt;</summary>
@@ -367,28 +387,28 @@ collection land. Here are the interesting change logs:&lt;/p&gt;</summary>
         <title type="html">Improving the Ruby GC</title>
         <link href="http://lloyd.io/improving-the-ruby-gc"/>
         <id>http://lloyd.io/improving-the-ruby-gc</id>
-        <updated>2008-02-07T07:00:00Z</updated>
+        <updated>2008-02-07T00:00:00Z</updated>
         <summary type="html">&lt;h2&gt;overview&lt;/h2&gt;</summary>
     </entry>
     <entry>
         <title type="html">Fullscreen X11 broken on Leopard!?</title>
         <link href="http://lloyd.io/fullscreen-x11-broken-on-leopard"/>
         <id>http://lloyd.io/fullscreen-x11-broken-on-leopard</id>
-        <updated>2007-12-22T07:00:00Z</updated>
+        <updated>2007-12-22T00:00:00Z</updated>
         <summary type="html"></summary>
     </entry>
     <entry>
         <title type="html">hacking on ruby's garbage collector</title>
         <link href="http://lloyd.io/hacking-on-rubys-garbage-collector"/>
         <id>http://lloyd.io/hacking-on-rubys-garbage-collector</id>
-        <updated>2007-04-22T06:00:00Z</updated>
+        <updated>2007-04-22T00:00:00Z</updated>
         <summary type="html">&lt;h2&gt;overview&lt;/h2&gt;</summary>
     </entry>
     <entry>
         <title type="html">building emacs on leopard from macports</title>
         <link href="http://lloyd.io/building-emacs-on-leopard-from-macports"/>
         <id>http://lloyd.io/building-emacs-on-leopard-from-macports</id>
-        <updated>2006-08-31T06:00:00Z</updated>
+        <updated>2006-08-31T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;I cannot live without X11 emacs!  It doesn&rsquo;t build from macports right
 now.  As far as I can tell, the emacs that apple ships with leopard is
 broken, at least for me after upgrade I get:&lt;/p&gt;</summary>

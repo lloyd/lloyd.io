@@ -1,1 +1,1 @@
-../posts/2011-06-13-trivial-deployment-with-git.md
+../posts/2011-06-13-simple-site-publishing-with-git.md

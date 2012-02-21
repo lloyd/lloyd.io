@@ -187,15 +187,15 @@ provisioning page includes the following functions:
     // A function invoked to fetch provisioning parameters, such as
     // email and desired certificate duration.
     navigator.id.beginProvisioning(function(email, cert_duration_s) { });
-    
+
     // cause the browser to generate a key-pair, cache the private key
     // and return the public key for signing.
     navigator.id.genKeyPair(function(pubkey) { });
-    
+
     // upon successful certificate signing, register the certificate
     // with the browser.
     navigator.id.registerCertificate(certificate);
-    
+
     // in the event of a failure, the provisioning code should
     // invoke this function to terminate the provisioning process,
     // providing a developer readable string
