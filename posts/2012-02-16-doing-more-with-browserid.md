@@ -326,7 +326,7 @@ apply, which will likely hurt adoption.
 
 Previously we've tried to have it both ways, to preserve the dead
 simple API that developers have praised - but to offer a more complex
-api that makes a better UX and important user facing features
+API that makes a better UX and important user facing features
 possible.  This route is no longer useful, as we get the cost (we
 confuse people) without the benefit: the ability to improve UX and
 user control.
