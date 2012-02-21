@@ -10,8 +10,8 @@ BrowserID engineers.
 ## Why?
 
 There are a couple important features that would be beneficial
-to build into BrowserID, but cannot do so without restructuring the
-API.  These features include:
+to build into BrowserID, but cannot be added without restructuring the
+API.  These include:
 
   1. **An Improved Verification Flow** - We've [prototyped and tested][]
      an email verification change that 8/9 users prefer in
@@ -36,7 +36,7 @@ of an email address without per site passwords.
 
 ## Shimming
 
-Because BrowserID is new, but is designed to be used in old browsers, a
+Because BrowserID is designed to support browsers that predate it, a
 javascript shim implementation is provided.  To use the API you should
 include the following javascript in your page:
 
@@ -63,17 +63,21 @@ all the hooks they need to build a great user experience.  The simplest
 possible application in pseudo code is:
 
     if (!signed_in) {
-      navigator.id.addEventListener('login', function(event) {
-        // send event.assertion up to the server for verification
-        // and to create a user session
+      navigator.id.addEventListener('loginstatechange', function(event) {
+        if (event.unverifiedEmail) {
+          navigator.id.getAssertion(function(assertion) {
+            // send assertion up to the server for verification
+            // and to create a user session
+          };
+        }
       });
 
       onClick(function() {
         navigator.id.request();
       });
     } else {
-      navigator.id.addEventListener('status', function(event) {
-        if (event.type === 'logged_out') {
+      navigator.id.addEventListener('loginstatechange', function(event) {
+        if (!event.unverifiedEmail) {
           // The user has logged out!  perform a page transition or
           // an ajax request to end the user's session, and
           // update the page.
@@ -93,11 +97,11 @@ an email address to share with the webpage, encapsulated in an
 
   [assertion]: https://wiki.mozilla.org/Identity/BrowserID#Identity_Assertion
 
-Invocation of this call will cause a status event of type `requesting` to
-be emitted immediately, followed by either a status event with type either
-`logged_out` or `logged_in`.  In the event that the user chose to share
-an email address, a `login` event will be also fired which will contain
-an assertion.
+**NOTE:** This function must be invoked in a
+click handler as the result of user interaction with the webpage.
+
+Once the user finishes interacting with the dialog, a `loginstatechange`
+event will be emitted indicating the results of the interaction.
 
 This call returns no value, and may throw upon error (i.e. invalid parameters).
 
@@ -108,14 +112,17 @@ The `options` object may contain the following properties:
      optimized for this case, and the user will only have the option to
      prove that email address or cancel the dialog.
 
-**NOTE:** This function must be invoked in a
-click handler as the result of user interaction with the webpage.
+#### `navigator.id.getAssertion(<callback>)`
+
+Get an assertion for the currently signed in user.  The callback takes a
+single argument which will be a `DOMString` containing the assertion, or
+`null` if no user is signed in.
 
 #### `navigator.id.logout()`
 
 The site should call `.logout()` when the user indicates with interaction
-in content that they want to logout of the site.  This call will cause
-a `status` event to be raised of type `logged_out`.
+in content that they want to logout of the site.  Invocation of this call
+will a `loginstatechange` event to be raised.
 
 #### `navigator.id.get(<callback>, [options])`
 
@@ -125,24 +132,17 @@ A function that provides backwards compatibility with the old API.
 
 ### Events
 
-#### `status`
+#### `loginstatechange`
 
-An event that is fired at page load, and any time the status of the user
+An event that is fired at page load, and any time the login state of the user
 changes.  The following properties are present on this event:
 
-  * `type` - A DOMString representing the type of event.  Type is one of
-    `logged_in`, `logged_out`, or `requesting`.
-  * `unverifiedEmail` - an optional string containing the email address of
-    the user, present when type is `logged_in`.  This value should not
-    be deferred to for anything that would grant the user access to the
-    website: the only way to reliably check the user's identity is to
-    verify the assertion provided in a `logged_in` event.
-
-#### `logged_in`
-
-Fired at page load when a user is signed into a site, or after the site
-has called `navigator.id.request()` and the user has chosen to share a
-an email address with the webpage.
+  * `unverifiedEmail` - an string containing the email address of the
+    logged in user, or null if no user is signed in.  This value
+    should not be deferred to for anything that would grant the user
+    access to the website: the only way to reliably check the user's
+    identity is to verify an assertion obtained by the `.getAssertion()`
+    function.
 
 ## About the Design
 
