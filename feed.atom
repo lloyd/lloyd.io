@@ -4,11 +4,25 @@
     <title>lloyd.io - Lloyd's blog</title>
     <link href="http://lloyd.io" rel="alternate" />
     <link type="application/atom+xml" rel="self" href="http://lloyd.io/feed.atom"/>
-    <updated>2012-02-21T22:18:50Z</updated>
+    <updated>2012-06-15T14:04:43Z</updated>
     <author>
         <name>Lloyd Hilaiel</name>
         <email>lloyd@hilaiel.com</email>
     </author>
+    <entry>
+        <title type="html">Persona Architectural Changes</title>
+        <link href="http://lloyd.io/persona-architectural-changes"/>
+        <id>http://lloyd.io/persona-architectural-changes</id>
+        <updated>2012-06-15T00:00:00Z</updated>
+        <summary type="html">&lt;p&gt;The [Persona Login service][] lets
+web developers implement seamless login via email address with a
+trivial amount of code.  It is written in NodeJS and is supported
+by Mozilla.  The service is deployed as several distinct 
+NodeJS processes.  Recently we've added a new process to the service,
+and this short post will describe what's changed and why.&lt;/p&gt;
+&lt;p&gt;This post is targeted at interested community members, and the people
+who build, test, deploy, and maintain Persona.&lt;/p&gt;</summary>
+    </entry>
     <entry>
         <title type="html">A new API for BrowserID</title>
         <link href="http://lloyd.io/a-new-api-for-browserid"/>
@@ -287,19 +301,19 @@ if you don&rsquo;t wanna play!&lt;/p&gt;</summary>
         <summary type="html"></summary>
     </entry>
     <entry>
+        <title type="html">Would the real "HTML5" File please stand up?</title>
+        <link href="http://lloyd.io/would-the-real-html5-file-please-stand-up"/>
+        <id>http://lloyd.io/would-the-real-html5-file-please-stand-up</id>
+        <updated>2009-09-11T00:00:00Z</updated>
+        <summary type="html">&lt;p&gt;In fiddling around with HTML5 desktop sourced drag and drop, present in Safari Version 4.0.3 (6531.9), I&rsquo;m faced with the interesting challenge of understanding when I can &lt;em&gt;trust&lt;/em&gt; that a drop is really a drop &ndash; that a File is the result of user interaction.  For a little context, here&rsquo;s a bit of code cobbled up by Gordon Durand that&rsquo;ll let us capture desktop sourced drops in the latest snow leopard:&lt;/p&gt;</summary>
+    </entry>
+    <entry>
         <title type="html">chromium on 64 bit (arch) linux</title>
         <link href="http://lloyd.io/chromium-on-64-bit-arch-linux"/>
         <id>http://lloyd.io/chromium-on-64-bit-arch-linux</id>
         <updated>2009-09-11T00:00:00Z</updated>
         <summary type="html">&lt;p&gt;Really not much to write about, it was trivial to do, and &lt;em&gt;feels&lt;/em&gt; a
 hell of a lot faster than the burning fox.  Steps?&lt;/p&gt;</summary>
-    </entry>
-    <entry>
-        <title type="html">Would the real "HTML5" File please stand up?</title>
-        <link href="http://lloyd.io/would-the-real-html5-file-please-stand-up"/>
-        <id>http://lloyd.io/would-the-real-html5-file-please-stand-up</id>
-        <updated>2009-09-11T00:00:00Z</updated>
-        <summary type="html">&lt;p&gt;In fiddling around with HTML5 desktop sourced drag and drop, present in Safari Version 4.0.3 (6531.9), I&rsquo;m faced with the interesting challenge of understanding when I can &lt;em&gt;trust&lt;/em&gt; that a drop is really a drop &ndash; that a File is the result of user interaction.  For a little context, here&rsquo;s a bit of code cobbled up by Gordon Durand that&rsquo;ll let us capture desktop sourced drops in the latest snow leopard:&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">Redcloth/Textile to PDF conversion</title>
@@ -323,6 +337,13 @@ hell of a lot faster than the burning fox.  Steps?&lt;/p&gt;</summary>
         <summary type="html">&lt;p&gt;Later this week I’ll be moderating a chat entitled “Implementing the open web” at &lt;a href="http://www.gluecon.com/"&gt;gluecon&lt;/a&gt; in my home town, Denver.&lt;/p&gt;</summary>
     </entry>
     <entry>
+        <title type="html">Parse JSON in ruby in 1/4 the time of YAML</title>
+        <link href="http://lloyd.io/parse-json-in-ruby-in-1-4-the-time-of-yaml"/>
+        <id>http://lloyd.io/parse-json-in-ruby-in-1-4-the-time-of-yaml</id>
+        <updated>2009-09-03T00:00:00Z</updated>
+        <summary type="html">&lt;p&gt;Crazy claim, eh? I figure there’s no better way to get this claim tested that by posting it as a truth!&lt;/p&gt;</summary>
+    </entry>
+    <entry>
         <title type="html">Load simulation for serving of large static content</title>
         <link href="http://lloyd.io/load-simulation-for-serving-of-large-static-content"/>
         <id>http://lloyd.io/load-simulation-for-serving-of-large-static-content</id>
@@ -335,13 +356,6 @@ static content” is 2mb. Assume cl\\ ients consuming that content need
 about 20s to get it down (100kb/s or so). That means we need to be
 spoon feeding about 2000 simultaneously connected clients in order to
 saturate the gigabit connection.&lt;/p&gt;</summary>
-    </entry>
-    <entry>
-        <title type="html">Parse JSON in ruby in 1/4 the time of YAML</title>
-        <link href="http://lloyd.io/parse-json-in-ruby-in-1-4-the-time-of-yaml"/>
-        <id>http://lloyd.io/parse-json-in-ruby-in-1-4-the-time-of-yaml</id>
-        <updated>2009-09-03T00:00:00Z</updated>
-        <summary type="html">&lt;p&gt;Crazy claim, eh? I figure there’s no better way to get this claim tested that by posting it as a truth!&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">a shiny new blog</title>
