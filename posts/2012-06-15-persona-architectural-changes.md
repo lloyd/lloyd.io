@@ -100,7 +100,7 @@ Load balancers need an externally accessible health check URL to verify the
 health of a component.  The **browserid** process exports a `ping` api that 
 can be hit via router.  Because these two processes run on the same machine,
 they should be considered a block.  The `ping` api verifies the ability of 
-router to **forward**, and the ability of **browserid** to process api
+**router** to forward requests, and the ability of **browserid** to process API
 requests, AND the ability of browserid to access the database.
 
 ### Logging
