@@ -11,7 +11,7 @@ and this short post will describe what's changed and why.
 This post is targeted at interested community members, and the people
 who build, test, deploy, and maintain Persona.
 
-  [Persona Sign-In service]: http://browserid.org
+  [Persona Login service]: http://browserid.org
 </abstract>
 
 ## Previous Software Layout
