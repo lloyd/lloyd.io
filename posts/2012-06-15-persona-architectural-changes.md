@@ -34,7 +34,9 @@ In addition to these NodeJS processes, we have quite a bit of infrastructure
 for high availability in our layout as well.  Roughly, here's what
 Persona looked like:
 
-<picture>
+ <center>
+ ![Persona Arch Before](/posts/i/persona_arch_1.png)
+ </center>
 
 ## Adding **router**
 
@@ -69,6 +71,10 @@ roll is incrementally).
 
 The new software deployment looks roughly like this:
 
+ <center>
+ ![Persona Arch After](/posts/i/persona_arch_2.png)
+ </center>
+
 ## Deployment Considerations
 
 As you might expect, a very small part of the Persona deployment is 
@@ -87,6 +93,15 @@ are part of normal operation, 5xx should be monitored and alerted.
 
 In addition to monitoring HTTP responses, the router emits statsd events over
 UDP.  These are all [name-spaced under `browserid.router.`](https://github.com/mozilla/browserid/blob/dev/bin/router#L74), and the most interesting stats emitted are API invocation counts, under `browserid.router.wsapi.*`.
+
+### Health Checks
+
+Load balancers need an externally accessible health check URL to verify the 
+health of a component.  The **browserid** process exports a `ping` api that 
+can be hit via router.  Because these two processes run on the same machine,
+they should be considered a block.  The `ping` api verifies the ability of 
+router to **forward**, and the ability of **browserid** to process api
+requests, AND the ability of browserid to access the database.
 
 ### Logging
 
