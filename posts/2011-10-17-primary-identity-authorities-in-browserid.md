@@ -212,7 +212,7 @@ the provisioning process has begun, and to obtain provisioning
 parameters such as the recommended certificate duration and the email
 address the user would like to verify.
 
- Once the email is obtained, the provisioning page can determine whether there
+Once the email is obtained, the provisioning page can determine whether there
 is an authenticated session in the user's present browser that can be leveraged
 to confirm the user's identity.  The criteria for whether such a session exists
 and the user may be silently provisioned with a certificate is up to
