@@ -142,10 +142,10 @@ authority).
   3. gmail's javascript code on the client sends the public key up to
      a gmail server over SSL.
   4. gmail signs the user's email address, the public key, and a
-     validity interval generating a [JWT] (which is just a means of
-     encoding a signed JSON object).
-  5. gmail returns this bundle to the client as a response to the
-     request in step 3.
+     validity interval generating a certificate in the form of a [JWT]
+     (which is just a means of encoding a signed JSON object).
+  5. gmail returns this signed bundle of information, AKA the
+     certificate, to the client as a response to the request in step 3.
   6. JavaScript code served from gmail invokes
      `navigator.id.registerVerifiedEmail()` on the client passing in
      the certificate.
@@ -185,11 +185,13 @@ cryptographic routines implemented in JavaScript.
   2. The user selects an email address that they would like to use to log in
      from a list rendered by the browser.
   3. The browser combines the domain requesting
-     the identity (the *audience*), a validity period, and the certificate
+     the identity (the *audience*) and a validity period into an an 
+     assertion. The assertion is signed using the private key 
+     associated with the identity and encoded into a [JWT]
+  4. The signed assertion is combined with the certificate
      associated with the identity in to a bundle (the certificate includes
      a public key, and the email address being shared).
-  4. That bundle is signed using the private key associated with the identity,
-     encoded into a [JWT], and returned to the web page.
+  5. The bundle is then returned to the web page.
 
 The result of assertion generation is a JSON structure which
 looks like this:
@@ -224,19 +226,20 @@ Verification looks like this:
 
 <center>![Assertion Verification](posts/i/assertion_verification.png)</center>
 
-  1. The RP (securely) transmits the assertion from the client up to
-     her servers.
+  1. The RP (securely) transmits the bundle containing both the assertion and 
+     the certificate from the client up to her servers.
   2. Validity periods are checked on both the certificate and the assertion.
-  3. The RP extracts the host-name of the email within the assertion; this is
-     the primary identity authority for the email address.  In our example
-     above, it's `gmail.com`.
-  4. Public key(s) for gmail.com are attained from a well-known location on
+  3. The RP extracts the host-name of the email address within the assertion; 
+     this is the primary identity authority for the email address.  In our 
+     example above, it's `gmail.com`.
+  4. Public key(s) for gmail.com are obtained from a well-known location on
      their servers (specifics TBD).
-  5. The certificate signature is verified; success proves to the RP that
-     the embedded user's public key is valid.
-  6. The assertion signature is verified using the embedded user's public key,
-     after which point the RP knows the assertion is valid and the user owns
-     the specified email address.
+  5. The certificate signature is verified using the public key(s) obtained 
+     from gmail.com; success proves to the RP that the user's public key, which
+     is embedded in the signed certificate, is valid.
+  6. The assertion signature is then verified using the user's public key
+     embedded in the certificate, after which point the RP knows the assertion
+     is valid and the user owns the specified email address.
 
 At the conclusion of the *assertion verification* flow, the RP has a verified
 email address for the user.
