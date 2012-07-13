@@ -188,7 +188,7 @@ cryptographic routines implemented in JavaScript.
      the identity (the *audience*) and a validity period into an an 
      assertion. The assertion is signed using the private key 
      associated with the identity and encoded into a [JWT]
-  4. The signed assertion is combined with the certificate
+  4. The signed assertion is combined with the previously signed certificate
      associated with the identity in to a bundle (the certificate includes
      a public key, and the email address being shared).
   5. The bundle is then returned to the web page.
@@ -226,8 +226,8 @@ Verification looks like this:
 
 <center>![Assertion Verification](posts/i/assertion_verification.png)</center>
 
-  1. The RP (securely) transmits the bundle containing both the assertion and 
-     the certificate from the client up to her servers.
+  1. The RP (securely) fetches the bundle containing both the assertion and 
+     the certificate from the client to her servers.
   2. Validity periods are checked on both the certificate and the assertion.
   3. The RP extracts the host-name of the email address within the assertion; 
      this is the primary identity authority for the email address.  In our 
