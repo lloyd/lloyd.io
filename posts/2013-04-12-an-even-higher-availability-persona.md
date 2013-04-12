@@ -64,6 +64,7 @@ The key weaknesses in this current deployment include:
   * **Not sufficiently geographically distributed** - we'd like to land data centers on every continent to reduce latencies.
   * **Insufficient redundancy** - We'd like to be in multiple DC's at all times - allowing a disaster which affects multiple colos to be handled gracefully.  
   * **Disaster can imply downtime** - Even though the promotion of a new master is a fast process, we'd like to be able to be able to loose multiple DC's simultaneously with zero user facing downtime.
+  * **Constant inter-data-center communicaiton required** - If inter-data-center communication is lost writes in the distant datacenter fail.
   * **No rolling updates** - At scale, it behooves us to be able to partially roll out an update.  This is important to be able to mitigate user impact when bugs are introduced, and to be able to function well under heavy constant load.
 
 ## Persona's Forthcoming Deployment Architecture
