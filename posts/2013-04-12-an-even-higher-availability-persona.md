@@ -8,7 +8,7 @@ title: An Even Higher Availability Persona
 
 At present, Persona is supported by two redundant data centers.  The following diagram gives you a high level idea of how this works:
 
-DIAGRAM OF THE PRESENT
+<center>![Deployment Today](posts/i/deployment-today.png)</center>
 
 ### What a single data center looks like.
 
@@ -70,7 +70,7 @@ The key weaknesses in this current deployment include:
 
 In an attempt to address the weaknesses discussed above, we'll be migrating Persona to Amazon Web Services.  This gives us the ability to land a deployment on almost every continent and move from 2 datacenters to about 8.  This will require changes to our technology and implementation, detailed below.  But when done, it'll look like this:
 
-DIAGRAM OF THE FUTURE
+<center>![Deployment Tomorrow](posts/i/deployment-tomorrow.png)</center>
 
 The key differences here are we'll be running in many more data centers, and we'll be leveraging auto-scaling to be able to handle arbitrary load.
 
