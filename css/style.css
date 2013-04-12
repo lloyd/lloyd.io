@@ -1,16 +1,5 @@
-@font-face {
-  font-family: 'Cabin Sketch';
-  font-style: normal;
-  font-weight: bold;
-  src: local('CabinSketch Bold'), local('CabinSketch-Bold'), url('cs.ttf') format('truetype');
-}
+@import url(http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,300italic|Leckerli+One);
 
-@font-face {
-  font-family: 'News Cycle';
-  font-style: normal;
-  font-weight: normal;
-  src: local('News Cycle'), local('NewsCycle'), url('nc.ttf') format('truetype');
-}
 
 @font-face {
   font-family: 'Lekton';
@@ -21,11 +10,11 @@
 
 #header, body {
   min-width: 600px;
-  font-family: 'News Cycle', arial, serif;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 body {
-  background: #ccc;
+  background: #fff;
   color: #333;
 }
 
@@ -65,11 +54,12 @@ body {
 }
 
 #header div.title {
-  font-family: 'Cabin Sketch', arial, serif;
-  font-size: 3.2em;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 2.5em;
+  font-weight: bold;
   padding-top: 0;
   margin-left: .2em;
-  margin-top: -.1em;
+  margin-top: .1em;
   margin-bottom: -.2em;
 }
 
@@ -104,8 +94,9 @@ body {
 }
 
 .post div.title {
-  font-family: 'Cabin Sketch';
-  font-size: 2.5em;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 2.2em;
+  font-weight: bold;
 }
 
 .post .date, .post .comments {
