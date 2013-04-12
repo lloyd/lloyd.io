@@ -112,7 +112,7 @@ I think this work will require we:
 
   1. Construct each DC so that it can send high frequency health confirmation to a centralized aggregator (see the [proposed format for these updates](https://etherpad.mozilla.org/the-noc-blob)).
   2. Have per-data center dashboards the are hosted in the data center and allow both a redundant means to check DC health, as well as visualizations to facilitate root cause analysis.
-  3. Have better tools to perform a realtime distributed search of server logs (the privilege to execute queries must be bestowed on a small and trusted group of people, and we can continue to aggressively purge logs).
+  3. Have better tools to perform a realtime distributed search of server logs (the privilege to execute queries must remain available to only a small and trusted group of people, and we can continue to aggressively purge logs).
 
 ## What's Next?
 
