@@ -1,0 +1,1 @@
+../posts/2013-04-12-an-even-higher-availability-persona.md
