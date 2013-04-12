@@ -1,8 +1,10 @@
 title: An Even Higher Availability Persona
 
+<abstract>
 [Mozilla Persona][] is a open authentication system for the web that will eliminate per-site passwords.  I work on the team that supports Persona, and this post will describe how we will accomplish a uber-high availability deployment of the persona service with server deployments on every continent.  The ultimate goal is *fantastic availability*, *extremely low latency worldwide*, and to preserve our tradition of *zero downtime updates*.
 
 [Mozilla Persona]: https://developer.mozilla.org/en-US/docs/persona
+</abstract>
 
 ## Persona's Current Deployment Architecture
 

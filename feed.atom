@@ -4,7 +4,7 @@
     <title>lloyd.io - Lloyd's blog</title>
     <link href="http://lloyd.io" rel="alternate" />
     <link type="application/atom+xml" rel="self" href="http://lloyd.io/feed.atom"/>
-    <updated>2013-04-12T22:19:33Z</updated>
+    <updated>2013-04-12T22:34:05Z</updated>
     <author>
         <name>Lloyd Hilaiel</name>
         <email>lloyd@hilaiel.com</email>
@@ -14,7 +14,7 @@
         <link href="http://lloyd.io/an-even-higher-availability-persona"/>
         <id>http://lloyd.io/an-even-higher-availability-persona</id>
         <updated>2013-04-12T00:00:00Z</updated>
-        <summary type="html">&lt;p&gt;[Mozilla Persona][] is a open authentication system for the web that will eliminate per-site passwords.  I work on the team that supports Persona, and this post will describe how we will accomplish a uber-high availability deployment of the persona service with server deployments on every continent.  The ultimate goal is &lt;em&gt;fantastic availability&lt;/em&gt;, &lt;em&gt;extremely low latency worldwide&lt;/em&gt;, and to preserve our tradition of &lt;em&gt;zero downtime updates&lt;/em&gt;.&lt;/p&gt;</summary>
+        <summary type="html">&lt;p&gt;&lt;a href="https://developer.mozilla.org/en-US/docs/persona"&gt;Mozilla Persona&lt;/a&gt; is a open authentication system for the web that will eliminate per-site passwords.  I work on the team that supports Persona, and this post will describe how we will accomplish a uber-high availability deployment of the persona service with server deployments on every continent.  The ultimate goal is &lt;em&gt;fantastic availability&lt;/em&gt;, &lt;em&gt;extremely low latency worldwide&lt;/em&gt;, and to preserve our tradition of &lt;em&gt;zero downtime updates&lt;/em&gt;.&lt;/p&gt;</summary>
     </entry>
     <entry>
         <title type="html">Improving Persona</title>
