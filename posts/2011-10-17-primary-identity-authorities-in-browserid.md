@@ -68,12 +68,12 @@ authenticate.
   7. BrowserID servers (or the browser) relay these links to the dialog
   8. The BrowserID dialog loads the provisioning URL in a hidden `iframe` to attempt to acquire a certificate for the user.
   9. The BrowserID dialog communicates the user's claimed email address to the dialog which starts a provisioning attempt
-  10. If the user is not currently authenticated, a failure response is attained from the IFrame
+  10. If the user is not currently authenticated, a failure response is obtained from the IFrame
   11. The BrowserID dialog redirects the user to the Primary authentication provider's *authentication* URL (changing the content and user visible URL of the dialog), conveying the email address chosen by the user, and the URL to which the user should be returned.
   12. The user interacts with the primary's web interface to authenticate.
   13. Once this interaction is complete, the primary redirects user back to BrowserID, still inside the dialog.
   14. BrowserID again loads the provisioning page in a hidden iframe, and interacts with it.
-  15. The primary's provisioning code calls into the browser to generate a key-pair, signs the public key on their server, and returns the result to BrowserID via a browser provided javascript API.
+  15. The primary's provisioning code calls into the browser to generate a key-pair, signs the public key on their server, and returns the result to the BrowserID enabled browser or javascript shim via a browser provided javascript API.
   16. The BrowserID dialog uses the provisioned certificate to generate an assertion, return it to the webpage, and close.
 
 In this case, the user has not recently visited `exampleprimary.org`,
@@ -89,7 +89,7 @@ provider is something the user visits often, like a social networking
 site or web-mail).  In this case, step #8 completes successfully, and
 the flow skips directly to step #15.
 
-### Re-provisioning an Previously Verified Email Address
+### Re-provisioning a Previously Verified Email Address
 
 In this case the user has several email addresses in use with
 BrowserID, and selects one for which the provider has BrowserID
@@ -109,7 +109,7 @@ detail.
 
 In order to make it possible for the browser or BrowserID servers to
 determine if there is primary support available for a given domain,
-there must be a well location where an expression of support is
+there must be a well-known location where an expression of support is
 published.  [RFC 5785][] proposes a convention for well-known
 resources, such as that required by BrowserID, which is a `.well-known`
 directory under document root.  Applying this convention, primaries must serve a
@@ -159,7 +159,7 @@ occurs when a `authority` property is present in the declaration
 of support which contains a domain name (in which case, all other
 properties present are ignored).
 
-For example, mozila.org and mozilla.com might include the following
+For example, mozilla.org and mozilla.com might include the following
 JSON file in `/.well-known/vep`:
 
     {
@@ -208,11 +208,11 @@ provide the above functions:
 
 Upon load, provisioning web content should immediately invoke
 `navigator.id.beginProvisioning()` to indicate to the browser that
-the provisioning process has begun, and to attain provisioning
+the provisioning process has begun, and to obtain provisioning
 parameters such as the recommended certificate duration and the email
 address the user would like to verify.
 
-Once the email is attained, the provisioning page can determine whether there
+Once the email is obtained, the provisioning page can determine whether there
 is an authenticated session in the user's present browser that can be leveraged
 to confirm the user's identity.  The criteria for whether such a session exists
 and the user may be silently provisioned with a certificate is up to
@@ -309,7 +309,7 @@ The above design breaks certificate provisioning
 into two distinct processes, implemented by two distinct web
 resources.  These are *authentication* - the process of establishing an
 authenticated session with your primary - and *provisioning* - the
-process of attaining a signed certificate.
+process of obtaining a signed certificate.
 
 This decision was made to minimize the duplication of code, and simplify requirements on
 primaries.  There are several features of this approach worth consideration:
