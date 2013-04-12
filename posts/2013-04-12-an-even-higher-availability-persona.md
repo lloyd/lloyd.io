@@ -17,8 +17,8 @@ Note that for the purposes of this post, I'm abstracting away from the deploymen
   * **Webheads** - This tier hosts processes that handle request routing, serving of static responses, API requests that are read-only, and our verifier service.
   * **Keysigners** - This tier is accessible only via webheads and is responsible for certificate generation - creating cryptographic material that asserts for a short time a user's ownership of an email address.
   * **BigTent** - This tier is web facing and handles [Identity Bridging][] which is a technique that allows us to let users of popular email providers sign in without checking their email.
-  * **Secure Webheads** - Hosts the process that handles API requests which require writing the database, and is only accessible via the webhead tier.
-  * **Database** - The database tier is a multi-slave single master MySQL deployment that Webheads and Secure Webheads communicate with.
+  * **DBwriters** - Hosts the process that handles API requests which require writing to the database, and is only accessible via the webhead tier.
+  * **Database** - The database tier is a multi-slave single master MySQL deployment that Webheads and DBwriters communicate with.
   * **Proxy** - Squid forward proxies allow all tiers that must perform outbound HTTP requests to access the internet - Serves to cache responses as appropriate and allow us to restrict allowed outbound traffic from a deployment.
 
 [Identity Bridging]: https://hacks.mozilla.org/2013/04/persona-beta-2-launch/
@@ -29,19 +29,19 @@ A key view into the deployment architecture is what data actually has to travel 
 
   * The database master is hosted in a single colocation facility
   * All writes are forwarded to the write master
-  * the write master is replicated into multiple machines in both data centers.
+  * The write master is replicated into multiple machines in both data centers.
 
 ### Splitting traffic
 
-At present during normal operation we use DynECT, a managed DNS provider to split traffic between two colocation facilities.  What this means is that a 30 second TTL response to DNS queries is sent and routes traffic to one of the two facilities.
+At present during normal operation we use DynECT, a managed DNS provider, to split traffic between two colocation facilities using DNS load balancing.  What this means is that a 30 second TTL response to DNS queries is sent and routes traffic to one of the two facilities.
 
 ### Handling disaster
 
 When disaster strikes, it may take one of two general forms:
 
-**Non-Fatal system failure inside a colo**: All of the tiers listed above have a load balancer that is constantly checking for system health.  If any node in these tiers fails, then health checks fail, and the system is removed from rotation.  Our operational team is paged, and they get to repairing the problem.
+**Non-Fatal system failure inside a colo**: All of the tiers listed above have an IP load balancer that is constantly checking for system health.  If any node in these tiers fails, then health checks fail, and the system is removed from rotation.  Our operational team is paged, and they get to repairing the problem.
 
-**Fatal colocation facility failure**:  This includes hardware failure that affects a critical, non-redundant piece of infrastructure inside a colo.  This could be a load balancer, it could be the database write master, or a number of other things.  The response here is to disable the entire data center in DNS, and repair the problem.  If the DC lost hosts the current write master, we have a manual procedure to promote a new master in the remaining DC and restore service.
+**Fatal colocation facility failure**:  This includes hardware failure that affects a critical, non-redundant piece of infrastructure inside a colo.  This could be a load balancer, it could be the database write master, or a number of other things.  The response here is to disable the entire data center in DNS, and repair the problem.  Much like the IP load balancers, DynECT uses health checks to automatically stop sending traffic to a given DC in this scenario. If the downed DC hosts the current write master, we have a manual procedure to promote a new master in the remaining DC and restore service.
 
 ### Update Procedure
 
@@ -82,7 +82,7 @@ We'll still *split traffic* using DNS mechanisms, but we'll add geographic intel
 
 The only *inter-datacenter communication* will still be the one and only database.  We are fighting hard to introduce no new systems that bring additional communication requirements.
 
-When *disaster strikes*, we'll still remove the affected data centers from DNS while we diagnose and repair.  Because we'll have greater coverage and because simply removing a DC from rotation is a simple and fast process which reduces user impact, we'll be able to eliminate user impact faster, and there will be less time pressure on resolution.
+When *disaster strikes*, the affected data centers will still be automatically removed from DNS while we diagnose and repair.  Because we'll have greater coverage and because simply removing a DC from rotation is a simple and fast process which reduces user impact, we'll be able to eliminate user impact faster, and there will be less time pressure on resolution.
 
 To achieve this scale, we'll change our *deployment procedure*.  It is no longer viable to expect that we can switch traffic in a single sweep, and we need the benefits of rolling updates.
 
