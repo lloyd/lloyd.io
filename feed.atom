@@ -4,11 +4,29 @@
     <title>lloyd.io - Lloyd's blog</title>
     <link href="http://lloyd.io" rel="alternate" />
     <link type="application/atom+xml" rel="self" href="http://lloyd.io/feed.atom"/>
-    <updated>2013-04-12T22:34:05Z</updated>
+    <updated>2013-05-17T21:59:18Z</updated>
     <author>
         <name>Lloyd Hilaiel</name>
         <email>lloyd@hilaiel.com</email>
     </author>
+    <entry>
+        <title type="html">What Is Persona?</title>
+        <link href="http://lloyd.io/what-is-persona"/>
+        <id>http://lloyd.io/what-is-persona</id>
+        <updated>2013-05-15T00:00:00Z</updated>
+        <summary type="html">&lt;p&gt;I've worked on the Persona service for over two years now.
+My involvement began on a fateful airplane ride with the &lt;a href="http://www.open-mike.org/entry/verified-email-protocol"&gt;father of the specification&lt;/a&gt; that would become Persona.
+Shortly after, on April 6th 2011 I made the &lt;a href="https://github.com/mozilla/browserid/commit/1aa343"&gt;first commit&lt;/a&gt;.
+On July 1st 2011 &lt;a href="http://open-mike.org"&gt;Mike Hanson&lt;/a&gt; and I had built a prototype, made some decisions, and &lt;a href="http://lloyd.io/how-browserid-works"&gt;I wrote a post on what it is and how it works&lt;/a&gt;.
+Shortly after, &lt;a href="http://adida.net"&gt;Ben Adida&lt;/a&gt; joined me and we began carefully hiring wonderful people.&lt;/p&gt;&lt;/p&gt;
+&lt;p&gt;We've come a long way: over 20 people &lt;a href="https://github.com/mozilla/browserid/contributors"&gt;directly contribute to persona&lt;/a&gt; on a regular basis,  it's supported by a community of thousands, and it's got an extremely hopeful growth curve.
+The striking thing, the subject of this post, is how &lt;em&gt;Persona has always been guided by a consistent and clear vision&lt;/em&gt;.
+The community passionately defends this vision, they know when a feature or change does not fit the vision, and despite being separated by continents and cultures - I believe this vision is what has held the project together and let it grow into what it is today:  An audacious attempt to change the world that actually has legs - an attempt to kill the password, to keep people safer, and to make trying new things online fun again.&lt;/p&gt;
+&lt;p&gt;So what is this vision?
+How succinctly can it be expressed?
+Let's find out: this post is my personal attempt to express the Persona vision.
+I would love to know how others find this, whether those who really care about Persona would empasize the same points.&lt;/p&gt;</summary>
+    </entry>
     <entry>
         <title type="html">An Even Higher Availability Persona</title>
         <link href="http://lloyd.io/an-even-higher-availability-persona"/>
