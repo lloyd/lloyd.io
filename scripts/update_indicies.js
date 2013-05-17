@@ -144,9 +144,20 @@ fs.writeFileSync(
 );
 
 console.log("Updating linkdir");
+var newLinks = [];
+var i = 0;
 posts.forEach(function(p) {
-    fs.symlink(path.join("..", "posts", p.filename),
-               path.join(pathToLinks, p.shortname + "." + (p.type === "markdown" ? "md" : "html")));
+  var linkTarget = path.join(pathToLinks, p.shortname + "." + (p.type === "markdown" ? "md" : "html"));
+  fs.symlink(path.join("..", "posts", p.filename),
+             linkTarget,
+             function(err) {
+               if (!err) {
+                 console.log("FUCKME", linkTarget);
+                 newLinks.push(linkTarget);
+               }
+               if (++i == posts.length) {
+                 if (newLinks.length) console.log("links: ", newLinks.join("\n       "));
+                 console.log("now you should commit these changed files.");
+               }
+             });
 });
-
-console.log("now you should commit these changed files.");
