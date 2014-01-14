@@ -1,1 +1,0 @@
-../posts/2011-08-01-applying-gitflow.md

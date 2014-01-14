@@ -1,1 +1,0 @@
-../posts/2012-02-17-a-new-api-for-browserid.md

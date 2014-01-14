@@ -1,1 +1,0 @@
-../posts/2011-10-17-primary-identity-authorities-in-browserid.md

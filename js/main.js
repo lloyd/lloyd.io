@@ -114,6 +114,7 @@ function doRoute() {
     }
 }
 
+/*
 $(document).ready(function() {
     $("#header div.me").click(function() {
         $("#about").slideToggle(700);
@@ -122,3 +123,4 @@ $(document).ready(function() {
 
     doRoute();
 });
+*/

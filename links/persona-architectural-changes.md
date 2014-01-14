@@ -1,1 +1,0 @@
-../posts/2012-06-15-persona-architectural-changes.md

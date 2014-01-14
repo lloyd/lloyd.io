@@ -1,1 +1,0 @@
-../posts/2011-06-13-simple-site-publishing-with-git.md
