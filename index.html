@@ -1,64 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title> lloyd.io - lloyd's blog. </title>
-  <link rel="stylesheet" href="css/zenburn.css" type="text/css">
-  <link rel="stylesheet" href="css/style.css"  type="text/css">
-  <link rel="stylesheet" href="css/print.css"  type="text/css" media="print">
-  <link title="lloyd.io: Lloyd Hilaiel's's blog" type="application/atom+xml" href="http://lloyd.io/feed.atom" rel="alternate">
-  <script src="js/libs.js"></script>
-  <meta name="ttw" content="35t2p1r" />
-</head>
-<body>
-<div id="about">
-  <div>
-  <p>
-    <b>lloyd.io</b> is the personal website of Lloyd Hilaiel, a hacker who
-    works for <a href="http://mozilla.org">Mozilla</a>, lives in Denver, and
-    is interested in web technologies.
-  </p>
-
-  <p>
-    All the stuff you'll find here is available under a
-    <a href="http://creativecommons.org/licenses/by-sa/3.0/us/">CC BY-SA 3.0</a> license
-    (use it and change it, just don't lie about who wrote it).  Icons on this site are
-    commercially available from <a href="http://steedicons.com/">steedicons.com</a>.
-    Fonts used are available in Google's <a href="">Web Font directory</a>, and I'm
-    using <a href="http://www.google.com/webfonts/family?family=Ubuntu&subset=latin">Ubuntu</a> and
-    <a href="http://www.google.com/webfonts/family?family=Lekton&subset=latin">Lekton</a>.
-    As for javascript libraries,
-    <a href="https://github.com/coreyti/showdown">showdown.js</a> turns my markdown into html,
-    <a href="http://softwaremaniacs.org/soft/highlight/en/">highlight.js</a> makes code pretty colors,
-    and <a href="http://jquery.com">jquery</a> makes everything else terse, fast, and fun.  
-  </p>
-  <p>
-    Finally, <a href="http://toolness.com">Atul</a>, <a href="http://finette.com">Pascal</a>, and
-    <a href="http://www.stephenwildish.co.uk/">Stephen</a> inspired the site's design.  And in case you're
-    interested, this site's code is <a href="https://github.com/lloyd/lloyd.io">available on github</a>.
-  </p>
+---
+layout: default
+title: lloyd's blog
+---
+<div id="posts">
+{% for post in site.posts %}
+  <div class="post">
+    <div class="title">
+      <a href="{{ post.url }}" title="{{ post.title }}">{{post.title}}</a>
+    </div>
+    <div class="date">{{ post.date }}</div>
+    <div class="comments"><a href="{{ post.id }}#disqus_thread" data-disqus-identifier="{{ post.id }}">comments</a></div>
+    <div class="abstract">{{ post.excerpt }}</div>
   </div>
+{% endfor %}
 </div>
-<div id="header">
-  <div class="container">
-    <a title="About me and this site." href="#"><div class="me icon"></div></a>
-    <div class="title"><a title="Go to the index." href="/">lloyd.io</a></div>
-    <a title="Get a feed of this site." href="feed.atom"><div class="icon feed"></div></a>
-    <a title="Watch me tweet." href="http://twitter.com/lloydhilaiel"><div class="icon twitter"></div></a>
-    <a title="Let's hack on shit." href="https://github.com/lloyd"><div class="github icon"></div></a>
-    <a title="Send me email." href="mailto:lloyd@hilaiel.com"><div class="icon email"></div></a>
-    <a style="display: none;" title="The work that I do." href="projects"><div class="icon projects"></div></a>
-  </div>
-</div>
-<div id="content" class="post">
-  <div class="title"></div>
-  <div class="date"></div>
-  <div class="post"></div>
-  <hr>
-  <a name="discussion"><div id="disqus_thread"></div></a>
-  <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-</div>
-<div id="posts"></div>
-<div id="projects"></div>
-</body>
-<script src="js/main.js"></script>
-</html>

@@ -1,0 +1,15 @@
+encoding: UTF-8
+timezone: America/Los_Angeles
+
+name: lloyd's blog
+description: The (mostly) technical blog of Lloyd Hilaiel.
+url: http://127.0.0.1:4000
+baseurl: /
+
+markdown: rdiscount
+permalink: /:title
+lsi: false
+
+exclude:
+- CNAME
+- README

@@ -1,4 +1,8 @@
+---
 title: Improving BrowserID UX
+layout: post
+---
+
 
 [BrowserID](https://browserid.org/) poses interesting user experience
 problems.  The first release was sufficiently complete to provide a

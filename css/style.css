@@ -1,6 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,300italic|Leckerli+One);
 
-
 @font-face {
   font-family: 'Lekton';
   font-style: normal;
@@ -169,7 +168,6 @@ a:hover {
   width: 90%;
   max-width: 950px;
   margin: 64px auto 64px auto;
-  display: none;
 }
 
 .post div.abstract {
@@ -323,3 +321,9 @@ pre .tex .formula {
   opacity: 0.5;
 }
 
+/* print specific styling. */
+@media print {
+  #header {
+    display: none;
+  }
+}

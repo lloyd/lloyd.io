@@ -1,4 +1,8 @@
+---
 title: Improving Persona
+layout: post
+---
+
 
 Yesterday I put together a community meeting for the [Persona][]
 project, which is an authentication system for the web that allows

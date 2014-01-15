@@ -1,10 +1,12 @@
+---
 title: Persona Architectural Changes
+layout: post
+---
 
-<abstract>
 The [Persona Login service][] lets
 web developers implement seamless login via email address with a
 trivial amount of code.  It is written in NodeJS and is supported
-by Mozilla.  The service is deployed as several distinct 
+by Mozilla.  The service is deployed as several distinct
 NodeJS processes.  Recently we've added a new process to the service,
 and this short post will describe what's changed and why.
 
@@ -12,7 +14,6 @@ This post is targeted at interested community members, and the people
 who build, test, deploy, and maintain Persona.
 
   [Persona Login service]: http://browserid.org
-</abstract>
 
 ## Previous Software Layout
 

@@ -1,4 +1,8 @@
+---
 title: Applying Gitflow
+layout: post
+---
+
 
 This post will describe the release management processes of the
 BrowserID project, which is based on

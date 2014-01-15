@@ -1,4 +1,8 @@
+---
 title: Simple Site Publishing with Git
+layout: post
+---
+
 
 This post provides a tiny recipe for small scale site deployment with
 git.  If you have a small, mostly static website that you develop using

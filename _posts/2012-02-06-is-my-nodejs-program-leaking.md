@@ -1,4 +1,8 @@
+---
 title: Is My NodeJS Program Leaking?
+layout: post
+---
+
 
 One challenge in building production systems with NodeJS, something
 that we've dealt with in BrowserID, is finding and fixing memory

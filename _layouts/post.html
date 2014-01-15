@@ -1,0 +1,12 @@
+{% include header.html %}
+
+<div id="content" class="post">
+  <div class="title">{{ page.title }}</div>
+  <div class="date">{{ page.date }}</div>
+  <div class="post">{{ content }}</div>
+  <a name="discussion">
+    <div id="disqus_thread"></div>
+  </a>
+</div>
+
+{% include footer.html %}

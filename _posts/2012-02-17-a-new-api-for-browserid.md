@@ -1,4 +1,7 @@
+---
 title: A new API for BrowserID
+layout: post
+---
 
 <small>(This post was collaboratively written with
 [Ben Adida], [Austin King], [Shane Tomlinson], and [Dan Mills])</small>
@@ -8,14 +11,12 @@ title: A new API for BrowserID
  [Ben Adida]:http://benlog.com
  [Dan Mills]:https://twitter.com/#!/thunder
 
-<abstract>
 There are important features in BrowserID that [existing API][]
 prevents us from implementing.  This post motivates and *proposes* a
 new API building off the work of the Mozilla community and other
 BrowserID engineers.
 
   [existing API]: https://gist.github.com/1336528
-</abstract>
 
 ## Why?
 

@@ -1,4 +1,8 @@
+---
 title: The Road to Chromeless 1.0
+layout: post
+---
+
 
 Mozilla's <a href="http://github.com/mozilla/chromeless">Chromeless</a> project is an experiment toward building
 desktop applications with web technologies.  So far, it's been more

@@ -1,4 +1,8 @@
+---
 title: Primary Identity Authorities in BrowserID
+layout: post
+---
+
 
 <small>(This post builds on the work of [Mike Hanson][], [Ben Adida][], [Dan Mills][], and the [mozilla community][])</small>
 
