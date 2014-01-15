@@ -9,8 +9,9 @@ that we've dealt with in BrowserID, is finding and fixing memory
 leaks.  In our case we've discovered and fixed memory leaks in various
 different areas in our own code, node.js core, and 3rd party
 libraries.  This post will lay bare some of our learnings in BrowserID and
-present a new node.js library that's targeted of the problem of identifying 
+present a new node.js library that's targeted of the problem of identifying
 when your process is leaking, earlier.
+
 
 ## Who cares, Just restart it!
 
@@ -29,10 +30,10 @@ place anyway, so while we've reserved the right to wield this
 sledgehammer in the future.  But we apply a lotta node in a lotta places,
 and having to constantly implement restarting in all of our deployments,
 even those whose importance wouldn't otherwise warrant it, makes node
-less appealing. 
+less appealing.
 
 Second, **a larger heaps hurt performance**.  As most of the leaks we've
-detected we've found in load testing, we've got clear data showing the 
+detected we've found in load testing, we've got clear data showing the
 steady degradation of the system over time as the heap monatonically grows.
 So that argues that the *just restart it* approach should occur
 frequently, to ensure you get reasonable performance on your available
@@ -76,10 +77,10 @@ detection and resolution of memory leaks.
 ## Detecting Leaks
 
 Leaks can be hard to detect, and specifically, steps number 2 and 5 above
-are not easy.  In problems we've had with browserid it was required to let a 
+are not easy.  In problems we've had with browserid it was required to let a
 process run for 5-20 minutes before being able to conclude that a leak was
 present with any level of confidence.  The process involves watching RSS usage
-of the process over time and taking notes.  Sure there are a thousand ways to 
+of the process over time and taking notes.  Sure there are a thousand ways to
 automate this memory sampling, but given the natural cyclic growth and compaction
 of the heap in a javascript program, external monitoring of the process requires
 a longer period of sampling to allow for confident conclusions.
@@ -94,7 +95,7 @@ this area, by XXX // talk to mark mayo.
 
 [gcstats][] is a new library that hooks the V8 garbage collector to
 attempt to collect information about your application's memory usage
-and make it programatically accessible.  
+and make it programatically accessible.
 
   [gcstats]: https://github.com/lloyd/node-gcstats
 
@@ -105,9 +106,9 @@ gcstats is simple to instal:
 and just as easy to use:
 
     const gcstats = require('gcstats');
-    
+
     // ... do lots of stuff ..
-    
+
     console.log(gcstats.stats());
 
 The output of which will look something like:
@@ -145,10 +146,10 @@ The most important value above is `usage_trend`, which is my attempt to roll
 the data into a single number that can give you an idea of whether, and to what
 extent you're leaking.
 
-The key to usage_trend is having a means of understanding memory usage that is 
+The key to usage_trend is having a means of understanding memory usage that is
 more stable and yields more meaningful results than periodic sampling.  A node
-process doing lots of memory allocation can run full mark and sweep GC with 
-heap compaction every 4-15 seconds.  A mostly idle node.js process may not do 
+process doing lots of memory allocation can run full mark and sweep GC with
+heap compaction every 4-15 seconds.  A mostly idle node.js process may not do
 any GC for a much long period of time (60 seconds seems to be the upper bound).
 
 The adaptive GC heuristics of V8 make time based sampling of questionable value,
@@ -165,8 +166,8 @@ usage using one of the most stable measurements of usage available.
 
 ## Why is this useful?
 
-gcstats gives you a stable number of heap growth over time.  Let's compare the 
-data given by tracking and comparing the values obtained by simple sampling of 
+gcstats gives you a stable number of heap growth over time.  Let's compare the
+data given by tracking and comparing the values obtained by simple sampling of
 heap usage vs. sampling of 'usage_trend' over time:
 
 ### Simple time based sampling

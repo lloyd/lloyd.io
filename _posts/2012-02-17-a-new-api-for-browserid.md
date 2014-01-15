@@ -18,6 +18,7 @@ BrowserID engineers.
 
   [existing API]: https://gist.github.com/1336528
 
+
 ## Why?
 
 There are a couple important features that would be beneficial

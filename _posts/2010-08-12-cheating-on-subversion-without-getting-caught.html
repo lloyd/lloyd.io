@@ -5,6 +5,7 @@ layout: post
 
 <p>This post lightly explores the problem of &ldquo;automatically&rdquo; backing up a git repository to subversion.  <em>Why</em> would anyone want to do this? Well, if your organization has a policy that all code must make it into subversion, but your team is interested in leveraging git in a deeper way than just by using git-svn as a sexy subversion client, then you&rsquo;ll find yourself pondering the question of repository synchronization.</p>
 
+
 <p>For our purposes, we&rsquo;re guided by the following requirements:</p>
 <ol>
 <li>An <em>at least</em> periodic (&lt; 24 hour backup) of code must exist in subversion &mdash;  While it&rsquo;s not strictly necessary to have a perfect commit history stored in subversion, all code should be present and buildable with minimal fuss.</li>

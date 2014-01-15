@@ -9,6 +9,7 @@ baseurl: /
 markdown: rdiscount
 permalink: /:title
 lsi: false
+excerpt_separator: "\n\n\n"
 
 exclude:
 - CNAME

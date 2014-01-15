@@ -17,17 +17,18 @@ body {
   color: #333;
 }
 
+
 #header {
   position: fixed;
   top: 0;
   padding: 0;
   margin: 0;
   left: 0;
-  background-color: #333;
+  background-color: #3b5998;
   color: #eee;
   width: 100%;
-  opacity: .9;
-  height: 50px;
+  opacity: .95;
+  height: 55px;
 }
 
 #header > .container {
@@ -49,7 +50,7 @@ body {
 }
 
 #header .title a:hover {
-    opacity: .6;
+  opacity: .6;
 }
 
 #header div.title {
@@ -62,19 +63,21 @@ body {
   margin-bottom: -.2em;
 }
 
-#header .container > a > div.me {
-  margin: 6px;
-  border: 3px solid #eee;
-  -moz-border-radius: 3px;
-  -webkit-border-radius:  3px;
-  border-radius: 3px 3px 3px 3px;
-}
-
 #header .icon {
   margin: 8px 15px 5px 5px ;
   width: 30px;
   height: 30px;
   background-image:url('../i/sprite.png');
+}
+
+#header .icon.me {
+  background-image:url('https://2.gravatar.com/avatar/d94bd45a3f4cca35b97ead2a04ddd832?s=48');
+  width: 48px;
+  height: 48px;
+  margin: 4px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius:  3px;
+  border-radius: 3px 3px 3px 3px;
 }
 
 #header .icon.projects { background-position: -30px 0px; }
@@ -102,8 +105,15 @@ body {
   font-style: italic;
   font-size: .8em;
   opacity: .8;
-  float: left;
   margin-left: 1em;
+  float: left;
+}
+
+.post .more {
+  font-style: italic;
+  font-size: .8em;
+  opacity: .8;
+  margin-bottom: 2em;
 }
 
 code, pre {
@@ -127,10 +137,10 @@ pre {
   padding: 0;
   margin: 0;
   left: 0;
-  background-color: #333;
+  background-color: #3b5998;
   color: #eee;
   width: 100%;
-  opacity: .9;
+  opacity: .95;
   display: none;
 }
 
@@ -202,6 +212,10 @@ div#content > a.dsq-brlink {
 blockquote {
   font-size: 1.1em;
   font-style: italic;
+}
+
+div.title, div.title > a, h1 {
+  color: #3b5998;
 }
 
 /*

@@ -11,6 +11,7 @@ highly usable log in system in a couple hours.
 
 [Persona]: https://login.persona.org/
 
+
 The topic was "What I *hate* about Persona", and my goal was to
 subvert our over-loaded issue tracker and flooded email inboxes, to
 attempt to name some of the top reasons that cause people to not

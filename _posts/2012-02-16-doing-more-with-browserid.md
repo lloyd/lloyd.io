@@ -3,11 +3,12 @@ title: Doing More With BrowserID
 layout: post
 ---
 
-
 This post explores proposed BrowserID features that cannot be
 implemented with the current API.  I'll talk about four important
 features that would require a change to the API, and discuss the
 precise ways in which it would need to change.
+
+
 
 ## The Current API
 

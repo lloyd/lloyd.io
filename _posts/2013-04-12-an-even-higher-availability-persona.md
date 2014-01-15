@@ -7,11 +7,12 @@ layout: post
 
 [Mozilla Persona]: https://developer.mozilla.org/en-US/docs/persona
 
+
 ## Persona's Current Deployment Architecture
 
 At present, Persona is supported by two redundant data centers.  The following diagram gives you a high level idea of how this works:
 
-<center>![Deployment Today](posts/i/deployment-today.png)</center>
+-> ![Deployment Today]({{site.url}}/i/deployment-today.png) <-
 
 ### What a single data center looks like.
 
@@ -60,12 +61,12 @@ Currently, to release updates, we:
 
 Two requirements make this procedure work.  First, *we never make a database change that isn't backwards compatible*.  If this means phasing features over several updates, this is what we do.  This requirement allows us to always have a rollback option (updating the service twice a month for two years now, we've rolled back half a dozen times).  Second, *we  assume that frontend HTML code always interacts with a backend of the same version*.  This allows us to not worry (for the most part) about version compatibility in our (internal) API, which accelerates development.  This second requirement will have to change on the road to higher availability. 
 
-### Weaknesses 
+### Weaknesses
 
 The key weaknesses in this current deployment include:
 
   * **Not sufficiently geographically distributed** - we'd like to land data centers on every continent to reduce latencies.
-  * **Insufficient redundancy** - We'd like to be in multiple DC's at all times - allowing a disaster which affects multiple colos to be handled gracefully.  
+  * **Insufficient redundancy** - We'd like to be in multiple DC's at all times - allowing a disaster which affects multiple colos to be handled gracefully.
   * **Disaster can imply downtime** - Even though the promotion of a new master is a fast process, we'd like to be able to be able to loose multiple DC's simultaneously with zero user facing downtime.
   * **Constant inter-data-center communicaiton required** - If inter-data-center communication is lost writes in the distant datacenter fail.
   * **No rolling updates** - At scale, it behooves us to be able to partially roll out an update.  This is important to be able to mitigate user impact when bugs are introduced, and to be able to function well under heavy constant load.
@@ -74,7 +75,7 @@ The key weaknesses in this current deployment include:
 
 In an attempt to address the weaknesses discussed above, we'll be migrating Persona to Amazon Web Services.  This gives us the ability to land a deployment on almost every continent and move from 2 datacenters to about 8.  This will require changes to our technology and implementation, detailed below.  But when done, it'll look like this:
 
-<center>![Deployment Tomorrow](posts/i/deployment-tomorrow.png)</center>
+-> ![Deployment Tomorrow]({{site.url}}/i/deployment-tomorrow.png) <-
 
 The key differences here are we'll be running in many more data centers, and we'll be leveraging auto-scaling to be able to handle arbitrary load.
 

@@ -3,17 +3,16 @@ title: Persona Architectural Changes
 layout: post
 ---
 
-The [Persona Login service][] lets
+The [Persona Login service](␅https://persona.org) lets
 web developers implement seamless login via email address with a
 trivial amount of code.  It is written in NodeJS and is supported
 by Mozilla.  The service is deployed as several distinct
 NodeJS processes.  Recently we've added a new process to the service,
 and this short post will describe what's changed and why.
 
+
 This post is targeted at interested community members, and the people
 who build, test, deploy, and maintain Persona.
-
-  [Persona Login service]: http://browserid.org
 
 ## Previous Software Layout
 
@@ -35,9 +34,7 @@ In addition to these NodeJS processes, we have quite a bit of infrastructure
 for high availability in our layout as well.  Roughly, here's what
 Persona looked like:
 
- <center>
- ![Persona Arch Before](/posts/i/persona_arch_1.png)
- </center>
+->![Persona Arch Before]({{site.url}}/i/persona_arch_1.png)<-
 
 ## Adding **router**
 
@@ -72,9 +69,7 @@ roll is incrementally).
 
 The new software deployment looks roughly like this:
 
- <center>
- ![Persona Arch After](/posts/i/persona_arch_2.png)
- </center>
+->![Persona Arch After]({{site.url}}/i/persona_arch_2.png)<-
 
 ## Deployment Considerations
 
