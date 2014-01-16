@@ -66,11 +66,11 @@ body {
   margin: 8px 15px 5px 5px ;
   width: 30px;
   height: 30px;
-  background-image:url('../i/sprite.png');
+  background-image:url('/i/sprite.png');
 }
 
 #header .icon.me {
-  background-image:url('https://2.gravatar.com/avatar/d94bd45a3f4cca35b97ead2a04ddd832?s=48');
+  background-image:url('/i/me.jpg');
   width: 48px;
   height: 48px;
   margin: 4px;
