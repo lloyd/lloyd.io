@@ -3,28 +3,26 @@ title: Primary Identity Authorities in BrowserID
 layout: post
 ---
 
-
 <small>(This post builds on the work of [Mike Hanson][], [Ben Adida][], [Dan Mills][], and the [mozilla community][])</small>
 
  [Mike Hanson]:http://open-mike.org
  [Ben Adida]:http://benlog.com
- [Dan Mills]:https://twitter.com/#!/thunder 
+ [Dan Mills]:https://twitter.com/#!/thunder
  [mozilla community]:http://groups.google.com/group/mozilla.dev.identity/topics
-<abstract>
 
 BrowserID is designed to be a distributed authentication system.
-Once fully deployed there will be no central servers required for the 
+Once fully deployed there will be no central servers required for the
 system to function, and the process of authenticating to a website will
-require minimal live communication between the user's browser, the 
-identity provider (IdP), and the website being logged into.  In order to 
+require minimal live communication between the user's browser, the
+identity provider (IdP), and the website being logged into.  In order to
 achieve this, two things are required:
 
   1. Browser vendors must build native support for BrowserID into their products.
   2. IdP's must build BrowserID support to vouch for their users ownership of issued email addresses.
 
-This post addresses #2, proposing precisely what *BrowserID Support* means 
+This post addresses #2, proposing precisely what *BrowserID Support* means
 for an IdP, and how it works.
-</abstract>
+
 
 ## Overview
 
@@ -121,11 +119,13 @@ JSON document under `.well-known/vep`, for example:
 
   [RFC 5785]: http://tools.ietf.org/html/rfc5785
 
-    {
-        "public-key": "<encoded public key>",
-        "authentication": "/browserid/auth",
-        "provisioning": "/browserid/provision"
-    }
+{% highlight json %}
+{
+  "public-key": "<encoded public key>",
+  "authentication": "/browserid/auth",
+  "provisioning": "/browserid/provision"
+}
+{% endhighlight %}
 
 This document should:
 
@@ -166,9 +166,11 @@ properties present are ignored).
 For example, mozilla.org and mozilla.com might include the following
 JSON file in `/.well-known/vep`:
 
-    {
-        "authority": "browserid.mozilla.org"
-    }
+{% highlight json %}
+{
+  "authority": "browserid.mozilla.org"
+}
+{% endhighlight %}
 
 In attempting to determine whether primary BrowserID support exists
 for an email address `lloyd@mozilla.com`, one would first pull
@@ -188,6 +190,7 @@ it via an API supplied either by the browser or by a javascript
 shim when browser support isn't available.  The API used by the
 provisioning page includes the following functions:
 
+{% highlight javascript %}
     // A function invoked to fetch provisioning parameters, such as
     // email and desired certificate duration.
     navigator.id.beginProvisioning(function(email, cert_duration_s) { });
@@ -204,6 +207,7 @@ provisioning page includes the following functions:
     // invoke this function to terminate the provisioning process,
     // providing a developer readable string
     navigator.id.raiseProvisioningFailure(string reason);
+{% endhighlight %}
 
 Provisioning web content should include the following javascript to
 provide the above functions:
@@ -228,12 +232,12 @@ invoking `navigator.id.genKeyPair()`, providing a callback that will be called
 with the encoded public key once the generation process is complete.
 
 Once provisioning code has a public key, it should pass it up to IdP servers
-for signing, and return the signed version to the client.  Finally the 
-provisioning code should invoke `navigator.id.registerCertificate()` with the 
+for signing, and return the signed version to the client.  Finally the
+provisioning code should invoke `navigator.id.registerCertificate()` with the
 encoded certificate as a parameter to successfully complete the provisioning
 process.
 
-If at any point an error is encountered during the provisioning process, 
+If at any point an error is encountered during the provisioning process,
 `navigator.id.raiseProvisioningFailure()` may be called with a developer
 readable failure string to indicate to the browser that an error has occurred.
 

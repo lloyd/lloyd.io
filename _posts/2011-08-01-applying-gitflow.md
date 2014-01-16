@@ -3,7 +3,6 @@ title: Applying Gitflow
 layout: post
 ---
 
-
 This post will describe the release management processes of the
 BrowserID project, which is based on
 [gitflow](http://nvie.com/posts/a-successful-git-branching-model/).
@@ -15,8 +14,6 @@ early stages and needs to be able to rapidly iterate and evolve, but
 at the same time it must be stable and available for those who have
 started using it.  This post describes how we'll resolve this dilemma.
 
-**NOTE:**  Some of the hostnames mentioned in this post might not be live yet,
-but they'll be up RSN.
 
 ## Goals
 

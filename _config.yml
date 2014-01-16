@@ -3,7 +3,7 @@ timezone: America/Los_Angeles
 
 name: lloyd's blog
 description: The (mostly) technical blog of Lloyd Hilaiel.
-url: http://lloyd.github.io/lloyd.io
+url: http://lloyd.io
 baseurl: /
 
 markdown: rdiscount

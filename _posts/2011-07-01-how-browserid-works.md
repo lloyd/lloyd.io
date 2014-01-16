@@ -3,14 +3,12 @@ title: How BrowserID Works
 layout: post
 ---
 
-
 <small>(a special thanks to [Mike Hanson] and [Ben Adida] for their
 careful review of this post)</small>
 
  [Mike Hanson]:http://open-mike.org
  [Ben Adida]:http://benlog.com
 
-<abstract>
 [BrowserID](https://browserid.org) is a decentralized identity system
 that makes it possible for users to prove ownership of email addresses
 in a secure manner, without requiring per-site passwords.  BrowserID
@@ -24,7 +22,7 @@ proposed by Mike Hanson], and refined by [Dan Mills] and others).
   [Dan Mills]:http://sandmill.org/
   [Mozilla]:http://www.mozilla.org/about/mission.html
   [verified email protocol]:http://www.open-mike.org/entry/verified-email-protocol
-</abstract>
+
 
 > Before learning the technical details of BrowserID, it's recommended
 > you experience a user's perspective of BrowserID with the
@@ -124,7 +122,7 @@ certificate that vouches for their ownership of that email.
 
 Visually, the flow looks like this:
 
-<center>![Certificate Provisioning](posts/i/certificate_provisioning.png)</center>
+-> ![Certificate Provisioning]({{site.url}}/i/certificate_provisioning.png) <-
 
 The actors involved in this flow include the user, her browser (which
 happens to have BrowserID support built in), and her email provider
@@ -200,17 +198,19 @@ cryptographic routines implemented in JavaScript.
 The result of assertion generation is a JSON structure which
 looks like this:
 
-    {
-        "assertion": {
-          "audience": "myfavoritebeer.org",
-          "valid-until": 1308859352261,
-        }, // signed using lloyd's key for lloydhilaiel@gmail.com
-        "certificate": {
-            "email": "lloydhilaiel@gmail.com",
-            "public-key": "<lloyds-public-key>",
-            "valid-until": 1308860561861,
-        } // certificate is signed by gmail.com
-    }
+{% highlight json %}
+{
+  "assertion": {
+    "audience": "myfavoritebeer.org",
+    "valid-until": 1308859352261
+  }, // signed using lloyd's key for lloydhilaiel@gmail.com
+  "certificate": {
+      "email": "lloydhilaiel@gmail.com",
+      "public-key": "<lloyds-public-key>",
+      "valid-until": 1308860561861
+  } // certificate is signed by gmail.com
+}
+{% endhighlight %}
 
 At the completion of this flow, the browser has provided the RP with
 an email address that they can verify is owned by the user.  See the
@@ -228,7 +228,7 @@ shim.
 verify that an assertion of a user's ownership of a certain email is valid.
 Verification looks like this:
 
-<center>![Assertion Verification](posts/i/assertion_verification.png)</center>
+-> ![Assertion Verification]({{site.url}}/i/assertion_verification.png) <-
 
   1. The RP (securely) fetches the bundle containing both the assertion and 
      the certificate from the client to her servers.

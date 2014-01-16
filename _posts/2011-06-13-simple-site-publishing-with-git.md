@@ -3,16 +3,18 @@ title: Simple Site Publishing with Git
 layout: post
 ---
 
-
 This post provides a tiny recipe for small scale site deployment with
 git.  If you have a small, mostly static website that you develop using
 git, and you would like to streamline the publishing of the site to
 a server that you control, then this post is for you.
 
+
 By the end of this post updating the code on your server will be as simple
 as:
 
-    $ git push vm master
+{% highlight bash %}
+$ git push vm master
+{% endhighlight %}
 
 ### Step 1: pick a user
 
@@ -41,7 +43,9 @@ We need to now seed the server with a clone of your repository, and a
 checkout of the code at the paths determined in step two.  First let's
 get a "bare" copy of the repository:
 
-    $ git clone --bare git://github.com/lloyd/trickyco.de /home/gituser/repo
+{% highlight bash %}
+$ git clone --bare git://github.com/lloyd/trickyco.de /home/gituser/repo
+{% endhighlight %}
 
 **NOTE:** the `git://` url in this case points to an example
 repository on github (the trickyco.de repo containing this site's
@@ -50,8 +54,9 @@ code), you should replace this with some url pointing at your own repository.
 Next, let's get a snapshot of the latest code in repo and drop it in the
 specified location:
 
-
-    $ git --git-dir /home/gituser/repo archive --format=tar --prefix=www/ HEAD | (cd /home/gituser/ && tar xf -)
+{% highlight bash %}
+$ git --git-dir /home/gituser/repo archive --format=tar --prefix=www/ HEAD | (cd /home/gituser/ && tar xf -)
+{% endhighlight %}
 
 After this step is done you can peek in `/home/gituser/repo` to
 review the git administrative files, and `/home/gituser/www` to see
@@ -66,14 +71,18 @@ sure that the website is updated too.  In order to do this, we'll use a
 Create a file (owned by the git user) at `<path to
 repo>/hooks/post-update` with the following contents:
 
-    #!/bin/bash
-    echo "updating server code, booyah."
-    rm -rf /home/gituser/www/*
-    git --git-dir /home/gituser/repo archive --format=tar HEAD | (cd /home/gituser/www/ && tar xf -)
+{% highlight bash %}
+#!/bin/bash
+echo "updating server code, booyah."
+rm -rf /home/gituser/www/*
+git --git-dir /home/gituser/repo archive --format=tar HEAD | (cd /home/gituser/www/ && tar xf -)
+{% endhighlight %}
 
 Now enable the hook you just created by making it executable
 
-    $ chmod +x <path to repo>/hooks/post-update
+{% highlight bash %}
+$ chmod +x <path to repo>/hooks/post-update
+{% endhighlight %}
 
 This will forcefully update the code in your document root at each push.
 
@@ -94,8 +103,10 @@ folks authenticating as this account, here's a sample line:
 When you're done, ensure `authorized_keys` is owned by your git user
 and the permissions ar `0600`:
 
-    $ chown gituser.gituser ~/.ssh/authorized_keys
-    $ chmod 0600 ~/.ssh/authorized_keys
+{% highlight bash %}
+$ chown gituser.gituser ~/.ssh/authorized_keys
+$ chmod 0600 ~/.ssh/authorized_keys
+{% endhighlight %}
 
 ### Step 6: (optional) Lock down the headless account
 
@@ -104,7 +115,9 @@ logging in via accounts like the one you just created can do.  This is
 a useful added security measure, and to enable it you simply change
 the shell of the account to git-shell:
 
-    $ chsh -s `which git-shell`
+{% highlight bash %}
+$ chsh -s `which git-shell`
+{% endhighlight %}
 
 **At this point your server is all set up!**
 
@@ -117,14 +130,18 @@ tell her where the document root is.  Test it.  Look good?
 
 Now hop over to you client machine and we'll set up push access: 
 
-    $ git clone git@github.com:lloyd/trickyco.de
-    $ cd trickyco.de
-    $ git remote add vm gituser@<servername>:/home/gituser/repo
+{% highlight bash %}
+$ git clone git@github.com:lloyd/trickyco.de
+$ cd trickyco.de
+$ git remote add vm gituser@<servername>:/home/gituser/repo
+{% endhighlight %}
 
 Now you're all done!  Make a test commit and verify you can publish
 using git by just pushing to `vm`:
 
-    $ git push vm master
+{% highlight bash %}
+$ git push vm master
+{% endhighlight %}
 
 ## Variations
 

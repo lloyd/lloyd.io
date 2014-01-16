@@ -15,24 +15,27 @@ precise ways in which it would need to change.
 The current API for BrowserID is simple and delicious, consisting of
 two functions:
 
-    // attempt to get an assertion, possibly causing the user
-    // to be prompted.  Options include:
-    //   silent: boolean indicating whether the user should be
-    //           prompted.  when false, an assertion will only
-    //           be returned if the user has chosen to "stay signed
-    //           into this site" in a previous interaction.
-    //   requiredEmail: When provided contains an email that the
-    //           user must use.
-    //   allowPersistent: give the user the option to "stay signed
-    //           into this site".
-    //
-    navigator.id.get(<callback>, [options]);
 
-    // the user has indicated with actions in content that they
-    // wish to be logged out of this site, so if they've previously
-    // indicated they wish to "stay signed in", that preference should
-    // be cleared.
-    navigator.id.logout()
+{% highlight javascript %}
+// attempt to get an assertion, possibly causing the user
+// to be prompted.  Options include:
+//   silent: boolean indicating whether the user should be
+//           prompted.  when false, an assertion will only
+//           be returned if the user has chosen to "stay signed
+//           into this site" in a previous interaction.
+//   requiredEmail: When provided contains an email that the
+//           user must use.
+//   allowPersistent: give the user the option to "stay signed
+//           into this site".
+//
+navigator.id.get(<callback>, [options]);
+
+// the user has indicated with actions in content that they
+// wish to be logged out of this site, so if they've previously
+// indicated they wish to "stay signed in", that preference should
+// be cleared.
+navigator.id.logout()
+{% endhighlight %}
 
 An important subtlety is that there are actually two ways that one could
 apply the API:
@@ -161,9 +164,7 @@ chart of what we would need to migrate to.
 The following diagram represents what how you implement the "simple API"
 of today on your site:
 
- <center>
- <a href="/posts/i/bid_api_today.jpg">![applying BrowserID today](/posts/i/bid_api_today.png)</a>
- </center>
+-> ![applying BrowserID today]({{ site.url }}/i/bid_api_today.png) <-
 
 In this view, the notion of an "authentication session" is completely up
 to the site to manage.  If there is a cookie, for example, set by the
@@ -177,9 +178,7 @@ a "sign in with BrowserID" button.
 What might things look like when a page implements a future version of
 BrowserID that supports the desired features discussed above?
 
- <center>
- ![applying BrowserID tomorrow](/posts/i/bid_api_tomorrow.png)
- </center>
+-> ![applying BrowserID tomorrow]({{ site.url }}/i/bid_api_tomorrow.png) <-
 
 The key difference in this diagram, is that at the time a request is
 issued to the server, the presence of a session cookie is insufficient

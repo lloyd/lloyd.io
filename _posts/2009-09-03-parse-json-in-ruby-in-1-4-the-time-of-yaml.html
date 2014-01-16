@@ -3,9 +3,10 @@ title: Parse JSON in ruby in 1/4 the time of YAML
 layout: post
 ---
 
-<p>Crazy claim, eh? I figure there’s no better way to get this claim tested that by posting it as a truth!</p>
+<p>Crazy claim, eh? I figure there's no better way to get this claim tested that by posting it as a truth!</p>
 
-<p>We’ll here’s the story: Once upon a time, lloyd (that&rsquo;s me) wanted <a href="http://lloyd.github.com/yajl/">a
+
+<p>We'll here's the story: Once upon a time, lloyd (that&rsquo;s me) wanted <a href="http://lloyd.github.com/yajl/">a
 parser that didn&rsquo;t suck</a> that he could
 embed in a <a href="http://browserplus.yahoo.com/">particular product</a>,
 primarily because he was sick of patching <a href="http://oss.metaparadigm.com/json-c/">other peoples
@@ -32,18 +33,18 @@ options:</p>
 </ol>
 
 
-<p>Cause’ I love transparency over the wire (binary still ain’t that
+<p>Cause' I love transparency over the wire (binary still ain't that
 scrutable), and because JSON is the representation language of the web
 (hush now XML people) I decided to try to build this parser.</p>
 
-<p>Here’s the thing, I’m rather stupid and short sighted, and didn’t
-realize that it’s actually extremely well suited to high level
+<p>Here's the thing, I'm rather stupid and short sighted, and didn't
+realize that it's actually extremely well suited to high level
 language bindings for other languages, say, ruby or python. Luckily,
 <a href="http://github.com/brianmario">Brian Lopez</a> is not stupid, and he has
 brought <a href="http://github.com/brianmario/yajl-ruby/tree/master">yajl to
 ruby</a>.</p>
 
-<p>Initially Brian is reporting that it’s about 4 times as fast as YAML
+<p>Initially Brian is reporting that it's about 4 times as fast as YAML
 parsing via <a href="http://whytheluckystiff.net/syck/">syck</a>, about 20%
 faster than the other native JSON parser for
 ruby](<a href="http://flori.github.com/json/)">http://flori.github.com/json/)</a> out there, and in general uses up
@@ -52,11 +53,11 @@ exponential nature of the heap mechanism in ruby, so perhaps we need
 to retry this with some of <a href="/improving-the-ruby-gc">them gc patches I wrote</a>,
 or with 1.9).</p>
 
-<p>I’m posting to re-iterate how awesome Brian and I are?  No, not
-really. I’m posting to challenge skeptics to validate these findings,
-just cause’ I was extremely pleased and surprised to hear these
+<p>I'm posting to re-iterate how awesome Brian and I are?  No, not
+really. I'm posting to challenge skeptics to validate these findings,
+just cause' I was extremely pleased and surprised to hear these
 numbers from brian, and a little bit of that rigor that comes from
-public scrutiny couldn’t hurt…</p>
+public scrutiny couldn't hurt…</p>
 
 <p>till the next,
 lloyd</p>

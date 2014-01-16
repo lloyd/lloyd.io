@@ -52,7 +52,9 @@ Because BrowserID's goal is to support all popular browsers, a
 javascript shim implementation is provided.  To use the API you should
 include the following javascript in your page:
 
-    <script src="https://browserid.org/include.js"></script>
+{% highlight html %}
+<script src="https://browserid.org/include.js"></script>
+{% endhighlight %}
 
 This script will provide the functionality documented below in browsers
 that don't natively implement the BrowserID API.
@@ -74,28 +76,30 @@ This API proposal is hoped to be easy to apply, but still provide sites with
 all the hooks they need to build a great user experience.  The simplest
 possible application in pseudo code is:
 
-    if (!signed_in) {
-      navigator.id.addEventListener('login', function(event) {
-        // send event.assertion up to the server for verification
-        // and to create a user session
-      });
+{% highlight javascript %}
+if (!signed_in) {
+  navigator.id.addEventListener('login', function(event) {
+    // send event.assertion up to the server for verification
+    // and to create a user session
+  });
 
-      onClick(function() {
-        navigator.id.request();
-      });
-    } else {
-      navigator.id.addEventListener('logout', function(event) {
-        // The user has logged out!  perform a page transition or
-        // an ajax request to end the user's session, and
-        // update the page.
-      });
-    }
+  onClick(function() {
+    navigator.id.request();
+  });
+} else {
+  navigator.id.addEventListener('logout', function(event) {
+    // The user has logged out!  perform a page transition or
+    // an ajax request to end the user's session, and
+    // update the page.
+  });
+}
+{% endhighlight %}
 
 ## The API
 
 ### Functions
 
-#### `navigator.id.request([options])`
+#### navigator.id.request([options])
 
 Request an [assertion][] from the user.  The user will be prompted to select
 an email address to share with the web-page, encapsulated in an

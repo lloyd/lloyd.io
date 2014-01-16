@@ -3,7 +3,6 @@ title: Improving BrowserID UX
 layout: post
 ---
 
-
 [BrowserID](https://browserid.org/) poses interesting user experience
 problems.  The first release was sufficiently complete to provide a
 usable system, but we've learned a lot from community feedback and
@@ -12,14 +11,13 @@ UX diagrams intended to solve several concrete UX problems.  The goal
 of this post is to start a discussion which will lead us to
 incremental improvments in BrowserID's UX.
 
+
 ## The proposal
 
 Here is a diagram, that is what the next version of BrowserID might
 look like:
 
- <center>
- <a href="/posts/i/uxiter.jpg">![a lil' ux thumbnail](/posts/i/uxsm.png)</a>
- </center>
+-> <a href="{{ site.url }}/i/uxiter.jpg">![a lil' ux thumbnail]({{ site.url }}/i/uxsm.png)</a> <-
 
 Rather than going through every single interaction the diagram should
 speak for itself (click to enlarge).  The rest of this post will talk
@@ -56,18 +54,18 @@ understand that a BrowserID password is distinct from your email password:
 used it before, or need to sign in (i.e. this is a new device), you provide
 the email address you'd like to use.  After providing this email and completing
 sign-in or verification, we present you with the identity picker.
-Why does the user in this case have to type in their email address, and 
-then go and select it?  
+Why does the user in this case have to type in their email address, and
+then go and select it?
 
 **The solution:** In the case of re-authentication or initial email
 verification, the flows proposed here omit the email picker in these
 cases and directly transition a user to a logged in state.
 
 ### #3 Streamline first use
- 
+
 **The problem:** *BrowserID* is a new platform.  This means every user
 of the system will start off as a first time user.  The current flow
-involves about six screens with several fall-off points for new users.  
+involves about six screens with several fall-off points for new users.
 
 This is broken.  We should better optimize the first-timer flow.
 
@@ -83,7 +81,7 @@ and returning users alike.
 
 **The problem:** It is reasonable to assume that if I use
 `lloyd@hilaiel.com` to log into `amazon.com` today, I'll want to do
-the same thing tomorrow.  Currently BrowserID doesn't help you sign in 
+the same thing tomorrow.  Currently BrowserID doesn't help you sign in
 faster by keying off your previous behaviors.
 
 **The solution:** Without ever allowing information about previous
@@ -96,21 +94,21 @@ correct the user should be able to click a button, or hit enter to
 confirm and sign in.
 
 Further, even if we have no specific knowledge of what identity a user has
-used in the past for a specific site, we can optimize ordering based on 
+used in the past for a specific site, we can optimize ordering based on
 global identity usage [frecency].
 
   [frecency]:http://en.wiktionary.org/wiki/frecency
 
 ## Open issues
 
-There are a couple known problems that this iteration does not 
+There are a couple known problems that this iteration does not
 attempt to address:
 
 ### Temporary sign-in/shared computers
 
-Persisting authentication in-browser is a problem when computers are 
+Persisting authentication in-browser is a problem when computers are
 shared, either informally or in a public terminal scenario.  These issues
-can be mitigated by including an opt-in *remember me* checkbox.  This 
+can be mitigated by including an opt-in *remember me* checkbox.  This
 solution seems like a good starting point because it should be familiar
 to users and directly addresses a large portion of the problem.  A solution
 to this is left out of the above proposal because we have some
@@ -121,10 +119,10 @@ to this is left out of the above proposal because we have some
 ### Password reset and transitive email compromise
 
 One potential weakness in BrowserID occurs when a user looses control
-of one of their email addresses.  In today's world, an attacker would be 
-able to visit sites where that address was the primary address - used for 
-email-based password reset - and gain access to the user's account using 
-the captured email to reset passwords.  
+of one of their email addresses.  In today's world, an attacker would be
+able to visit sites where that address was the primary address - used for
+email-based password reset - and gain access to the user's account using
+the captured email to reset passwords.
 
 With BrowserID, compromise of one email address could potentially the
 compromise of all of a user's emails if not handled properly.  The
@@ -144,12 +142,4 @@ bare the UX challenges we're facing in BrowserID and to solicit
 thoughts from the community.  If a conversation starts which leads to
 superior solutions, then this post was worth writing.  So share your
 thoughts, eh?
-
-
-
-
-
-
-
-  
 

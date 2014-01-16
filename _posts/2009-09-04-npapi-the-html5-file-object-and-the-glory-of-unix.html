@@ -3,14 +3,12 @@ title: NPAPI, the HTML5 File object, and the glory of UNIX
 layout: post
 ---
 
-<h2>Web Processification</h2>
-
 <p>Earlier today I was impressing my wife with some unix foo by automatically swapping FIRST LAST &mdash;> LAST, FIRST formatted data while sorting and finding duplicated entries (ok, so she was only mildly impressed).  The shell command looked a little like this:</p>
+
 
 <div class="CodeRay">
   <div class="code"><pre>[lth@lappro ~] $ ./first_to_last.rb &lt; new_names.txt | sort -f | uniq &gt; back_to_you_bob.txt</pre></div>
 </div>
-
 
 <p>Not rocket surgery, certainly, but still a great example of combining several small tools to achieve an end.  This simple act re-filled me with awe on the beauty of design with lots of little processes.  Processes enforce proper protocols and data hiding (unless you&rsquo;re talking about cross process windows or some other such tomfoolery), they guarantee 100% resource reclamation, they afford a robust system where if one guy falls down the party can still pick up and continue.</p>
 

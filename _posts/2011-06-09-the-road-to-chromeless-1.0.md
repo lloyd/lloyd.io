@@ -3,7 +3,6 @@ title: The Road to Chromeless 1.0
 layout: post
 ---
 
-
 Mozilla's <a href="http://github.com/mozilla/chromeless">Chromeless</a> project is an experiment toward building
 desktop applications with web technologies.  So far, it's been more
 of a fancy-free exploration of interesting features or applications than
@@ -16,6 +15,7 @@ which *others* can experiment, play, and ship products.
 This post attempts to define a *Minimum Viable Product* for
 Chromeless: the simplest possible set of requirements for a meaningful
 1.0.
+
 
 Please note, **this is a proposal** intended to start the
 conversation.  My hope is to *collaboratively* refine this into an
