@@ -5,11 +5,12 @@ layout: post
 
 After a couple years of experience, we (the identity community that
 supports Persona) have amassed a small collection of changes to the
-data formats which underly the BrowserID protocol.  This post will
-informally present the desired set of changes to BrowserID data
-representation to help identity providers and maintainers of client
-implementations migrate to the new formats.
+data formats which underly the BrowserID protocol.  This post is a
+migration guide for maintainers of BrowserID client implementations.
 
+
+(NOTE: This summary is based on the work of Dan Callahan, Dirkjan Ochtman, and
+others.)
 
 The motivation for these changes include:
 
@@ -55,7 +56,9 @@ Specifically, the important changes are:
 
 1. instead of `algorithm`, we'll represent key type using the `kty` key (see [v19 of the JWK spec][])
 2. instead of abbreviated algorithm names, (DS), we'll use the full acronym (DSA).
-3. All binary data is to be represented using unpadded base64url encoding
+3. All binary data is to be represented using unpadded [base64url encoding][] (NOTE: this is *not* base64);
+
+  [base64url encoding]: http://tools.ietf.org/html/rfc4648#section-5
 
 Other than these changes, the property names of RSA or DSA keys is unchanged.  There is no
 need to seperately cover RSA, because changes are completely analagous.
@@ -103,7 +106,7 @@ Note that key representation is omitted in these examples as changes are outline
 The important changes are:
 
 1. rather than representing the user's identity under `principal.email`, we now use the subject field (with a key of `sub` [from the JWT spec][]).
-2. all times are represented in [POSIX time][]
+2. all times are now represented in [POSIX time][] (seconds since the 1970 epoch).
 3. the user's public key is provided under a `pubkey` property.
 
   [from the JWT spec]: http://tools.ietf.org/html/draft-ietf-oauth-json-web-token-14#section-4.1.2
@@ -119,7 +122,8 @@ That is a Backed Identity Assertion includes an Identity Certificate
 whereby an identity authority vouches that a specific subject (typically a person)
 controls a specific keypair - combined with an Identity Assertion assertion whereby the
 subject claims she owns a specific identity and wishes to prove it to a specific "audience"
-(typically a website) at a specific time.
+(typically a website) at a specific time.  Note, Identity certificate and asserton are separated
+with a tilde (`~` - U+007E).
 
 The changes to assertions include key representation and certificate representation
 as described above, as well as some minor changes to the assertion payload.  Previously
@@ -136,8 +140,8 @@ Which will be change to look like this:
 
 {% highlight json %}
 {
-  "exp": 1385103959,
   "iat": 1385103839,
+  "exp": 1385103959,
   "aud": "http://123done.org"
 }
 {% endhighlight %}
@@ -168,3 +172,7 @@ backwards compatibility.
 
   [in progress specification update]: https://github.com/mozilla/id-specs/tree/greenfield/browserid
   [new reference verification library]: https://github.com/mozilla/browserid-local-verify
+
+Finally, this transition will begin slowly over the coming months.  First a new
+verifier will be deployed, then we will migrate client implementations as we
+reach out to identity providers to migrate.
