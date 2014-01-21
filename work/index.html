@@ -1,0 +1,227 @@
+---
+layout: splash
+title: my work
+---
+<!DOCTYPE html>
+<html>
+<head>
+  <title>lloyd.io - {{page.title}}</title>
+  <link href='http://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="{{site.url}}/css/style.css"  type="text/css">
+  <link title="lloyd.io: Lloyd Hilaiel's's blog" type="application/atom+xml" href="{{site.url}}/feed.atom" rel="alternate">
+
+<style type="text/css">
+#content {
+  width: 70%;
+  max-width: 750px;
+  min-width: 500px;
+  margin: auto;
+}
+
+header {
+  margin: 2em 0 2em 0;
+}
+
+header h1 {
+  font-size: 4em;
+  text-align: center;
+  margin: 0 0 0 0;
+}
+
+header div {
+  width: 100%;
+  text-align: center;
+  font-size: 1.2em;
+  font-style: italic, bold;
+}
+
+div.headshot img {
+  border-radius: 6px;
+  margin: 0 15px 10px 0;
+  float: left;
+}
+
+nav {
+  margin: 2em 0;
+  width: 100%;
+  text-align: center;
+}
+
+nav a {
+  margin: 1em;
+  font-size: 1.4em;
+}
+
+#timeline {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+}
+
+#timeline #lhswrapper {
+  float: left;
+  width: 100%;
+  margin-left: -50%;
+}
+
+#timeline #lhs {
+  margin: 0 40px 0 50%;
+}
+
+#timeline #middle {
+  float: left;
+  width: 40px;
+  margin-left: -40px;
+  text-align: center;
+}
+
+#timeline #rhs {
+  float: left;
+  width: 50%;
+}
+
+#middle #line {
+  width: 0px;
+  min-height: 300px;
+  border: 1px solid #666;
+  margin-left: 16px;
+}
+
+#timeline .yearbubble {
+  border-radius: 34px;
+  width: 30px;
+  height: 6px;
+  padding: 10px 0 14px 0;
+  font-size: .5em;
+  font-style: bold;
+  background-color: #fff;
+  border: 2px solid #3b5998;
+}
+
+#timeline .project {
+  border-radius: 6px;
+  border: 1px solid #666;
+  margin: 0 1em 1em; 1em;
+  padding: .5em;
+  font-family: 'Indie Flower', cursive;
+}
+
+#timeline .project h2 .moniker {
+  font-size: 1.1em;
+  font-style: bold;
+  color: #900;
+}
+
+#timeline .project h2 {
+  font-size: 13px;
+  border: 0;
+  margin: 0 0 1em 0;
+  padding: 0;
+}
+
+#timeline .project h3 {
+  font-size: 12px;
+  font-style: regular;
+  border: 0;
+  margin: 0;
+  padding: 0;
+} 
+
+#timeline .project p {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: .8em;
+}
+
+#timeline .project:hover {
+    background-color: #ddd;
+    -webkit-transition: background-color 1000ms linear;
+    -moz-transition: background-color 1000ms linear;
+    -o-transition: background-color 1000ms linear;
+    -ms-transition: background-color 1000ms linear;
+    transition: background-color 1000ms linear;
+}
+
+</style>
+</head>
+<body>
+<div id="content">
+  <header>
+    <h1>lloyd hilaiel</h1>
+    <div class="subtitle">my work.</div>
+  </header>
+  <nav>
+    <a href="/blog">blog</a>
+    <a href="/blog">my work</a>
+    <a href="/blog">resume</a>
+    <a href="/blog">contact</a>
+  </nav>
+  <section>
+    <div id="timeline">
+      <div id="lhswrapper">
+	<div id="lhs">
+	  <div class="project">
+	    <h2><span class="moniker">ass</span>: Awesome Code Coverage</h2>
+	    <p>
+	      Code coverage for your node.js project in minutes.  Supports
+	      coverage aggregation over multiple processes, requires
+	      no support from your testing framework, and dynamically 
+	      instruments code without a messy build system.
+            </p>
+	  </div>
+	  <div class="project">
+	    <h2><span class="moniker">JSONSelect</span>: CSS Selectors for JSON</h2>
+	    <p>
+	      Slice through complex JSON structures with the tool that
+	      you already know: CSS selectors.  I wrote a spec and
+	      a reference implementation, others ported it everywhere.
+            </p>
+	  </div>
+	  <div class="project">
+	    <h2><span class="moniker">yajl</span>: Fast streaming JSON parsing</h2>
+	    <p>
+	      In 2008 there were no good native JSON parsers.  So I wrote YAJL,
+	      a highly optimized streaming JSON parser in ANSI C.  YAJL was the
+	      expat of JSON, and I've been contacted by hundreds of people over the
+	      years.  Made infamous during the <a href="https://www.google.com/search?q=yajl+twitpocalypse">Twitpocalypse</a>.
+            </p>
+	  </div>
+	</div>
+      </div>
+      <div id="middle">
+	<div class="yearbubble">2014</div>
+	<div id="line"></div>
+	<div class="yearbubble">2013</div>
+	<div id="line"></div>
+	<div class="yearbubble">2012</div>
+	<div id="line"></div>
+      </div>
+      <div id="rhs">
+	<div class="project">
+	  <h2><span class="moniker">toobusy</span>: Servers That Don't Melt</h2>
+	  <p>
+	    A node.js library which uses event-loop latency to
+	    determine when requests should be blocked - making it
+	    easy to develop graceful failure modes.
+          </p>
+	</div>
+	<div class="project">
+	  <h2><span class="moniker">memwatch</span>: Kill Leaks in node.js</h2>
+	  <p>
+	    A node.js library that integrates directly with V8 to
+	    make discovery and monitoring of memory leaks easier.
+	    Advanced HeapDiff fearture simplifies leak isolation.
+          </p>
+	</div>
+	<div class="project">
+	  <h2><span class="moniker">awsbox</span>: A DiY PaaS</h2>
+	  <p>
+	    A hacker friendly <a href="http://en.wikipedia.org/wiki/Platform_as_a_service">PaaS</a>
+	    for rapid deployment of early stage node.js services on <a href="http://aws.amazon.com/">Amazon Web Services</a>.
+          </p>
+	</div>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>

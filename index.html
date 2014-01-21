@@ -1,19 +1,85 @@
 ---
-layout: default
-title: lloyd's blog
+layout: splash
+title: lloyd hilaiel
 ---
-<div id="posts">
-{% for post in site.posts %}
-  <div class="post">
-    <div class="title">
-      <a href="{{ post.url }}" title="{{ post.title }}">{{post.title}}</a>
-    </div>
-    <div class="date">{{ post.date }}</div>
-    <div class="comments"><a href="{{ post.id }}#disqus_thread" data-disqus-identifier="{{ post.id }}">comments</a></div>
-    <div class="abstract">
-      {{ post.excerpt }}
-      <div class="more"><a href="{{ post.url }}">read more &gt;&gt;</a></div>
-    </div>
-  </div>
-{% endfor %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>lloyd.io - {{page.title}}</title>
+  <link rel="stylesheet" href="{{site.url}}/css/style.css"  type="text/css">
+  <link title="lloyd.io: Lloyd Hilaiel's's blog" type="application/atom+xml" href="{{site.url}}/feed.atom" rel="alternate">
+
+<style type="text/css">
+#content {
+  width: 70%;
+  max-width: 750px;
+  min-width: 500px;
+  margin: auto;
+}
+
+header {
+  margin: 2em 0 2em 0;
+}
+
+header h1 {
+  font-size: 4em;
+  text-align: center;
+  margin: 0 0 0 0;
+}
+
+header div {
+  width: 100%;
+  text-align: center;
+  font-size: 1.2em;
+  font-style: italic, bold;
+}
+
+div.headshot img {
+  border-radius: 6px;
+  margin: 0 0 1em 1.5em;
+  float: right;
+}
+
+nav {
+  margin: 2em 0;
+  width: 100%;
+  text-align: center;
+}
+nav a {
+  margin: 1em;
+  font-size: 1.4em;
+}
+</style>
+</head>
+<body>
+<div id="content">
+  <header>
+    <h1>lloyd hilaiel</h1>
+    <div class="subtitle">i build software.</div>
+  </header>
+  <nav>
+    <a href="/blog">blog</a>
+    <a href="/work">my work</a>
+    <a href="/resume">resume</a>
+    <a href="/contact">contact</a>
+  </nav>
+  <section>
+    <div class="headshot"><img src="{{site.url}}/i/me-big.png"></div>
+    <p>
+      I love technology and am awed by the frequency and extent to it is changing our world.
+      I got my start in the days of zork and 600 baud modems, wrote adventure games as gifts in grade school and taught myself c++ when I was twelve.
+      I started working in technology professionally my first year in college, building dynamic web applications before there were reasonable tools to do so.
+      Since then I've seen two startups through to successful conclusion, built several fantastic teams and with them shipped multiple successful products, and produced software that has landed on hundreds of millions of computers.
+    </p><p>
+      This is to say technology is both my profession and my passion.
+      My goal is simply to <i>create software that matters with people who care</i>.
+    </p><p>
+      To learn more about me, read my blog, see my project timeline, and peruse my resume.
+      Finally, most of my open source work lives on github where I've partied since 2008.
+    </p><p>
+      Onward!
+    </p>
+  </section>
 </div>
+</body>
+</html>
