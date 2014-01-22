@@ -4,224 +4,342 @@ title: my work
 ---
 <!DOCTYPE html>
 <html>
-<head>
-  <title>lloyd.io - {{page.title}}</title>
-  <link href='http://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="{{site.url}}/css/style.css"  type="text/css">
-  <link title="lloyd.io: Lloyd Hilaiel's's blog" type="application/atom+xml" href="{{site.url}}/feed.atom" rel="alternate">
+  <head>
+    <title>lloyd.io - {{page.title}}</title>
+    <link href='http://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{site.url}}/css/style.css"  type="text/css">
+    <style type="text/css">
+      #content {
+      width: 70%;
+      width: 750px;
+      margin: auto;
+      }
 
-<style type="text/css">
-#content {
-  width: 70%;
-  max-width: 750px;
-  min-width: 500px;
-  margin: auto;
+      header {
+      margin: 2em 0 2em 0;
+      }
+
+      header h1 {
+      font-size: 4em;
+      text-align: center;
+      margin: 0 0 0 0;
+      }
+
+      header div {
+      width: 100%;
+      text-align: center;
+      font-size: 1.2em;
+      font-style: italic, bold;
+      }
+
+      div.headshot img {
+      border-radius: 6px;
+      margin: 0 15px 10px 0;
+      float: left;
+      }
+
+      nav {
+      margin: 2em 0;
+      width: 100%;
+      text-align: center;
+      }
+
+      nav a {
+      margin: 1em;
+      font-size: 1.4em;
+      }
+
+      #timeline {
+      position: relative;
+      width: 100%;
+      min-height: 400px;
+      }
+
+      #timeline #lhswrapper {
+      float: left;
+      width: 100%;
+      margin-left: -50%;
+      }
+
+      #timeline #lhs {
+      margin: 0 40px 0 50%;
+      }
+
+      #timeline #middle {
+      float: left;
+      width: 40px;
+      margin-left: -40px;
+      text-align: center;
+      }
+
+      #timeline #rhs {
+      float: left;
+      width: 50%;
+      }
+
+      #middle .line {
+  height: 300px;
+      width: 0px;
+      border: 1px solid #666;
+      margin-left: 16px;
+      }
+
+#middle .l2014 {
+  height: 50px;
 }
 
-header {
-  margin: 2em 0 2em 0;
+#middle .l2013 {
+  height: 40px;
 }
 
-header h1 {
-  font-size: 4em;
-  text-align: center;
-  margin: 0 0 0 0;
+#middle .l2010 {
+  height: 200px;
 }
 
-header div {
-  width: 100%;
-  text-align: center;
-  font-size: 1.2em;
-  font-style: italic, bold;
+#middle .l2009 {
+  height: 40px;
 }
 
-div.headshot img {
-  border-radius: 6px;
-  margin: 0 15px 10px 0;
-  float: left;
+#middle .l2008 {
+  height: 200px;
 }
 
-nav {
-  margin: 2em 0;
-  width: 100%;
-  text-align: center;
+#middle .l2007 {
+  height: 170px;
 }
 
-nav a {
-  margin: 1em;
-  font-size: 1.4em;
+
+      #timeline .yearbubble {
+      border-radius: 34px;
+      width: 30px;
+      height: 6px;
+      padding: 10px 0 14px 0;
+      font-size: .5em;
+      font-style: bold;
+      background-color: #fff;
+      border: 2px solid #3b5998;
+      }
+
+      #timeline .project {
+      position: relative;
+      top: 20px;
+      border-radius: 6px;
+      border: 1px solid #666;
+      margin: 0 1em 1em; 1em;
+      padding: .5em;
+      font-family: 'Indie Flower', cursive;
+      }
+
+      #timeline .project h2 .moniker {
+      font-size: 1.1em;
+      font-style: bold;
+      color: #900;
+      }
+
+      #timeline .project h2 {
+      font-size: 13px;
+      border: 0;
+      margin: 0 0 1em 0;
+      padding: 0;
+      }
+
+      #timeline .project h3 {
+      font-size: 12px;
+      font-style: regular;
+      border: 0;
+      margin: 0;
+      padding: 0;
+      }
+
+      #timeline .project p {
+      font-family: 'Ubuntu', sans-serif;
+      font-size: .8em;
+      }
+
+
+.rightarrow {
+  background-image:url('/i/right arrow.png');
+  width: 10px;
+  height: 20px;
+  position: absolute;
+  right: -10px;
+  top: 10px;
 }
 
-#timeline {
+.leftarrow {
+  background-image:url('/i/left arrow.png');
+  width: 10px;
+  height: 20px;
+  position: absolute;
+  left: -10px;
+  top: 10px;
+}
+
+#lhs, #rhs {
   position: relative;
-  width: 100%;
-  min-height: 400px;
 }
 
-#timeline #lhswrapper {
-  float: left;
-  width: 100%;
-  margin-left: -50%;
+.project .date {
+  display: none;
 }
 
-#timeline #lhs {
-  margin: 0 40px 0 50%;
-}
-
-#timeline #middle {
-  float: left;
-  width: 40px;
-  margin-left: -40px;
-  text-align: center;
-}
-
-#timeline #rhs {
-  float: left;
-  width: 50%;
-}
-
-#middle #line {
-  width: 0px;
-  min-height: 300px;
-  border: 1px solid #666;
-  margin-left: 16px;
-}
-
-#timeline .yearbubble {
-  border-radius: 34px;
-  width: 30px;
-  height: 6px;
-  padding: 10px 0 14px 0;
-  font-size: .5em;
-  font-style: bold;
-  background-color: #fff;
-  border: 2px solid #3b5998;
-}
-
-#timeline .project {
-  border-radius: 6px;
-  border: 1px solid #666;
-  margin: 0 1em 1em; 1em;
-  padding: .5em;
-  font-family: 'Indie Flower', cursive;
-}
-
-#timeline .project h2 .moniker {
-  font-size: 1.1em;
-  font-style: bold;
-  color: #900;
-}
-
-#timeline .project h2 {
-  font-size: 13px;
-  border: 0;
-  margin: 0 0 1em 0;
-  padding: 0;
-}
-
-#timeline .project h3 {
-  font-size: 12px;
-  font-style: regular;
-  border: 0;
-  margin: 0;
-  padding: 0;
-} 
-
-#timeline .project p {
-  font-family: 'Ubuntu', sans-serif;
+summary {
+  width: 70%;
   font-size: .8em;
+  margin: auto;
+  text-align: center;
+  margin-top: 3em;
+  margin-bottom: 3em;
 }
 
-#timeline .project:hover {
-    background-color: #ddd;
-    -webkit-transition: background-color 1000ms linear;
-    -moz-transition: background-color 1000ms linear;
-    -o-transition: background-color 1000ms linear;
-    -ms-transition: background-color 1000ms linear;
-    transition: background-color 1000ms linear;
-}
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <header>
+        <h1>lloyd hilaiel</h1>
+        <div class="subtitle">my work.</div>
+      </header>
+      <nav>
+        <a href="/">home</a>
+        <a href="/blog">blog</a>
+        <a href="mailto:me@lloyd.io">contact</a>
+      </nav>
+      <summary>
+        Here you will find some of the more interesting open source projects I've
+        worked on.  Most of the time I've collaborated with others, because it's
+        more fun that way.
+      </summary>
+      <section>
+        <div id="timeline">
+          <div id="lhswrapper">
+	        <div id="lhs">
+	          <div class="project" style="margin-top: 10px;">
+	            <div class="rightarrow"></div>
+	            <h2><a href="https://github.com/lloyd/ass"><span class="moniker">ass</span>: Awesome Code Coverage</a></h2>
+                <div class="date">Jan, 2014</div>
+	            <p>
+	              Code coverage for your node.js project in minutes.  Supports
+	              coverage aggregation over multiple processes, requires
+	              no support from your testing framework, and dynamically
+	              instruments code without a messy build system.
+                </p>
+	          </div>
+	          <div class="project" style="margin-top: 170px;">
+	            <div class="rightarrow"></div>
+	            <h2><a href="https://hacks.mozilla.org/2013/05/introducing-awsbox-the-diy-paas-for-node-js-a-node-js-holiday-season-part-12/"><span class="moniker">awsbox</span>: A DiY PaaS</a></h2>
+                <div class="date">March, 2012</div>
+	            <p>
+	              A hacker friendly <a href="http://en.wikipedia.org/wiki/Platform_as_a_service">PaaS</a>
+	              for rapid deployment of early stage node.js services on <a href="http://aws.amazon.com/">Amazon Web Services</a>.
+                </p>
+	          </div>
 
-</style>
-</head>
-<body>
-<div id="content">
-  <header>
-    <h1>lloyd hilaiel</h1>
-    <div class="subtitle">my work.</div>
-  </header>
-  <nav>
-    <a href="/blog">blog</a>
-    <a href="/blog">my work</a>
-    <a href="/blog">resume</a>
-    <a href="/blog">contact</a>
-  </nav>
-  <section>
-    <div id="timeline">
-      <div id="lhswrapper">
-	<div id="lhs">
-	  <div class="project">
-	    <h2><span class="moniker">ass</span>: Awesome Code Coverage</h2>
-	    <p>
-	      Code coverage for your node.js project in minutes.  Supports
-	      coverage aggregation over multiple processes, requires
-	      no support from your testing framework, and dynamically 
-	      instruments code without a messy build system.
-            </p>
-	  </div>
-	  <div class="project">
-	    <h2><span class="moniker">JSONSelect</span>: CSS Selectors for JSON</h2>
-	    <p>
-	      Slice through complex JSON structures with the tool that
-	      you already know: CSS selectors.  I wrote a spec and
-	      a reference implementation, others ported it everywhere.
-            </p>
-	  </div>
-	  <div class="project">
-	    <h2><span class="moniker">yajl</span>: Fast streaming JSON parsing</h2>
-	    <p>
-	      In 2008 there were no good native JSON parsers.  So I wrote YAJL,
-	      a highly optimized streaming JSON parser in ANSI C.  YAJL was the
-	      expat of JSON, and I've been contacted by hundreds of people over the
-	      years.  Made infamous during the <a href="https://www.google.com/search?q=yajl+twitpocalypse">Twitpocalypse</a>.
-            </p>
-	  </div>
-	</div>
-      </div>
-      <div id="middle">
-	<div class="yearbubble">2014</div>
-	<div id="line"></div>
-	<div class="yearbubble">2013</div>
-	<div id="line"></div>
-	<div class="yearbubble">2012</div>
-	<div id="line"></div>
-      </div>
-      <div id="rhs">
-	<div class="project">
-	  <h2><span class="moniker">toobusy</span>: Servers That Don't Melt</h2>
-	  <p>
-	    A node.js library which uses event-loop latency to
-	    determine when requests should be blocked - making it
-	    easy to develop graceful failure modes.
-          </p>
-	</div>
-	<div class="project">
-	  <h2><span class="moniker">memwatch</span>: Kill Leaks in node.js</h2>
-	  <p>
-	    A node.js library that integrates directly with V8 to
-	    make discovery and monitoring of memory leaks easier.
-	    Advanced HeapDiff fearture simplifies leak isolation.
-          </p>
-	</div>
-	<div class="project">
-	  <h2><span class="moniker">awsbox</span>: A DiY PaaS</h2>
-	  <p>
-	    A hacker friendly <a href="http://en.wikipedia.org/wiki/Platform_as_a_service">PaaS</a>
-	    for rapid deployment of early stage node.js services on <a href="http://aws.amazon.com/">Amazon Web Services</a>.
-          </p>
-	</div>
-      </div>
+	          <div class="project" style="margin-top: 150px;">
+	            <div class="rightarrow"></div>
+	            <h2><a href="https://persona.org"><span class="moniker">Persona</span>: Better Web Authentication</h2>
+                <div class="date">July, 2011</div>
+	            <p>
+                  <a href="https://persona.org">Mozilla Persona</a> is
+                  an attempt to rethink how we implement online
+                  authentication.  The project proves authentication can
+                  simultaneously be more secure, privacy preserving, and
+                  more usable.  I started the project with Mike Hansen
+                  and Ben Adida in
+                  <a href="https://github.com/mozilla/persona/commit/1aa34387f">april of 2011</a>,
+                  and saw it through to implementation on thousands of sites, with millions of users.
+                </p>
+	          </div>
+	          <div class="project" style="margin-top: 640px;">
+	            <div class="rightarrow"></div>
+	            <h2><a href="http://github.com/lloyd/yajl"><span class="moniker">yajl</span>: Fast streaming JSON parsing</a></h2>
+                <div class="date">July, 2007</div>
+	            <p>
+	              In 2007 there were no good native JSON parsers.  So I wrote YAJL,
+	              a highly optimized streaming JSON parser in ANSI C.  YAJL was the
+	              expat of JSON, and I've been contacted by hundreds of people over the
+	              years.  Made infamous during the <a href="https://www.google.com/search?q=yajl+twitpocalypse">Twitpocalypse</a>.
+                </p>
+	          </div>
+	        </div>
+          </div>
+          <div id="middle">
+	        <div class="line l2014"></div>
+	        <div class="yearbubble">2014</div>
+	        <div class="line l2013"></div>
+	        <div class="yearbubble">2013</div>
+	        <div class="line l2012"></div>
+	        <div class="yearbubble">2012</div>
+	        <div class="line l2011"></div>
+	        <div class="yearbubble">2011</div>
+	        <div class="line l2010"></div>
+	        <div class="yearbubble">2010</div>
+	        <div class="line l2009"></div>
+	        <div class="yearbubble">2009</div>
+	        <div class="line l2008"></div>
+	        <div class="yearbubble">2008</div>
+	        <div class="line l2007"></div>
+	        <div class="yearbubble">2007</div>
+          </div>
+          <div id="rhs">
+	        <div class="project" style="margin-top: 130px;">
+	          <div class="leftarrow"></div>
+	          <h2><a href="https://hacks.mozilla.org/2013/01/building-a-node-js-server-that-wont-melt-a-node-js-holiday-season-part-5/"><span class="moniker">toobusy</span>: Servers That Don't Melt</a></h2>
+              <div class="date">November, 2012</div>
+	          <p>
+	            A node.js library which uses event-loop latency to
+	            determine when requests should be blocked - making it
+	            easy to develop graceful failure modes.
+              </p>
+	        </div>
+	        <div class="project" style="margin-top: 130px;">
+	          <div class="leftarrow"></div>
+	          <h2><a href="https://hacks.mozilla.org/2012/11/tracking-down-memory-leaks-in-node-js-a-node-js-holiday-season/"><span class="moniker">memwatch</span>: Kill Leaks in node.js</a></h2>
+              <div class="date">Feb, 2012</div>
+	          <p>
+	            A node.js library that integrates directly with V8 to
+                make discovery and monitoring of memory leaks easier.
+                Advanced HeapDiff fearture simplifies leak isolation.
+              </p>
+	        </div>
+	        <div class="project" style="margin-top: 200px;">
+	          <div class="leftarrow"></div>
+	          <h2><a href="http://jsonselect.org"><span class="moniker">JSONSelect</span>: CSS Selectors for JSON</a></h2>
+              <div class="date">May, 2011</div>
+	          <p>
+	            Slice through complex JSON structures with the tool that
+	            you already know: CSS selectors.  I wrote a spec and
+	            a reference implementation, others ported it everywhere.
+              </p>
+	        </div>
+	        <div class="project" style="margin-top: 100px;">
+	          <div class="leftarrow"></div>
+	          <h2><a href="https://blog.mozilla.org/labs/2010/10/chromeless-build-your-own-browser-ui-using-html-css-js/"><span class="moniker">Chromeless</span>: Desktop Apps with Web Tech</a></h2>
+              <div class="date">October, 2010</div>
+	          <p>
+                Chromeless was an experiment in building a HTML5 runtime for desktop
+                apps.  Working with Marcio Galli and the community, we built a
+                functional SDK for packaging web content into standalone desktop apps
+                on three platforms.  The <a href="http://mozilla.github.io/chromeless/">documentation was sweet</a>, too.
+              </p>
+	        </div>
+
+	        <div class="project" style="margin-top: 130px;">
+	          <div class="leftarrow"></div>
+	          <h2><a href="http://vimeo.com/9648145"><span class="moniker">BrowserPlus</span>: Evolving Web Plugins</a></h2>
+              <div class="date">July, 2008</div>
+	          <p>
+                Yahoo! BrowserPlus
+                made it easy to distribute, version, and develop scriptable cross-platform web
+                plugins.  With a team of four we designed and built the platform, and
+                tens of services which
+                ultimately was used by hundreds of millions of folks on Yahoo! mail,
+                and other sites around the web.
+              </p>
+	        </div>
+          </div>
+        </div>
+      </section>
     </div>
-  </section>
-</div>
-</body>
+  </body>
 </html>
