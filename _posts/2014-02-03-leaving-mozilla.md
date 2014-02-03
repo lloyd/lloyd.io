@@ -17,7 +17,7 @@ day as a Mozillian.
 Mozilla provided an environment where for 3.5 years, my work was fully
 aligned with my passions: I had the freedom to openly create and collaborate.
 I've built and contributed to [many open source libraries, tools, and experiments][],
-the space to [explore the idea of applications made of the web][],
+was given space to [explore the idea of applications made of the web][],
 [experiment with web application runtimes][], and to [build a safe,
 easy, and privacy-preserving identity system][].
 
