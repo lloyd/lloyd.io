@@ -122,7 +122,7 @@ That is a Backed Identity Assertion includes an Identity Certificate
 whereby an identity authority vouches that a specific subject (typically a person)
 controls a specific keypair - combined with an Identity Assertion assertion whereby the
 subject claims she owns a specific identity and wishes to prove it to a specific "audience"
-(typically a website) at a specific time.  Note, Identity certificate and asserton are separated
+(typically a website) at a specific time.  Note, Identity certificate and assertion are separated
 with a tilde (`~` - U+007E).
 
 The changes to assertions include key representation and certificate representation
