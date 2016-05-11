@@ -108,6 +108,10 @@ body {
   float: left;
 }
 
+.post .share {
+    text-align: right;
+}
+
 .post .more {
   font-style: italic;
   font-size: .8em;
