@@ -6,7 +6,7 @@ description: The (mostly) technical blog of Lloyd Hilaiel.
 url: http://lloyd.io
 baseurl: /
 
-markdown: rdiscount
+markdown: kramdown
 permalink: /:title
 lsi: false
 excerpt_separator: "\n\n\n"
