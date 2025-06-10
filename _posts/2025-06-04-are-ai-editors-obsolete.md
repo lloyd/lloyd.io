@@ -7,6 +7,8 @@ The way developers use AI is rapidly changing, moving beyond simple integrations
 
 ![AI robot superhero disrupting traditional editors](/i/ai-editors-obsolete-robot.png "AI superhero blasting off toward pull requests while traditional editors crumble")
 
+
+
 ## The Traditional Editor-Based Approach
 
 Historically, developer adoption of AI, exemplified by tools integrated into editors like VS Code, focused on providing help for small, specific tasks. Developers would highlight sections of code and ask the AI to write a function, explain an implementation, or debug a piece of code. This approach involved tactically employing AI on a micro-level to solve immediate problems.

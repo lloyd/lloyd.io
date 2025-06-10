@@ -7,6 +7,8 @@ Building software platforms has long centered around the human user – their pr
 
 ![Robot testing an iOS application](/i/ai-testing-robot.png "AI-powered testing in action")
 
+
+
 ## Traditional Software Testing: Built for Humans
 
 Consider traditional software testing tools, many of which were designed with human engineers in mind. Platforms like Selenium or Appium support a multitude of programming languages, allowing testers to work within familiar environments. They often include features like recording tools to capture human interactions and debuggers to help step through tests and inspect application structure (like the DOM). The typical human workflow involves creating a test, manually refining it, fixing issues like suboptimal selectors, and investing significant effort to make tests robust against application changes because creating and maintaining them is time-consuming and costly.

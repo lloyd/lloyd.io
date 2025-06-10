@@ -7,6 +7,8 @@ I've been working with AI tools for coding for years, but we've hit a major infl
 
 ![Robot architect drawing impossible bridges](/i/ai-shit-architect-robot.png "A cute robot drawing impossible architectural plans")
 
+
+
 ## Where AI Fails: The Architectural Blind Spot
 
 I recently had an experience that perfectly illustrates this problem. A large portion of our software is in Golang, and I asked Claude to build a quick linter for a JSON document. The task involved an enumerated type with over 1,500 possible values. Claude cranked for about a minute and reported the task was complete. When I dug in, I found it had written a program that parsed the enum definition—which already had a map—extracted the values, and then built a new map on top of it. This isn't even about sophisticated architecture; it's just common sense. No human developer would ever do that.
