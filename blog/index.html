@@ -8,8 +8,10 @@ title: my blog
     <div class="title">
       <a href="{{ post.url }}" title="{{ post.title }}">{{post.title}}</a>
     </div>
-    <div class="date">{{ post.date }}</div>
-    <div class="comments"><a href="{{ post.id }}#disqus_thread" data-disqus-identifier="{{ post.id }}">comments</a></div>
+    <div class="meta">
+      <div class="date">{{ post.date | date: "%Y-%m-%d" }}</div>
+      <div class="comments"><a href="{{ post.id }}#disqus_thread" data-disqus-identifier="{{ post.id }}">comments</a></div>
+    </div>
     <div class="abstract">
       {{ post.excerpt }}
       <div class="more"><a href="{{ post.url }}">read more &gt;&gt;</a></div>
