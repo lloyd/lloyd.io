@@ -7,6 +7,8 @@ There's a fascinating debate swirling around the impact of Artificial Intelligen
 
 ![A wizard directing robots to build a masterpiece](/i/ai-kingmaker-wizard.jpg)
 
+<!-- more -->
+
 The idea that AI primarily benefits those who are struggling, while top performers have less to gain, doesn't quite hold up.
 
 > "My personal experience over the last year does not match that assessment. What I've observed is that the ability to effectively leverage AI benefits maybe not those who are most productive immediately, but it does not have some sort of bias to serve and benefit people purely based on a productivity spectrum."
