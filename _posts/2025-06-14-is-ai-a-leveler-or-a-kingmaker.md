@@ -7,7 +7,7 @@ There's a fascinating debate swirling around the impact of Artificial Intelligen
 
 ![A wizard directing robots to build a masterpiece](/i/ai-kingmaker-wizard.jpg)
 
-<!-- more -->
+
 
 The idea that AI primarily benefits those who are struggling, while top performers have less to gain, doesn't quite hold up.
 
