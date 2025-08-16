@@ -7,6 +7,8 @@ When it comes to leveling up our human workers, we face a fundamental choice: do
 
 ![A futuristic, artistic representation of a healthcare professional whose mind is subtly augmented](https://dev.headlands.cloud/image/attachment/601Uuyhe9ZJiyuvmJKas7ZUM46b8MIhV6YU-FPIjmQk)
 
+
+
 Let's explore this choice through a real-world example. My girlfriend is a nurse navigator, guiding people diagnosed with breast cancer through the overwhelming maze of the American healthcare system. It's a role that requires immense organization and empathy, acting as a patient advocate in a system with countless actors, policies, and providers. A huge part of her job involves documenting every patient interaction into a charting system to ensure continuity of care—a vital but incredibly time-consuming task.
 
 ## The Charting Challenge
