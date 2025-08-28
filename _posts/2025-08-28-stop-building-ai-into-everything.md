@@ -29,9 +29,9 @@ If you're building an AI assistant into a single product, ask: *Am I a data sour
 Acrobat's AI Assistant now supports hands-free voice in its app and "PDF Spaces." You can literally talk to a document viewer, ask questions, and get spoken responses.  
 **Why this misses:** PDF is just syntax—packaging for content. The information I need lives as conversations in Slack, documents across Word/PDF/web, and scattered emails. I need to reason across *all* of it, not chat with one file format. Nobody cares about "PDFs"—they care about understanding the full context of their information, wherever it lives.
 
-### B) Google Photos “Ask Photos”: chat with your memories
-Ask Photos is a conversational way to query your photo library—“show me the best picture from each national park I visited.”  
-**Why this misses:** trip planning based on those memories needs Maps, airline emails, hotel receipts, and everyone’s calendar. Photo memory ≠ trip plan.
+### B) Google Photos "Ask Photos": chat with your memories
+Ask Photos is a conversational way to query your photo library—"show me the best picture from each national park I visited."  
+**Why this misses:** My memories aren't only in Google Photos. They're fragmented across text exchanges, WhatsApp conversations, my iPhone camera roll, Instagram posts, DMs, and social media. To find that one photo, I might need to cross-reference my social accounts to pinpoint when I was at a location. And once I find it? I need to share it, enhance it with my choice of AI, or print it with my preferred provider. "Chat with your memories" is a broken promise when it only sees one silo.
 
 ### C) Spotify DJ: hold to talk to the DJ
 The AI DJ now takes real-time voice requests in many markets for Premium users. Hold the button, speak a mood/genre, the DJ adapts.  
