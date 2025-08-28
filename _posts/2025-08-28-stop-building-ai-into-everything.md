@@ -15,7 +15,7 @@ Let's stop pretending the interface we should talk to lives inside every silo. I
 
 ## The pattern behind the hype (and why it breaks)
 
-- **Context lives across silos.** Real tasks (“compare this contract to last year and draft legal’s email”) braid together files, mail, calendar, and notes.
+- **Context lives across silos.** Real tasks ("retrieve that recent email from my ex, summarize my expenditures on our property in early 2024, and fact check her assertions") braid together files, mail, calendar, and notes.
 - **Preference & memory sprawl.** Ten mini-assistants each want their own persona, settings, and memory. I want one brain that learns me once.
 - **Redundant R&D, brittle UX.** Per-app AI assistants are expensive to build, hard to maintain, and never as capable as a user-chosen agent with proper tools.
 
