@@ -39,7 +39,7 @@ The AI DJ now takes real-time voice requests in many markets for Premium users. 
 
 ### D) Zoom AI Companion: another assistant in the meeting window
 Zoom lets participants ask in-meeting questions grounded in the live transcript.  
-**Why this misses:** summarizing a meeting is nice; the real work—file tickets, schedule follow-ups across teams, update docs—lives outside Zoom. Let **my** agent, which already knows my projects and context, drive that.
+**Why this misses:** This fails for the same reason "talk to your PDF" does. The Zoom meeting is just another event, another piece of knowledge—data I want to remember and query, not a destination. I might have a meeting, a PDF, and an email thread that together comprise the ground truth for a decision I need to make. The most interesting part about any meeting is all the context around it—the prep docs, related emails, follow-up commitments—not the meeting transcript itself.
 
 ### E) Bank of America “Erica”: talk to *their* assistant
 Erica is a mature, bank-scoped assistant with massive usage.  
