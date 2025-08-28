@@ -3,7 +3,7 @@ title: Stop Building AI Into Everything
 date: 2025-08-28
 ---
 
-I was jogging this morning when Strava congratulated me with another jaunty AI summary. Cute. Useless. And emblematic of a bigger trend: every product team is racing to bolt an AI assistant onto their surface. Meanwhile, the work I want done starts *above* any single app and crosses *all* of them.
+A couple days ago I finished a run and set the title in Strava—a moment later I was presented with a silly AI summary. Cute. Useless. And emblematic of a bigger trend: every product team is racing to bolt an AI assistant onto their surface. Meanwhile, the work I want done starts *above* any single app and crosses *all* of them.
 
 ![Overwhelm: every device wants to talk](/i/voice-everywhere.png)
 
