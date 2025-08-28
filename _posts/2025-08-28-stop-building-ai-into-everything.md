@@ -23,7 +23,7 @@ If you're building an AI assistant into a single product, ask: *Am I a data sour
 
 ---
 
-## Exhibit A through F: nice demos, wrong layer
+## Exhibit A through E: nice demos, wrong layer
 
 ### A) Adobe Acrobat: "talk to your PDF"
 Acrobat's AI Assistant now supports hands-free voice in its app and "PDF Spaces." You can literally talk to a document viewer, ask questions, and get spoken responses.  
@@ -41,11 +41,7 @@ The AI DJ now takes real-time voice requests in many markets for Premium users. 
 Zoom lets participants ask in-meeting questions grounded in the live transcript.  
 **Why this misses:** This fails for the same reason "talk to your PDF" does. The Zoom meeting is just another event, another piece of knowledge—data I want to remember and query, not a destination. I might have a meeting, a PDF, and an email thread that together comprise the ground truth for a decision I need to make. The most interesting part about any meeting is all the context around it—the prep docs, related emails, follow-up commitments—not the meeting transcript itself.
 
-### E) Bank of America “Erica”: talk to *their* assistant
-Erica is a mature, bank-scoped assistant with massive usage.  
-**Why this misses:** meaningful guidance needs a unified view across multiple banks, brokerages, subscriptions, and goals. My agent should model cashflow; the bank is a data source.
-
-### F) GitHub “Copilot Voice”: a cautionary tale
+### E) GitHub "Copilot Voice": a cautionary tale
 GitHub ended the specialized “Hey, GitHub!” voice preview and handed speech to the generic VS Code speech extension.  
 **Why this teaches the lesson:** maintaining AI assistants per surface is brittle. The durable value concentrates at the **agent layer** that spans repos, issues, docs, and chat—not one editor.
 
