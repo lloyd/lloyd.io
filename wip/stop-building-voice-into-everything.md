@@ -1,15 +1,11 @@
----
-title: Stop Building Voice Into Everything
-date: 2025-01-28
----
+# Stop Building Voice Into Everything
+### Voice belongs to *my agent*, not *your app*
 
-I was jogging this morning when Strava congratulated me with another jaunty AI summary. Cute. Useless. And emblematic of a bigger trend: every product team is racing to bolt a voice UI onto their surface and call it "AI." Meanwhile, the work I want done starts *above* any single app and crosses *all* of them.
+I was jogging this morning when Strava congratulated me with another jaunty AI summary. Cute. Useless. And emblematic of a bigger trend: every product team is racing to bolt a voice UI onto their surface and call it “AI.” Meanwhile, the work I want done starts *above* any single app and crosses *all* of them.
 
-![Overwhelm: every device wants to talk](/i/voice-everywhere.png)
+![Overwhelm: every device wants to talk](/mnt/data/hero_overwhelm.png)
 
-
-
-Let's stop pretending the interface we should talk to lives inside every silo. It doesn't. **Voice belongs to the user's agent**—the thing that knows our world, our preferences, our data—**not embedded per-app**.
+Let’s stop pretending the interface we should talk to lives inside every silo. It doesn’t. **Voice belongs to the user’s agent**—the thing that knows our world, our preferences, our data—**not embedded per-app**.
 
 ---
 
@@ -89,3 +85,4 @@ We can still ship “starter” voices inside products for *debugging and testin
 > **Let my agent talk.**  
 > **Let your app do.**
 
+![Silo voices vs one brain](/mnt/data/silo_vs_agent.png)
