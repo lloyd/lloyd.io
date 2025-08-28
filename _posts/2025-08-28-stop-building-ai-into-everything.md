@@ -35,7 +35,7 @@ Ask Photos is a conversational way to query your photo library—"show me the be
 
 ### C) Spotify DJ: hold to talk to the DJ
 The AI DJ now takes real-time voice requests in many markets for Premium users. Hold the button, speak a mood/genre, the DJ adapts.  
-**Why this misses:** “45-minute tempo arc for a hill workout” is a *training* intent—calendar + route + HR zones + speakers—not a music-only intent. Music is a source; my agent should orchestrate it.
+**Why this misses:** Spotify provides two things—access to music and recommendations. But countless times on my run, I hear something in an automatic mix that I later want to recall. My primary agent—the one I talk to most—is what I'll ask to "queue up the top 5 most popular songs from the Sweet Lillies for my next trail run." That needs to work whether my music dollars go to Spotify, Apple, or Amazon. The assistant should be mine, not theirs.
 
 ### D) Zoom AI Companion: another assistant in the meeting window
 Zoom lets participants ask in-meeting questions grounded in the live transcript.  
