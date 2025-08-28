@@ -25,9 +25,9 @@ If you're building an AI assistant into a single product, ask: *Am I a data sour
 
 ## Exhibit A through F: nice demos, wrong layer
 
-### A) Adobe Acrobat: “talk to your PDF”
-Acrobat’s AI Assistant now supports hands-free voice in its app and “PDF Spaces.” You can literally talk to a document viewer, ask questions, and get spoken responses.  
-**Why this misses:** contracts live in Drive, mail, Slack, Notion, and history. The useful task ("compare to last year; draft legal's note; propose redlines") spans storage + email + calendar. The viewer shouldn't own that assistant.
+### A) Adobe Acrobat: "talk to your PDF"
+Acrobat's AI Assistant now supports hands-free voice in its app and "PDF Spaces." You can literally talk to a document viewer, ask questions, and get spoken responses.  
+**Why this misses:** PDF is just syntax—packaging for content. The information I need lives as conversations in Slack, documents across Word/PDF/web, and scattered emails. I need to reason across *all* of it, not chat with one file format. Nobody cares about "PDFs"—they care about understanding the full context of their information, wherever it lives.
 
 ### B) Google Photos “Ask Photos”: chat with your memories
 Ask Photos is a conversational way to query your photo library—“show me the best picture from each national park I visited.”  
