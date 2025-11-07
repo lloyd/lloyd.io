@@ -4,11 +4,11 @@ title: "Are my inane questions going to outer space?"
 date: 2025-11-07
 ---
 
+Here's a hot take on the future of AI compute. When you hear about Google's Project Suncatcher—their actual moonshot research into solar-powered satellite constellations with onboard TPUs—it paints a vivid picture of one possible future. In that world, the demand for computation is so vast that we literally have to go off-planet to power it. It leads to a provocative question: a decade from now, when I'm on a run and summon my personal AI, will my voice command travel to space and back just to be understood?
+
 ![AI Compute Visualization](/temp-image-1762539191367-kz3suf.jpg)
 
 
-
-Here's a hot take on the future of AI compute. When you hear about Google's Project Suncatcher—their actual moonshot research into solar-powered satellite constellations with onboard TPUs—it paints a vivid picture of one possible future. In that world, the demand for computation is so vast that we literally have to go off-planet to power it. It leads to a provocative question: a decade from now, when I'm on a run and summon my personal AI, will my voice command travel to space and back just to be understood?
 
 ## The Other Side of the Coin: Efficiency at the Edge
 
