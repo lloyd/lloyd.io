@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The Develop Proxy: How to Let AI Rebuild Its Own Tools Mid-Conversation"
+title: "MCPFlow: How to Let AI Rebuild Its Own Tools Mid-Conversation"
 date: 2026-03-16
 ---
 
@@ -12,6 +12,10 @@ In a normal workflow, this is where the music stops. You rebuild the binary, res
 
 I solved this. And the solution is, I think, a pattern that matters well beyond my specific project.
 
+![MCPFlow architecture diagram](/i/mcpflow-infographic.png)
+
+
+
 ## The Problem
 
 If you've built an MCP server — the kind that gives Claude tools to interact with some system you're developing — you've probably experienced this tension. Most of the time, the workflow is great. You're iterating in a scripting layer or a config format, the MCP server hot-reloads changes, and the AI can test what it just built without any interruption.
@@ -22,23 +26,23 @@ The system the AI is *using* is also the system you're *developing*. And when yo
 
 This happens more often than you'd think. Every time I invest in making the AI's tools better — which is the highest-leverage work I can do — I pay a tax of lost context.
 
-## The Pattern: A Proxy That Can Rebuild Its Child
+## MCPFlow: A Proxy That Can Rebuild Its Child
 
 The solution is a two-process architecture:
 
 ```
-Claude <-> Develop Proxy (parent) <-> MCP Server (child)
+Claude <-> MCPFlow (parent proxy) <-> MCP Server (child)
                |                           |
                | recompile tool            | N tools
                | (rebuild + restart child) | (your actual server)
                +---------------------------+
 ```
 
-The **parent** is a thin proxy. It reads JSON-RPC from stdin, forwards it to the child's stdin. It reads the child's stdout, forwards it to its own stdout. Completely transparent. Every one of the child's tools passes through untouched.
+**MCPFlow** is a thin proxy. It reads JSON-RPC from stdin, forwards it to the child's stdin. It reads the child's stdout, forwards it to its own stdout. Completely transparent. Every one of the child's tools passes through untouched.
 
-But the parent adds *one* tool of its own: `recompile`.
+But MCPFlow adds *one* tool of its own: `recompile`.
 
-When Claude calls `recompile`, the proxy:
+When Claude calls `recompile`, MCPFlow:
 
 1. Kills the old child process
 2. Runs the build command (cargo build, go build, npm run build — whatever)
@@ -48,7 +52,7 @@ When Claude calls `recompile`, the proxy:
 
 Claude's conversation is untouched. Its context window still has everything. It just made a tool call and got a response. From its perspective, the server was rebuilt and restarted in the time it takes to make an API call. All previous sessions are gone, sure — but the *knowledge* of what it was building, the design decisions, the user's feedback — that's all still there in the conversation.
 
-**The AI rebuilt its own tool without losing its train of thought.**
+**The AI rebuilt its own tool without losing its train of thought. That's MCPFlow.**
 
 ## The Details That Matter
 
@@ -66,9 +70,9 @@ Here's what this looks like in practice. I was working with Claude on a project 
 
 Then we hit a problem: the screenshot tool crashed when the simulation was running in a windowed mode instead of headless. A texture format mismatch deep in the rendering code.
 
-Without the proxy, this is a ten-minute interruption. I go look at the terminal, find the error, restart the server, re-explain the context to Claude, reload the simulation, and hope we can pick up where we left off.
+Without MCPFlow, this is a ten-minute interruption. I go look at the terminal, find the error, restart the server, re-explain the context to Claude, reload the simulation, and hope we can pick up where we left off.
 
-With the proxy: Claude called the screenshot tool, got back an error message that said *"crashed: texture format mismatch — Rgba8UnormSrgb vs Bgra8UnormSrgb at renderer.rs:951"*. It understood the problem, edited the renderer code to match the surface format, called `recompile`, and took a working screenshot thirty seconds later. Same conversation. Same context. No interruption.
+With MCPFlow: Claude called the screenshot tool, got back an error message that said *"crashed: texture format mismatch — Rgba8UnormSrgb vs Bgra8UnormSrgb at renderer.rs:951"*. It understood the problem, edited the renderer code to match the surface format, called `recompile`, and took a working screenshot thirty seconds later. Same conversation. Same context. No interruption.
 
 That's not a workflow optimization. That's a qualitative change in what's possible.
 
@@ -76,7 +80,7 @@ That's not a workflow optimization. That's a qualitative change in what's possib
 
 The pattern is general. Any project where AI is talking to a tool server that's *also the thing being developed* benefits from this. You're building a database query engine and testing it through MCP. You're building a code analysis tool that Claude uses to analyze code. You're building *any* developer tool that has an MCP interface. The moment you need to change the tool itself, you either lose your conversation context or you have this proxy.
 
-The implementation is about 200 lines. It's a stdin/stdout forwarder with three additions: `initialize` caching, tool list injection, and a rebuild handler. You could write it in any language. The parent doesn't need to understand anything about the child's tools — it just forwards bytes and intercepts three specific message patterns.
+MCPFlow is about 200 lines. It's a stdin/stdout forwarder with three additions: `initialize` caching, tool list injection, and a rebuild handler. You could write it in any language. MCPFlow doesn't need to understand anything about the child's tools — it just forwards bytes and intercepts three specific message patterns.
 
 ## The Deeper Point
 
@@ -84,9 +88,9 @@ The reason this matters isn't the proxy itself. It's what it enables: **AI that 
 
 We've spent a lot of energy making AI better at writing code. But we haven't spent nearly enough making AI better at *developing systems* — the iterative, build-test-fix-rebuild loop that real engineering requires. The gap between "AI can write a function" and "AI can develop and maintain a complex system over time" is enormous, and most of that gap is tooling, not model capability.
 
-The develop proxy is a small piece of that puzzle. But it's the piece that unlocks a tight feedback loop between the AI using a tool and the AI improving that tool. And tight feedback loops are where all the leverage lives.
+MCPFlow is a small piece of that puzzle. But it's the piece that unlocks a tight feedback loop between the AI using a tool and the AI improving that tool. And tight feedback loops are where all the leverage lives.
 
-Build the tool. Build the proxy around it. Let the AI rebuild both.
+Build the tool. Wrap it in MCPFlow. Let the AI rebuild both.
 
 Onward.
 
@@ -99,7 +103,7 @@ For those who want to build this, here's the full implementation guide. The prox
 ### Architecture
 
 ```
-AI Client <-- stdio --> Develop Proxy (parent) <-- stdio pipe --> MCP Server (child)
+AI Client <-- stdio --> MCPFlow (parent proxy) <-- stdio pipe --> MCP Server (child)
                               |                                        |
                               | owns: recompile tool                   | owns: N application tools
                               | caches: initialize handshake           |
@@ -107,7 +111,7 @@ AI Client <-- stdio --> Develop Proxy (parent) <-- stdio pipe --> MCP Server (ch
                               | injects: recompile into tools/list     |
 ```
 
-The parent is a **transparent JSON-RPC forwarder** that adds one capability: rebuilding and restarting the child process.
+MCPFlow is a **transparent JSON-RPC forwarder** that adds one capability: rebuilding and restarting the child process.
 
 ### Message Flow
 
