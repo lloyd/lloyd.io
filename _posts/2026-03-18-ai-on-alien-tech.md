@@ -165,7 +165,3 @@ You implement each stage on the alien hardware. You verify each one against the 
 The alien doesn't need to understand PyTorch. He doesn't need to know what CUDA is. He just needs the VIPS and the ability to run linear algebra on his weird unified compute-memory thing.
 
 Which, honestly, is all any of us need.
-
----
-
-*If you're working on a novel hardware platform and want to talk about what this looks like in practice — find me at lloyd.io.*
