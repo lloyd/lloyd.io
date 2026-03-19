@@ -168,4 +168,4 @@ Which, honestly, is all any of us need.
 
 ---
 
-*I'll be publishing the VIPS format specification and the TRELLIS.2 VIPS as a reference implementation. If you want to help formalize this — or if you're working on a novel hardware platform and want to talk about what this looks like in practice — find me at lloyd.io.*
+*If you're working on a novel hardware platform and want to talk about what this looks like in practice — find me at lloyd.io.*
