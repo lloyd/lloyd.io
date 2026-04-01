@@ -1,89 +1,145 @@
 ---
-layout: splash
+layout: null
 title: lloyd hilaiel
 ---
 <!DOCTYPE html>
 <html>
 <head>
-  <title>lloyd.io - {{page.title}}</title>
-  <link rel="stylesheet" href="{{site.url}}/css/style.css"  type="text/css">
-  <link title="lloyd.io: Lloyd Hilaiel's's blog" type="application/atom+xml" href="{{site.url}}/feed.atom" rel="alternate">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>lloyd.io</title>
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link title="lloyd.io: Lloyd Hilaiel's blog" type="application/atom+xml" href="/feed.atom" rel="alternate">
 
-<style type="text/css">
-#content {
-  width: 70%;
-  max-width: 750px;
-  min-width: 500px;
-  margin: auto;
+<style>
+.splash {
+  max-width: 840px;
+  margin: 0 auto;
+  padding: var(--space-16) var(--space-6) var(--space-16);
 }
 
-header {
-  margin: 2em 0 2em 0;
+.splash header {
+  margin-bottom: var(--space-8);
 }
 
-header h1 {
-  font-size: 4em;
-  text-align: center;
-  margin: 0 0 0 0;
+.splash header h1 {
+  font-size: 60px;
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  margin: 0;
+  color: var(--color-foreground);
 }
 
-header div.subtitle {
-  width: 100%;
-  text-align: center;
-  font-size: 1.2em;
-  font-style: italic;
-  margin-top: 1em;
+.splash header .tagline {
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--color-foreground-secondary);
+  margin-top: var(--space-3);
 }
 
-div.headshot img {
-  border-radius: 6px;
-  margin: 0 0 1em 1.5em;
-  float: right;
-  max-width: 256px;
-  max-height: 256px;
+.splash nav {
+  display: flex;
+  gap: var(--space-8);
+  margin-bottom: var(--space-12);
 }
 
-nav {
-  margin: 2em 0;
-  width: 100%;
-  text-align: center;
+.splash nav a {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-brand);
+  border-bottom: none;
+  padding: var(--space-2) 0;
 }
-nav a {
-  margin: 1em;
-  font-size: 1.4em;
+
+.splash nav a:hover {
+  border-bottom: 1px solid var(--color-brand);
+}
+
+.splash .bio {
+  display: flex;
+  gap: var(--space-8);
+  align-items: flex-start;
+}
+
+.splash .headshot img {
+  width: 200px;
+  height: 200px;
+  border-radius: var(--radius-card);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.splash .bio-text p {
+  font-size: 17px;
+  line-height: 28px;
+  color: var(--color-foreground-secondary);
+  margin: 0 0 var(--space-5) 0;
+}
+
+.splash .bio-text p:last-child {
+  margin-bottom: 0;
+}
+
+.splash .bio-text a {
+  color: var(--color-brand);
+}
+
+.splash .signoff {
+  margin-top: var(--space-8);
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--color-foreground);
+}
+
+@media (max-width: 600px) {
+  .splash header h1 {
+    font-size: 42px;
+  }
+
+  .splash .bio {
+    flex-direction: column;
+  }
+
+  .splash .headshot img {
+    width: 140px;
+    height: 140px;
+  }
 }
 </style>
 </head>
 <body>
-<div id="content">
+<div class="splash">
   <header>
     <h1>lloyd hilaiel</h1>
-    <div class="subtitle">i build software.</div>
+    <div class="tagline">i build software.</div>
   </header>
   <nav>
     <a href="/blog">blog</a>
     <a href="/work">my work</a>
     <a href="mailto:me@lloyd.io">contact</a>
   </nav>
-  <section>
-    <div class="headshot"><img src="{{site.url}}/i/me-big.png"></div>
-    <p>
-      I love technology and am awed by the frequency and extent to it is changing our world.
-      I got my start in the days of zork and 600 baud modems, wrote adventure games as gifts in grade school and taught myself c++ when I was twelve.
-      I started working in technology professionally my first year in college, building dynamic web applications before there were reasonable tools to do so.
-      Since then I've seen three startups through to successful conclusion (working on a fourth), and have built several fantastic teams and with them shipped multiple successful products.  Along the way I have produced software that has landed on hundreds of millions of computers.
-    </p><p>
-      This is to say technology is both my profession and my passion.
-      My goal is simply to <i>create software that matters with people who care</i>.
-    </p><p>
-      To learn more about me, read my blog, and see the open
-      source projects I've created.  Finally, most of my open source
-      work <a href="http://github.com/lloyd">lives on github</a> where
-      I've partied since 2008.
-    </p><p>
-      Onward!
-    </p>
+  <section class="bio">
+    <div class="headshot"><img src="/i/me-big.png" alt="Lloyd Hilaiel"></div>
+    <div class="bio-text">
+      <p>
+        I love technology and am awed by the frequency and extent to which it is changing our world.
+        I got my start in the days of zork and 600 baud modems, wrote adventure games as gifts in grade school and taught myself c++ when I was twelve.
+      </p>
+      <p>
+        I started working in technology professionally my first year in college, building dynamic web applications before there were reasonable tools to do so.
+        Since then I've seen three startups through to successful conclusion (working on a fourth), and have built several fantastic teams and with them shipped multiple successful products. Along the way I have produced software that has landed on hundreds of millions of computers.
+      </p>
+      <p>
+        Technology is both my profession and my passion.
+        My goal is simply to <em>create software that matters with people who care</em>.
+      </p>
+      <p>
+        To learn more, read my <a href="/blog">blog</a> and see the <a href="/work">projects</a> I've worked on.
+        Most of my open source work <a href="http://github.com/lloyd">lives on GitHub</a>.
+      </p>
+    </div>
   </section>
+  <div class="signoff">Onward!</div>
 </div>
 </body>
 </html>
