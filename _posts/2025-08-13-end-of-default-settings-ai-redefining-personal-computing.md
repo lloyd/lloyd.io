@@ -5,7 +5,7 @@ layout: post
 
 I've been tinkering with Linux since the mid-90s, starting with a Slackware DVD and the painstaking process of installing, and reinstalling, and reinstalling again. 💿 For decades, the promise of a truly custom computing environment has been a siren song for developers like me, offering total control at the cost of a steep, often frustrating, learning curve. The power to build a digital workspace that molds to your workflow is immense, but the time and expertise required to configure everything from window managers to system services has kept it a niche pursuit. That era is coming to an end.
 
-![A glowing, abstract visualization of a user customizing their operating system with natural language](https://dev.headlands.cloud/image/attachment/1ktM1AjtGznuOooEUsG9d4YhwCoHWTZc9nw0Ox8AnHQ)
+![A glowing, abstract visualization of a user customizing their operating system with natural language](/i/os-personalization.png)
 
 
 

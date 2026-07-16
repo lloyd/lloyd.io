@@ -5,7 +5,7 @@ layout: post
 
 Anyone who has spent time playing a real-time strategy game like Starcraft 🎮 knows the fundamental, resource-management dilemma that defines every match. Do you spend your minerals and vespene gas building more Zerglings or Marines to fight with right now, or do you invest those precious resources in upgrading your Hatchery or Engineering Bay? It's the classic tension between immediate strength and long-term power. Do you want an army now, or a better army later? This choice is the strategic heart of the game, and it's a question I find myself facing not in a virtual battlefield, but in my real-world work with AI every single day.
 
-![A fictional real-time strategy video game scene with unit factories for tanks, infantry, and aircraft](https://thredit.ai/image/attachment/CR3AghYLkPvgK5axK0l5QR_TnDdSvHBqffrMJAAHyWo)
+![A fictional real-time strategy video game scene with unit factories for tanks, infantry, and aircraft](/i/rts-factories.png)
 
 
 

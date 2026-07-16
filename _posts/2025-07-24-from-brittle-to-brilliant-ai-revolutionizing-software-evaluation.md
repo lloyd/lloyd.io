@@ -5,7 +5,7 @@ layout: post
 
 We are rapidly moving toward a world where near-human-level cognition is available at every layer of our software. 🧠 This isn't a far-off dream; it's a paradigm shift happening right now, promising sub-500 millisecond reasoning on complex topics and fundamentally changing how we build and validate technology.
 
-![AI evaluation system visualization](https://dev.headlands.cloud/image/attachment/PuLelhuzjHdBHGAmvAEyX-i7BDSlChMm5xcxvTrt2mw)
+![AI evaluation system visualization](/i/ai-evaluation.png)
 
 
 

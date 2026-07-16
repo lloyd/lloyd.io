@@ -23,7 +23,7 @@ layout: post
 </ul>
 <p>The remainder of this document will discuss these two approaches.</p>
 <h1>The Subversion Primary</h1>
-<p style="text-align: center; padding: 15px;"><img src="posts/i/subversion_primary.png"></p>
+<p style="text-align: center; padding: 15px;"><img src="/i/subversion-primary.png" alt="Diagram: all commits funnel through a primary subversion repository into a git staging repo, then out to a public git mirror"></p>
 <p>In this scenario, all commits funnel first through the subversion repository.  There is an automated process that polls or pushes changes from subversion into an internal git staging repository.  That staging repository uses git-svn to map the complete subversion commit history into git, and performs some processing to deal with mapping branches and tags among other things.</p>
 <p>The internal staging repository can then mirror to an external repository which is visible to all for code review and contributions. External contributors can fork, change, and send pull requests in any form they like.  Internal developers can then manage pulling commits into the main svn repository.</p>
 <h2>Key Features</h2>
@@ -65,7 +65,7 @@ layout: post
 <p>NOTE: In order to artificially join histories without bitwise identical commits (messages or authors), one might try the <a href="http://www.kernel.org/pub/software/scm/git/docs/git-merge.html">&ldquo;ours&rdquo;</a> merge strategy.  I&rsquo;ve no personal experience with this approach.</p>
 <p>I think whatever strategy you end up employing, <em>the key</em>, is that the person or people on the team that are most in love with git should be the ones integrating external contributions.</p>
 <h1>The Dumb Subversion Backup</h1>
-<p style="text-align: center; padding: 15px;"><img src="posts/i/dumb_subversion_backup.png"></p>
+<p style="text-align: center; padding: 15px;"><img src="/i/dumb-subversion-backup.png" alt="Diagram: a single primary git repository with subversion relegated to a one-way backup"></p>
 <p>In this arrangement, rather than all commits flowing through subversion, its simply a mechanism for the backup of the git repository.  The key idea here is that there is a single git repository that is backed up to subversion.  While other requirements then require the ability to publish the repo externally and pull contributions internally, these tasks can be accomplished in a thousand different ways leveraging the built-in features of git. Restated, the only element of this arrangement worth discussing is the challenge of actually synchronizing changes from git to subversion.</p>
 <h2>Key Features</h2>
 <ul>

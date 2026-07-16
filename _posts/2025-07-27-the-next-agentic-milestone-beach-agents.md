@@ -5,7 +5,7 @@ layout: post
 
 🌴 The term "AI agent" is everywhere, but what does it really mean? In a landscape cluttered with buzzwords like "super agents" and "ambient computing," the word has been stretched to the point of becoming almost meaningless. It's time to cut through the noise and establish a clearer, more precise way to understand and categorize the semi-autonomous systems we're building. Instead of getting lost in marketing hype, we can define agents by what they actually do and how we interact with them.
 
-![Beach scene with person relaxing in hammock interacting with futuristic device](https://thredit.ai/image/attachment/ZyBw5HWV8J5a7gjUGT01qlJ_yVYppiFYqY6zvggQmyE)
+![Beach scene with person relaxing in hammock interacting with futuristic device](/i/beach-agents.png)
 
 
 

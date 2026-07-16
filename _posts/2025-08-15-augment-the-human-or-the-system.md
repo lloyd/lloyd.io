@@ -5,7 +5,7 @@ layout: post
 
 When it comes to leveling up our human workers, we face a fundamental choice: do we give them tools to become more effective, or do we integrate those features directly into the systems they use? This isn't just a theoretical question; it's a practical dilemma with massive implications for the future of work, especially in critical fields like healthcare. The path we choose will determine the pace of innovation for years to come.
 
-![A futuristic, artistic representation of a healthcare professional whose mind is subtly augmented](https://dev.headlands.cloud/image/attachment/601Uuyhe9ZJiyuvmJKas7ZUM46b8MIhV6YU-FPIjmQk)
+![A futuristic, artistic representation of a healthcare professional whose mind is subtly augmented](/i/healthcare-augmentation.png)
 
 
 
